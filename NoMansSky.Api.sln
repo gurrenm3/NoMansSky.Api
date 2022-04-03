@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NoMansSky.Api", "NoMansSky.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NoMansSky.TestMod", "NoMansSky.TestMod\NoMansSky.TestMod.csproj", "{67D45569-BE29-406A-B2A5-0F1D2C989A7E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NoMansSky.Api.Core", "NoMansSky.Api.Lib\NoMansSky.Api.Core.csproj", "{C9732A70-4A15-482B-81AD-F3225A234CD3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NoMansSky.Api.Lib", "NoMansSky.Api.Lib\NoMansSky.Api.Lib.csproj", "{C9732A70-4A15-482B-81AD-F3225A234CD3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

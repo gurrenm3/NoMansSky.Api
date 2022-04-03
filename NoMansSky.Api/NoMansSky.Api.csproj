@@ -31,7 +31,16 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\NoMansSky.Api.Lib\NoMansSky.Api.Core.csproj" />
+    <ProjectReference Include="..\NoMansSky.Api.Lib\NoMansSky.Api.Lib.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Reloaded.ModHelper">
+      <HintPath>..\..\Reloaded.ModHelper\Reloaded.ModHelper\bin\Release\net5.0\ref\Reloaded.ModHelper.dll</HintPath>
+    </Reference>
+    <Reference Include="Reloaded.ModHelper.Interfaces">
+      <HintPath>..\..\Reloaded.ModHelper\Reloaded.ModHelper.Interfaces\bin\Release\net5.0\Reloaded.ModHelper.Interfaces.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>
