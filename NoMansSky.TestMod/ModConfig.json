@@ -1,0 +1,20 @@
+{
+  "ModId": "NoMansSky.TestMod",
+  "ModName": "No Man's Sky Test Mod",
+  "ModAuthor": "Gurrenm3",
+  "ModVersion": "1.0.0",
+  "ModDescription": "A test mod for NoMansSky.Api",
+  "ModDll": "NoMansSky.TestMod.dll",
+  "ModIcon": "Preview.png",
+  "ModR2RManagedDll32": "",
+  "ModR2RManagedDll64": "",
+  "ModNativeDll32": "",
+  "ModNativeDll64": "",
+  "IsLibrary": false,
+  "ReleaseMetadataFileName": "Sewer56.Update.ReleaseMetadata.json",
+  "PluginData": {},
+  "IsUniversalMod": false,
+  "ModDependencies": [ "reloaded.sharedlib.hooks", "NoMansSky.Api" ],
+  "OptionalDependencies": [],
+  "SupportedAppId": []
+}

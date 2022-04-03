@@ -1,0 +1,20 @@
+{
+  "ModId": "NoMansSky.Api",
+  "ModName": "No Man's Sky API",
+  "ModAuthor": "Gurrenm3",
+  "ModVersion": "1.0.0",
+  "ModDescription": "An API for modding No Man's Sky'",
+  "ModDll": "NoMansSky.Api.dll",
+  "ModIcon": "Preview.png",
+  "ModR2RManagedDll32": "",
+  "ModR2RManagedDll64": "",
+  "ModNativeDll32": "",
+  "ModNativeDll64": "",
+  "IsLibrary": true,
+  "ReleaseMetadataFileName": "Sewer56.Update.ReleaseMetadata.json",
+  "PluginData": {},
+  "IsUniversalMod": false,
+  "ModDependencies": ["reloaded.sharedlib.hooks"],
+  "OptionalDependencies": [],
+  "SupportedAppId": []
+}
