@@ -17,17 +17,17 @@ namespace NoMansSky.Api
         /// <summary>
         /// Instance of the player
         /// </summary>
-        public GcPlayerStateData Player { get; set; } = new GcPlayerStateData();
+        public Player Player { get; set; }
 
         /// <summary>
         /// Called when the main menu is first reached.
         /// </summary>
-        public ISharedModEvent OnMainMenu { get; set; }
+        public IModEvent OnMainMenu { get; set; }
 
         /// <summary>
         /// Called when a profile is selected by the user.
         /// </summary>
-        public ISharedModEvent OnProfileSelected { get; set; }
+        public IModEvent OnProfileSelected { get; set; }
 
         public Game()
         {

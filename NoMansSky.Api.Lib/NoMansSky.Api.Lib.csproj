@@ -1,18 +1,14 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net5.0-windows</TargetFramework>
     <RootNamespace>NoMansSky.Api</RootNamespace>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
-    <Reference Include="Reloaded.ModHelper">
-      <HintPath>..\..\Reloaded.ModHelper\Reloaded.ModHelper\bin\Release\net5.0\ref\Reloaded.ModHelper.dll</HintPath>
-    </Reference>
-    <Reference Include="Reloaded.ModHelper.Interfaces">
-      <HintPath>..\..\Reloaded.ModHelper\Reloaded.ModHelper.Interfaces\bin\Release\net5.0\Reloaded.ModHelper.Interfaces.dll</HintPath>
-    </Reference>
+    <ProjectReference Include="..\..\Reloaded.ModHelper\Reloaded.ModHelper.Interfaces\Reloaded.ModHelper.Interfaces.csproj" />
   </ItemGroup>
 
 </Project>

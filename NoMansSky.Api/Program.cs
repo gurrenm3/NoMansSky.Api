@@ -92,6 +92,19 @@ namespace NoMansSky.Api
             Game instance = new Game();
             instance.OnProfileSelected = new SharedModEvent();
             instance.OnMainMenu = new SharedModEvent();
+            instance.Player = CreatePlayerInstance();
+
+            return instance;
+        }
+
+        private Player CreatePlayerInstance()
+        {
+            Player instance = new Player();
+            instance.OnHealthChanged = new SharedModEventHook<int>();
+            instance.OnShieldChanged = new SharedModEventHook<float>();
+            instance.CurrentShip.OnHealthChanged = new SharedModEventHook<float>();
+            instance.CurrentShip.OnShieldChanged = new SharedModEventHook<float>();
+
             return instance;
         }
 

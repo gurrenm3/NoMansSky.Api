@@ -11,14 +11,14 @@ namespace NoMansSky.Api
     {
         public Mod(Game _game, IModConfig _config, IReloadedHooks _hooks, ILogger _logger) : base(_game, _config, _hooks, _logger)
         {
-            
+            _game.Player.OnHealthChanged.Prefix += (param) => param.value = 0;
         }
 
         public override void Update()
         {
             if (Keyboard.IsPressed(Key.UpArrow))
             {
-                Logger.WriteLine("Up arrow pressed");
+                //Logger.WriteLine("Up arrow pressed");
             }
         }
     }

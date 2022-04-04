@@ -9,11 +9,11 @@ namespace NoMansSky.Api.Hooks
     {
         [Function(CallingConventions.Microsoft)]
         [UnmanagedFunctionPointer(CallingConvention.StdCall, CharSet = CharSet.Ansi)]
-        //public delegate long HookDelegate(long self, long a2, long a3, long a4, int a5, int a6, int a7, int a8, int a9, int a10, int a11, int a12, int a13, void* a14, void* a15);
-        public delegate long HookDelegate(long a1, long a2, int a3);
+        public delegate long HookDelegate(long a1, long a2, long* a3);
 
         public static IFunction<HookDelegate> Function { get; set; }
         public static IHook<HookDelegate> Hook;
+        internal static int loopCounter = 0; // this is used to track which loop iteration the original method is on.
 
         public string HookName => "LoadGcPlayerStateData";
         private ModLogger logger;
@@ -21,24 +21,48 @@ namespace NoMansSky.Api.Hooks
         public void InitHook(ModLogger _logger, IReloadedHooks _hooks)
         {
             logger = _logger;
-            //string pattern = "40 55 57 41 54 41 56 41 57 48 8B EC 48 83 EC 40 48 C7 45 ? ? ? ? ? 48 89 5C 24 ? 48 89 B4 24 ? ? ? ? 41 0F";
-            string pattern = "48 89 5C 24 ? 56 48 83 EC 20 48 B8 2E ? ? ? ? ? ? ? 41 0F B6 F0 48 8B DA 48 39 41 48 0F 85 ? ? ? ? 48 89 7C 24 ? 48 8B 39 48 85 FF 0F 84 ? ? ? ? 48 B8 ? ? ? ? ? ? ? ? 4C 8D 4C 24 ? 4C 8D 44 24 ? 48";
+            string pattern = "48 89 5C 24 ? 48 89 6C 24 ? 48 89 74 24 ? 57 41 54 41 55 41 56 41 57 48 83 EC 20 45 33 ED 49 8B E8 45 8B FD";
             Function = _hooks.CreateFunction<HookDelegate>(new Signature(pattern).Scan());
             Hook = Function.Hook(CodeToExecute).Activate();
         }
 
-        //private long CodeToExecute(long self, long a2, long a3, long a4, int a5, int a6, int a7, int a8, int a9, int a10, int a11, int a12, int a13, void* a14, void* a15)
-        private long CodeToExecute(long a1, long a2, int a3)
+        const int gcPlayerStateIndex = 42; // currently it is loaded on the 43rd iteration, so we run the loop after the 42.
+        private long CodeToExecute(long a1, long a2, long* a3)
         {
-            logger.WriteLine("LoadGcPlayerStateData - Prefix");
-            //var result = Hook.OriginalFunction(self, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12, a13, a14, a15);
-            var result = Hook.OriginalFunction(a1, a2, a3);
+            // this method is called many times when the player loads a save.
+            if (!LoadPlayerProfile.isLoadingProfile)
+                return Hook.OriginalFunction(a1, a2, a3);
 
-            /*var inventory = ((long*)(self))[56];
-            var slot1 = ((long*)inventory)[0];
-            var element = ((GcInventoryElement*)slot1);
+            long result = 0;
+            if (loopCounter == gcPlayerStateIndex)
+            {
+                result = OnLoadGcPlayerStateData(a1, a2, a3);
+            }
+            else
+            {
+                result = Hook.OriginalFunction(a1, a2, a3);
+            }
 
-            logger.WriteLine(element->amount);*/
+            loopCounter++;
+            return result;
+        }
+
+        private long OnLoadGcPlayerStateData(long a1, long a2, long* a3)
+        {
+            long result = 0;
+
+            result = Hook.OriginalFunction(a1, a2, a3);
+
+            var v10 = *(long*)(a1 + 24);
+            long v25 = 0;
+
+
+            /*
+             notes on trying to get GcPlayerStateData pointer:
+
+
+            
+             */
 
             logger.WriteLine("LoadGcPlayerStateData - Postfix");
 

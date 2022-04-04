@@ -1,7 +1,6 @@
 ﻿using Reloaded.Hooks.Definitions;
 using Reloaded.Hooks.Definitions.X64;
 using Reloaded.ModHelper;
-using System;
 using System.Runtime.InteropServices;
 
 namespace NoMansSky.Api.Hooks
@@ -36,7 +35,7 @@ namespace NoMansSky.Api.Hooks
 
             if (firstRun)
             {
-                Game.Instance.OnMainMenu.InvokeAll();
+                Game.Instance.OnMainMenu.Invoke();
                 firstRun = false;
             }
 
