@@ -10,9 +10,13 @@ namespace NoMansSky.Api.Hooks
         [Function(CallingConventions.Microsoft)]
         [UnmanagedFunctionPointer(CallingConvention.StdCall, CharSet = CharSet.Ansi)]
         public delegate long HookDelegate(long self, float someValue);
-        
-        public static IHook<HookDelegate> Hook;
+
+        /// <summary>
+        /// ModEventHook that's called when the original function is called.
+        /// </summary>
+        public static IModEventHook ModEventHook { get; } = new SharedModEventHook();
         public static IFunction<HookDelegate> Function { get; set; }
+        public static IHook<HookDelegate> Hook;
 
         public string HookName => "MainMenu.Update";
         private ModLogger logger;
@@ -25,13 +29,14 @@ namespace NoMansSky.Api.Hooks
             Function = _hooks.CreateFunction<HookDelegate>(new Signature(pattern).Scan());
             Hook = Function.Hook(CodeToExecute).Activate();
 
-            // Need to figure out how to tell when we left the main menu.
-            //Game.Instance.OnProfileSelected += () => firstRun = true; // reset first run so OnMainMenu works again.
+            Game.Instance.OnGameJoined += () => firstRun = true; // reset firstRun so OnMainMenu works again.
         }
 
         private long CodeToExecute(long self, float someValue)
-        {            
+        {
+            ModEventHook.Prefix.Invoke();
             var result = Hook.OriginalFunction(self, someValue);
+            ModEventHook.Postfix.Invoke();
 
             if (firstRun)
             {

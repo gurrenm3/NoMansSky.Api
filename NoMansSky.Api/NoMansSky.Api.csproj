@@ -36,4 +36,10 @@
     <ProjectReference Include="..\NoMansSky.Api.Lib\NoMansSky.Api.Lib.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="libMBIN">
+      <HintPath>..\Dependencies\libMBIN.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>

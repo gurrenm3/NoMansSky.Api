@@ -28,9 +28,9 @@ namespace NoMansSky.Api
         {
             game = _game;
 
-            InitHarmony();            
+            InitHarmony();
 
-            game.GameLoop.AddListener(Update);
+            game.OnUpdate.Postfix += Update;
         }
 
         /// <summary>

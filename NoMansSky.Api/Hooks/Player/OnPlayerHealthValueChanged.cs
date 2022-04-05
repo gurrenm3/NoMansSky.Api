@@ -12,9 +12,12 @@ namespace NoMansSky.Api.Hooks
         [UnmanagedFunctionPointer(CallingConvention.StdCall, CharSet = CharSet.Ansi)]
         public delegate long HookDelegate(long a1, int a2);
 
+        /// <summary>
+        /// ModEventHook that's called when the original function is called.
+        /// </summary>
+        public static IModEventHook<int> ModEventHook => Game.Instance.Player.OnHealthChanged;
         public static IFunction<HookDelegate> Function { get; set; }
         public static IHook<HookDelegate> Hook;
-        internal static bool isLoadingProfile = false;
 
         public string HookName => "ChangePlayerHealth";
         private ModLogger logger;
@@ -31,18 +34,11 @@ namespace NoMansSky.Api.Hooks
 
         private long CodeToExecute(long a1, int a2)
         {
-            bool isNegative = a2 < 0;
-            if (isNegative)
-                a2 = Math.Abs(a2);
+            var amountChanged = new EventParam<int>(a2);
+            ModEventHook.Prefix.Invoke(amountChanged);
 
-            var moddableValue = new EventParams<int>(a2);
-            Game.Instance.Player.OnHealthChanged.Prefix.Invoke(moddableValue);
-
-            if (isNegative)
-                moddableValue.value *= -1;
-
-            var result = Hook.OriginalFunction(a1, moddableValue.value);
-            Game.Instance.Player.OnHealthChanged.Postfix.Invoke(moddableValue.value);
+            var result = Hook.OriginalFunction(a1, amountChanged.value);
+            ModEventHook.Postfix.Invoke(amountChanged);
 
             return result;
         }

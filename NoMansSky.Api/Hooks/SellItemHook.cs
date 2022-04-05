@@ -23,7 +23,7 @@ namespace NoMansSky.Api.Hooks
             logger = _logger;
             string pattern = "48 8B C4 4C 89 48 20 48 89 48 08 55 56 57 41 54 41 55 41 56 41 57 48 83";
             Function = _hooks.CreateFunction<HookDelegate>(new Signature(pattern).Scan());
-            Hook = Function.Hook(CodeToExecute).Activate();
+            //Hook = Function.Hook(CodeToExecute).Activate();
         }
 
         // TODO
