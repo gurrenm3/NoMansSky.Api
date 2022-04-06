@@ -13,6 +13,7 @@ namespace NoMansSky.Api
     {
         /// <summary>
         /// An instance of Harmony, specifically for this mod. Used to HarmonyPatch.
+        /// <br/>This can be used to hook C# functions from any library.
         /// </summary>
         public Harmony HarmonyLib { get; protected set; }
 
@@ -48,6 +49,11 @@ namespace NoMansSky.Api
             return new Harmony(harmonyId);
         }
 
+        /// <summary>
+        /// Initializes Harmony with this mod.
+        /// <br/>Harmony is a very powerful tool that allows mod makers to hook C# functions.
+        /// It's unlikely that many modders will use it, however it's a nice convenience to have already in place.
+        /// </summary>
         private void InitHarmony()
         {
             HarmonyLib = CreateHarmonyInstance();

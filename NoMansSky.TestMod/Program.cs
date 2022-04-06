@@ -80,6 +80,8 @@ namespace NoMansSky.TestMod
             */
 
 
+            // The API publishes the instance of the Game class so mods can access it.
+            // The line below is where this mod aquires the Game instance that was published.
             _modLoader.GetController<Game>().TryGetTarget(out _game);
 
             _mod = new Mod(_game, _modConfig, _hooks, _logger);
