@@ -30,7 +30,8 @@ namespace NoMansSky.Api.Hooks
 
             //string patternOld = "40 55 56 57 41 54 41 55 41 56 41 57 48 8B EC 48 83 EC 50 48 C7 45 ? ? ? ? ? 48 89 9C 24 ? ? ? ? 4C 8B E9 48";
             //string patternOld2 = "40 55 56 57 41 56 41 57 48 8D 6C 24 ? 48 81 EC ? ? ? ? 48 C7 45 ? ? ? ? ? 48 89 9C 24 ? ? ? ? 48 8B F1 45";
-            string pattern = "48 89 4C 24 ? 55 53 56 57 41 54 41 55 41 56 41 57 48 8D 6C 24 ? 48 81 EC ? ? ? ? 4C 8B E1 48";
+            //string patternOld3 = "48 89 4C 24 ? 55 53 56 57 41 54 41 55 41 56 41 57 48 8D 6C 24 ? 48 81 EC ? ? ? ? 4C 8B E1 48"; // this is most accurate but might be a little too early
+            string pattern = "40 55 56 57 41 56 41 57 48 8D 6C 24 ? 48 81 EC ? ? ? ? 48 C7 45 ? ? ? ? ? 48 89 9C 24 ? ? ? ? 48 8B F1 45";
 
             Function = _hooks.CreateFunction<HookDelegate>(new Signature(pattern).Scan());
             Hook = Function.Hook(CodeToExecute).Activate();
@@ -48,7 +49,7 @@ namespace NoMansSky.Api.Hooks
             if (Game.Instance.Player.GcPlayerStateAddress == 0)
             {
                 long playerStatePointer = GetPlayerStatePointer();
-                Game.Instance.Player.SetGcPlayerStateData(playerStatePointer);
+                Game.Instance.Player.OnPlayerStateAquired.Invoke(playerStatePointer);
             }
 
             ModEventHook.Postfix.Invoke();

@@ -75,7 +75,7 @@ namespace NoMansSky.Api
         }
 
         /// <summary>
-        /// Used to initialize some of the game info.
+        /// Used by the API to initialize some of the game info.
         /// </summary>
         /// <returns></returns>
         public bool Initialize()
@@ -86,6 +86,8 @@ namespace NoMansSky.Api
             OnGameJoined += () => IsInGame = true;
             OnInventoriesOpened += () => IsInventoryOpen = true;
             OnInventoriesClosed += () => IsInventoryOpen = false;
+
+            Player.Initialize();
 
             return isInitialized = true;
         }

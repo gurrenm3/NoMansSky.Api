@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "NoMansSky.Api": {
+      "commandName": "Project",
+      "nativeDebugging": false
+    }
+  }
+}

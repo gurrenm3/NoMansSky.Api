@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Reloaded.ModHelper;
+using System;
+using System.Collections.Generic;
+using System.Runtime.InteropServices;
 
 namespace NoMansSky.Api
 {
@@ -7,7 +10,7 @@ namespace NoMansSky.Api
     /// </summary>
     public unsafe class Inventory
     {
-        private long address;
+        private long address = 0;
 
         public Inventory()
         {
@@ -15,21 +18,29 @@ namespace NoMansSky.Api
         }
 
         /// <summary>
-        /// Returns the number of items in the inventory.
-        /// </summary>
-        /// <returns></returns>
-        public int GetCount()
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <summary>
         /// Returns all of the items contained in the inventory
         /// </summary>
         /// <returns></returns>
-        public InventoryItem[] GetItems()
+        public List<InventoryItem> GetItems()
         {
-            throw new NotImplementedException();
+            List<InventoryItem> items = new List<InventoryItem>();
+
+            const int offsetToNextItem = 0x30; // Offset of 30 because there are 30 bytes between each item
+            long nextItemAddress = address;
+
+            int count = 0;
+            while (true)
+            {
+                InventoryItem item = new InventoryItem();
+                if (!item.InitFromAddress(nextItemAddress))
+                    break;
+
+                items.Add(item);
+                nextItemAddress += offsetToNextItem;
+                count++;
+            }
+
+            return items;
         }
 
         /// <summary>
@@ -57,7 +68,6 @@ namespace NoMansSky.Api
         public void InitFromAddress(long address)
         {
             this.address = address;
-            throw new NotImplementedException();
         }
     }
 }

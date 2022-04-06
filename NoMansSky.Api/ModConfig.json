@@ -10,7 +10,7 @@
   "ModR2RManagedDll64": "",
   "ModNativeDll32": "",
   "ModNativeDll64": "",
-  "IsLibrary": true,
+  "IsLibrary": false,
   "ReleaseMetadataFileName": "Sewer56.Update.ReleaseMetadata.json",
   "PluginData": {},
   "IsUniversalMod": false,

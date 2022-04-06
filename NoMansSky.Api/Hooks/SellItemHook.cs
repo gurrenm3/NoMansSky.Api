@@ -35,7 +35,7 @@ namespace NoMansSky.Api.Hooks
 
             item = a3;
 
-            var ptr = (IntPtr)item->id;
+            //var ptr = (IntPtr)item->id;
 
             //logger.WriteLine(name);
 

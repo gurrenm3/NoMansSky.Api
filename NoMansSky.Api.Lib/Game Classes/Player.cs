@@ -1,9 +1,11 @@
 ﻿using Reloaded.ModHelper;
-using System.Net;
-using System.Net.Http;
+using System;
 
 namespace NoMansSky.Api
 {
+    /// <summary>
+    /// Represents the Local Player.
+    /// </summary>
     public unsafe class Player
     {
         /// <summary>
@@ -15,10 +17,12 @@ namespace NoMansSky.Api
         /// <summary>
         /// The player's current active ship.
         /// </summary>
-        public Ship CurrentShip { get; set; } = new Ship();
+        public Ship ActiveShip { get; set; }
 
-
-        public SuitRefiner SuitRefiner { get; set; } = new SuitRefiner();
+        /// <summary>
+        /// The player's exosuit.
+        /// </summary>
+        public Exosuit Exosuit { get; set; }
 
         /// <summary>
         /// [BROKEN] Called whenever the value of the Player's health changes.
@@ -32,14 +36,37 @@ namespace NoMansSky.Api
         /// </summary>
         public IModEventHook<float> OnShieldChanged { get; set; }
 
+        /// <summary>
+        /// Called when the pointer to GcPlayerStateData is aquired. This only called once when a profile
+        /// is selected for the first time. Afterwords it is reused even if you go back to the Main Menu
+        /// and switch to a different save.
+        /// <br/>The parameter is the aquired pointer.
+        /// </summary>
+        public IModEvent<long> OnPlayerStateAquired { get; set; }
+
         private GcPlayerStateData* state;
+        private bool initialized;
 
         public Player()
         {
             
         }
 
+        /// <summary>
+        /// Initializes this object It's called <see cref="Game.Instance"/> has finished initializing. Can only be called once.
+        /// </summary>
+        internal void Initialize()
+        {
+            if (initialized)
+                return;
 
+            OnPlayerStateAquired += SetGcPlayerStateData;
+            
+            Exosuit = new Exosuit();
+            ActiveShip = new Ship();
+
+            initialized = true;
+        }
 
         /// <summary>
         /// Set's the address of the PlayerStateData and populates it.
@@ -47,7 +74,7 @@ namespace NoMansSky.Api
         /// <br/>Calling this method will negatively affect the game and might break your mods.
         /// </summary>
         /// <param name="address"></param>
-        public void SetGcPlayerStateData(long address)
+        private void SetGcPlayerStateData(long address)
         {
             _gcPlayerStateAddress = address;
             if (_gcPlayerStateAddress == 0)
@@ -116,19 +143,7 @@ namespace NoMansSky.Api
                 newHealth = Game.Instance.IsInGame ? 0 : 1; 
             }
 
-            int currentHealth = GetHealth();
-            bool isLosingHealth = currentHealth > newHealth;
-
-            int difference = isLosingHealth ? currentHealth - newHealth : newHealth - currentHealth;
-
-            var amountChanged = new EventParam<int>(difference);
-            OnHealthChanged.Prefix.Invoke(amountChanged);
-
-            
-            state->health = isLosingHealth ? currentHealth - amountChanged : currentHealth + amountChanged;
-
-
-            OnHealthChanged.Postfix.Invoke(amountChanged);
+            throw new NotImplementedException();
         }
     }
 }
