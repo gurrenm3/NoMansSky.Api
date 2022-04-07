@@ -1,6 +1,7 @@
 ﻿using NoMansSky.Api;
 using Reloaded.Hooks.Definitions;
 using Reloaded.Mod.Interfaces;
+using System;
 
 namespace NoMansSky.TestMod
 {

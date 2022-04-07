@@ -1,8 +1,6 @@
-﻿using HarmonyLib;
-using Reloaded.Hooks.Definitions;
+﻿using Reloaded.Hooks.Definitions;
 using Reloaded.Mod.Interfaces;
 using Reloaded.ModHelper;
-using System.Drawing;
 
 namespace NoMansSky.Api
 {
@@ -11,12 +9,6 @@ namespace NoMansSky.Api
     /// </summary>
     public class NMSMod : ReloadedMod
     {
-        /// <summary>
-        /// An instance of Harmony, specifically for this mod. Used to HarmonyPatch.
-        /// <br/>This can be used to hook C# functions from any library.
-        /// </summary>
-        public Harmony HarmonyLib { get; protected set; }
-
         /// <summary>
         /// Instance of the game loop.
         /// </summary>
@@ -28,41 +20,14 @@ namespace NoMansSky.Api
         public NMSMod(Game _game, IModConfig _config, IReloadedHooks _hooks, ILogger _logger) : base(_config, _hooks, _logger)
         {
             game = _game;
-
-            InitHarmony();
-
             game.OnUpdate.Postfix += Update;
+
+            new ModMethodLoader(ModAssembly).LoadAllFromAssembly(); // automatically load all ModMethodAttributes
         }
 
         /// <summary>
         /// Called once every time the game loop runs.
         /// </summary>
         public virtual void Update() { }
-
-        /// <summary>
-        /// Called when this mod's Harmony Instance is created. Override it to change how it's made.
-        /// </summary>
-        /// <returns></returns>
-        public virtual Harmony CreateHarmonyInstance()
-        {
-            string harmonyId = $"{ModConfig.ModAuthor.Replace(" ", "_")}.{ModConfig.ModName.Replace(" ","_")}";
-            return new Harmony(harmonyId);
-        }
-
-        /// <summary>
-        /// Initializes Harmony with this mod.
-        /// <br/>Harmony is a very powerful tool that allows mod makers to hook C# functions.
-        /// It's unlikely that many modders will use it, however it's a nice convenience to have already in place.
-        /// </summary>
-        private void InitHarmony()
-        {
-            HarmonyLib = CreateHarmonyInstance();
-
-            var assembly = AssemblyUtils.GetCallingAssembly();
-            HarmonyLib.PatchAll(assembly);
-            Logger.Write("Harmony instance created with id:  ", insertModName:true);
-            Logger.Write($"\"{HarmonyLib.Id}\"", Color.RosyBrown);
-            Logger.Write($"\n");
-        }
     }
 }

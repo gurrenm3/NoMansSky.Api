@@ -2,7 +2,6 @@
 using Reloaded.Mod.Interfaces;
 using Reloaded.ModHelper;
 using System;
-using System.Linq;
 
 namespace NoMansSky.Api
 {
@@ -16,7 +15,7 @@ namespace NoMansSky.Api
             var exosuit = _game.Player.Exosuit;
             _game.OnProfileSelected += () =>
             {
-                var inventory = exosuit.GetInventory();
+                /*var inventory = exosuit.GetInventory();
                 var items = inventory.GetItems();
                 Logger.WriteLine($"ItemCount: {items.Count}");
                 for (int i = 0; i < items.Count; i++)
@@ -38,7 +37,7 @@ namespace NoMansSky.Api
                 foreach (var item in items)
                 {
                     Logger.WriteLine(item.GetItemId());
-                }
+                }*/
             };
         }
 

@@ -15,5 +15,12 @@ namespace NoMansSky.Api
         /// <br/>The parameter is the amount that the shield changed.
         /// </summary>
         public IModEventHook<float> OnShieldChanged { get; set; }
+
+
+        [Initialize]
+        private static void Initialize()
+        {
+
+        }
     }
 }

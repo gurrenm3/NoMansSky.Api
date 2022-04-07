@@ -29,6 +29,17 @@ namespace NoMansSky.Api
         public bool IsInventoryOpen { get; private set; }
 
         /// <summary>
+        /// Reflects whether or not this object has finished initializing.
+        /// </summary>
+        public bool IsInitialized { get; private set; }
+
+        /// <summary>
+        /// Called when this object, <see cref="Instance"/>, has finished initializing.
+        /// <br/>This is mainly used by the API. By the time your mod executes this will have already been called, therefore it's best to ignore it.
+        /// </summary>
+        public IModEvent OnInitialized { get; set; }
+
+        /// <summary>
         /// Called when the main menu is first reached.
         /// </summary>
         public IModEvent OnMainMenu { get; set; }
@@ -66,7 +77,7 @@ namespace NoMansSky.Api
         /// </summary>
         public ITime Time { get; set; }
 
-        private bool isInitialized = false;
+        private bool isInitialized_internal = false;
 
         public Game()
         {
@@ -80,16 +91,17 @@ namespace NoMansSky.Api
         /// <returns></returns>
         public bool Initialize()
         {
-            if (isInitialized)
+            if (isInitialized_internal)
                 return false;
 
             OnGameJoined += () => IsInGame = true;
             OnInventoriesOpened += () => IsInventoryOpen = true;
             OnInventoriesClosed += () => IsInventoryOpen = false;
+            OnInitialized += () => IsInitialized = true;
 
-            Player.Initialize();
+            NoMansSky.Api.Player.Initialize();
 
-            return isInitialized = true;
+            return isInitialized_internal = true;
         }
     }
 }

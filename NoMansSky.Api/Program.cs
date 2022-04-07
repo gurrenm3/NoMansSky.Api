@@ -76,11 +76,13 @@ namespace NoMansSky.Api
             */
 
             var game = CreateGameInstance();
-            _modLoader.AddOrReplaceController(this, game);
+            
 
             // Register this mod.
             _mod = new Mod(game, _modConfig, _hooks, _logger);
             Logger = _mod.Logger;
+
+            _modLoader.AddOrReplaceController(this, game); 
         }
 
         private Game CreateGameInstance()
@@ -94,6 +96,7 @@ namespace NoMansSky.Api
                 OnGameJoined = new SharedModEvent(),
                 OnInventoriesOpened = new SharedModEvent(),
                 OnInventoriesClosed = new SharedModEvent(),
+                OnInitialized = new SharedModEvent(),
                 Player = CreatePlayerInstance()
             };
 
@@ -102,6 +105,7 @@ namespace NoMansSky.Api
             instance.Player.ActiveShip.OnHealthChanged = new SharedModEventHook<float>();
             instance.Player.ActiveShip.OnShieldChanged = new SharedModEventHook<float>();
 
+            instance.OnInitialized.Invoke(); // invoke the initialize event as late as possible.
             return instance;
         }
 

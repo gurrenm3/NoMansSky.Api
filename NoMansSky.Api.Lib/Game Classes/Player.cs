@@ -55,17 +55,18 @@ namespace NoMansSky.Api
         /// <summary>
         /// Initializes this object It's called <see cref="Game.Instance"/> has finished initializing. Can only be called once.
         /// </summary>
-        internal void Initialize()
+        public static void Initialize()
         {
-            if (initialized)
+            var instance = Game.Instance.Player;
+            if (instance.initialized)
                 return;
 
-            OnPlayerStateAquired += SetGcPlayerStateData;
-            
-            Exosuit = new Exosuit();
-            ActiveShip = new Ship();
+            instance.OnPlayerStateAquired += instance.SetGcPlayerStateData;
 
-            initialized = true;
+            instance.Exosuit = new Exosuit();
+            instance.ActiveShip = new Ship();
+
+            instance.initialized = true;
         }
 
         /// <summary>

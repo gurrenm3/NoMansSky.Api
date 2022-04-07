@@ -1,7 +1,6 @@
 ﻿using Reloaded.Hooks.Definitions;
 using Reloaded.Hooks.Definitions.X64;
 using Reloaded.ModHelper;
-using System;
 using System.Runtime.InteropServices;
 
 namespace NoMansSky.Api.Hooks
@@ -20,6 +19,7 @@ namespace NoMansSky.Api.Hooks
         public static IHook<HookDelegate> Hook;
 
         public string HookName => "ChangePlayerHealth";
+        private EventParam<int> amountChangedParam = new EventParam<int>();
         private ModLogger logger;
 
         public void InitHook(ModLogger _logger, IReloadedHooks _hooks)
@@ -34,11 +34,11 @@ namespace NoMansSky.Api.Hooks
 
         private long CodeToExecute(long a1, int a2)
         {
-            var amountChanged = new EventParam<int>(a2);
-            ModEventHook.Prefix.Invoke(amountChanged);
+            amountChangedParam.value = a2;
 
-            var result = Hook.OriginalFunction(a1, amountChanged.value);
-            ModEventHook.Postfix.Invoke(amountChanged);
+            ModEventHook.Prefix.Invoke(amountChangedParam);
+            var result = Hook.OriginalFunction(a1, amountChangedParam.value);
+            ModEventHook.Postfix.Invoke(amountChangedParam);
 
             return result;
         }

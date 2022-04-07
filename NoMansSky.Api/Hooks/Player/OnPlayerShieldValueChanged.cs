@@ -19,6 +19,7 @@ namespace NoMansSky.Api.Hooks
         public static IHook<HookDelegate> Hook;
 
         public string HookName => "ChangeShieldValue";
+        private EventParam<float> amountChangedParam = new EventParam<float>();
         private ModLogger logger;
 
         public void InitHook(ModLogger _logger, IReloadedHooks _hooks)
@@ -33,11 +34,11 @@ namespace NoMansSky.Api.Hooks
 
         private long CodeToExecute(long a1, float a2, int a3, long* a4, long* a5, long a6, float** a7)
         {
-            var amountChanged = new EventParam<float>(a2);
+            amountChangedParam.value = a2;
 
-            ModEventHook.Prefix.Invoke(amountChanged);
-            var result = Hook.OriginalFunction(a1, amountChanged.value, a3, a4, a5, a6, a7);
-            ModEventHook.Postfix.Invoke(amountChanged);
+            ModEventHook.Prefix.Invoke(amountChangedParam);
+            var result = Hook.OriginalFunction(a1, amountChangedParam.value, a3, a4, a5, a6, a7);
+            ModEventHook.Postfix.Invoke(amountChangedParam);
 
             return result;
         }
