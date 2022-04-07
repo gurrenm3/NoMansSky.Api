@@ -6,7 +6,6 @@ namespace Reloaded.ModHelper
     /// <summary>
     /// Used on methods to indicate that they should automatically be subscribed to a GameLoop.
     /// </summary>
-    [AttributeUsage(AttributeTargets.Method)]
     public class OnUpdateAttribute : ModMethodAttribute
     {
         /// <summary>
@@ -28,13 +27,13 @@ namespace Reloaded.ModHelper
 
         /// <summary>
         /// This is automatically called for each <see cref="OnUpdateAttribute"/>.
-        /// <br/>When it's called, the attribute will automatically subscribe <see cref="ModMethodAttributeInfo.TargetMethod"/>
+        /// <br/>When it's called, the attribute will automatically subscribe <see cref="ModAttrInfo.TargetMethod"/>
         /// to the GameLoop.
         /// </summary>
-        /// <param name="modMethodPair"><inheritdoc/></param>
-        public override void OnAttributeLoaded(ModMethodAttributeInfo modMethodPair)
+        /// <param name="attribute"><inheritdoc/></param>
+        public override void OnAttributeLoaded()
         {
-            Game.Instance.OnUpdate.Postfix += () => modMethodPair.TargetMethod.Invoke(null, null);
+            Game.Instance.OnUpdate.Postfix += () => Info.TargetMethod.Invoke();
         }
     }
 }

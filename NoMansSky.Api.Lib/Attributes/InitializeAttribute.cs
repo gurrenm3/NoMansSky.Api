@@ -28,15 +28,15 @@ namespace NoMansSky.Api
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
-        /// <param name="modMethodPair"></param>
-        public override void OnAttributeLoaded(ModMethodAttributeInfo modMethodPair)
+        /// <param name="attribute"></param>
+        public override void OnAttributeLoaded()
         {
             if (Game.Instance.IsInitialized)
             {
-                modMethodPair.TargetMethod.Invoke(null, null);
+                Info.TargetMethod.Invoke();
             }
 
-            Game.Instance.OnInitialized += () => modMethodPair.TargetMethod.Invoke(null, null);
+            Game.Instance.OnInitialized += () => Info.TargetMethod.Invoke();
         }
     }
 }

@@ -1,10 +1,12 @@
 ﻿using NoMansSky.Api.Configuration;
 using NoMansSky.Api.Configuration.Implementation;
+using NoMansSky.Api.Hooks;
 using Reloaded.Hooks.ReloadedII.Interfaces;
 using Reloaded.Mod.Interfaces;
 using Reloaded.Mod.Interfaces.Internal;
 using Reloaded.ModHelper;
 using System;
+using System.Collections.Generic;
 
 #if DEBUG
 using System.Diagnostics;
@@ -46,6 +48,8 @@ namespace NoMansSky.Api
         /// </summary>
         private Mod _mod = null!;
 
+        private List<ModAttrAttribute> loadedApiModAttributes;
+
         ModLogger Logger;
 
         /// <summary>
@@ -82,7 +86,10 @@ namespace NoMansSky.Api
             _mod = new Mod(game, _modConfig, _hooks, _logger);
             Logger = _mod.Logger;
 
-            _modLoader.AddOrReplaceController(this, game); 
+            _modLoader.AddOrReplaceController(this, game);
+
+            // Load all ModAttrAttributes from NoMansSky.Api.Lib
+            ModAttributeLoader.LoadAllFromAssembly(typeof(Game).Assembly, out loadedApiModAttributes);
         }
 
         private Game CreateGameInstance()

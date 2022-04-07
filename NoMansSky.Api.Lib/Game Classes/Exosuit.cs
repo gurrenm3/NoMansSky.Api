@@ -1,4 +1,6 @@
-﻿namespace NoMansSky.Api
+﻿using Reloaded.ModHelper;
+
+namespace NoMansSky.Api
 {
     /// <summary>
     /// Represents the player's exosuit.

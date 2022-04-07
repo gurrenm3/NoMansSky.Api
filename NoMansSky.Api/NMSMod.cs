@@ -21,8 +21,6 @@ namespace NoMansSky.Api
         {
             game = _game;
             game.OnUpdate.Postfix += Update;
-
-            new ModMethodLoader(ModAssembly).LoadAllFromAssembly(); // automatically load all ModMethodAttributes
         }
 
         /// <summary>
