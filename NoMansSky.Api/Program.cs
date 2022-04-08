@@ -50,7 +50,7 @@ namespace NoMansSky.Api
 
         private List<ModAttrAttribute> loadedApiModAttributes;
 
-        ModLogger Logger;
+        IModLogger Logger;
 
         /// <summary>
         /// Entry point for your mod.

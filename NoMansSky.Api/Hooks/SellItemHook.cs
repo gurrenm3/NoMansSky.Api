@@ -16,9 +16,9 @@ namespace NoMansSky.Api.Hooks
         public static IFunction<HookDelegate> Function { get; set; }
 
         public string HookName => "OnItemSold";
-        private ModLogger logger;
+        private IModLogger logger;
 
-        public void InitHook(ModLogger _logger, IReloadedHooks _hooks)
+        public void InitHook(IModLogger _logger, IReloadedHooks _hooks)
         {
             logger = _logger;
             string pattern = "48 8B C4 4C 89 48 20 48 89 48 08 55 56 57 41 54 41 55 41 56 41 57 48 83";

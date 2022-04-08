@@ -21,9 +21,9 @@ namespace NoMansSky.Api.Hooks
         public static IHook<HookDelegate> Hook;
 
         public string HookName => "InventoriesGUI_Update";
-        private ModLogger logger;
+        private IModLogger logger;
 
-        public void InitHook(ModLogger _logger, IReloadedHooks _hooks)
+        public void InitHook(IModLogger _logger, IReloadedHooks _hooks)
         {
             logger = _logger;
             

@@ -20,10 +20,10 @@ namespace NoMansSky.Api.Hooks
         public static IHook<HookDelegate> Hook;
 
         public string HookName => "Game_Update";
-        private ModLogger logger;
+        private IModLogger logger;
         private TimeHooked time;
 
-        public void InitHook(ModLogger _logger, IReloadedHooks _hooks)
+        public void InitHook(IModLogger _logger, IReloadedHooks _hooks)
         {
             logger = _logger;
             

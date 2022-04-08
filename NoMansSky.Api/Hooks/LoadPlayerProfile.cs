@@ -20,10 +20,10 @@ namespace NoMansSky.Api.Hooks
         internal static bool isLoadingProfile = false;
 
         public string HookName => "OnPlayerProfileLoaded";
-        private ModLogger logger;
+        private IModLogger logger;
         Signature scanner;
 
-        public void InitHook(ModLogger _logger, IReloadedHooks _hooks)
+        public void InitHook(IModLogger _logger, IReloadedHooks _hooks)
         {
             logger = _logger;
             scanner = new Signature("48 8D 1D ? ? ? ? 45 33 F6 41 8B");

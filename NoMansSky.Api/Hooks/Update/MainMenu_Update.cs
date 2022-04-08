@@ -19,10 +19,10 @@ namespace NoMansSky.Api.Hooks
         public static IHook<HookDelegate> Hook;
 
         public string HookName => "MainMenu.Update";
-        private ModLogger logger;
+        private IModLogger logger;
         private bool firstRun = true;
 
-        public void InitHook(ModLogger _logger, IReloadedHooks _hooks)
+        public void InitHook(IModLogger _logger, IReloadedHooks _hooks)
         {
             logger = _logger;
             string pattern = "48 8B C4 55 53 56 57 41 54 41 56 41 57 48 8D A8 ? ? ? ? 48 81 EC ? ? ? ? 48 C7 45 ? ? ? ? ? 0F 29 70 B8 0F 29 78 A8 0F";

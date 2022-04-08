@@ -1,4 +1,5 @@
 ﻿using Reloaded.ModHelper;
+using System.Diagnostics;
 
 namespace NoMansSky.Api
 {
@@ -83,6 +84,8 @@ namespace NoMansSky.Api
         {
             if (Instance == null)
                 Instance = this;
+
+            
         }
 
         /// <summary>

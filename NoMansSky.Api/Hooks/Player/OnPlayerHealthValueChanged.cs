@@ -20,9 +20,9 @@ namespace NoMansSky.Api.Hooks
 
         public string HookName => "ChangePlayerHealth";
         private EventParam<int> amountChangedParam = new EventParam<int>();
-        private ModLogger logger;
+        private IModLogger logger;
 
-        public void InitHook(ModLogger _logger, IReloadedHooks _hooks)
+        public void InitHook(IModLogger _logger, IReloadedHooks _hooks)
         {
             logger = _logger;
             

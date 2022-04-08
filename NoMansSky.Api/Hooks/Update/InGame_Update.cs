@@ -21,10 +21,10 @@ namespace NoMansSky.Api.Hooks
         internal static bool firstRun = false;
 
         public string HookName => "InGame_Update";
-        private ModLogger logger;
+        private IModLogger logger;
         bool didInventoryUpdate = false;
 
-        public void InitHook(ModLogger _logger, IReloadedHooks _hooks)
+        public void InitHook(IModLogger _logger, IReloadedHooks _hooks)
         {
             logger = _logger;
             
