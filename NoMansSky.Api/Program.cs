@@ -104,9 +104,8 @@ namespace NoMansSky.Api
                 OnInventoriesOpened = new SharedModEvent(),
                 OnInventoriesClosed = new SharedModEvent(),
                 OnInitialized = new SharedModEvent(),
-                Player = CreatePlayerInstance()
             };
-
+            instance.Player = CreatePlayerInstance(instance);
             instance.Initialize();
 
             instance.Player.ActiveShip.OnHealthChanged = new SharedModEventHook<float>();
@@ -116,12 +115,18 @@ namespace NoMansSky.Api
             return instance;
         }
 
-        private Player CreatePlayerInstance()
+        private Player CreatePlayerInstance(Game gameInstance)
         {
             Player instance = new Player();
+            instance.OnBaseAddressAquired = new SharedModEvent<long>();
             instance.OnPlayerStateAquired = new SharedModEvent<long>();
-            instance.OnHealthChanged = new SharedModEventHook<int>();
-            instance.OnShieldChanged = new SharedModEventHook<float>();
+
+            // init player stats
+            instance.Health.OnValueChanged = new SharedModEventHook<int>();
+            instance.Shield.OnValueChanged = new SharedModEventHook<int>();
+            instance.Units.OnValueChanged = new SharedModEventHook<int>();
+            instance.Nanites.OnValueChanged = new SharedModEventHook<int>();
+            instance.Quicksilver.OnValueChanged = new SharedModEventHook<int>();
 
             return instance;
         }

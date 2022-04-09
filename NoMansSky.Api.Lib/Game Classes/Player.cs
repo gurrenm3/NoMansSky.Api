@@ -1,5 +1,4 @@
 ﻿using Reloaded.ModHelper;
-using System;
 
 namespace NoMansSky.Api
 {
@@ -8,11 +7,51 @@ namespace NoMansSky.Api
     /// </summary>
     public unsafe class Player
     {
+        public enum StatType
+        {
+            Health,
+            Shield,
+            Units,
+            Nanites,
+            Quicksilver
+        }
+
         /// <summary>
-        /// The address of GcPlayerStateData.
+        /// The address of <see cref="GcPlayerStateData"/>.
         /// </summary>
         public long GcPlayerStateAddress => _gcPlayerStateAddress;
         private long _gcPlayerStateAddress;
+
+        /// <summary>
+        /// The base address of the actual player instance within the game.
+        /// </summary>
+        public long BaseAddress => _baseAddress;
+        private long _baseAddress;
+
+        /// <summary>
+        /// Represents the player's Health.
+        /// </summary>
+        public Stat<int> Health { get; private set; } = new Stat<int>();
+
+        /// <summary>
+        /// Represents the player's Shield.
+        /// </summary>
+        public Stat<int> Shield { get; private set; } = new Stat<int>();
+
+        /// <summary>
+        /// Represents the player's Units.
+        /// </summary>
+        public Stat<int> Units { get; private set; } = new Stat<int>();
+
+        /// <summary>
+        /// Represents the player's Nanites.
+        /// </summary>
+        public Stat<int> Nanites { get; private set; } = new Stat<int>();
+
+        /// <summary>
+        /// Represents the player's Quicksilver.
+        /// </summary>
+        public Stat<int> Quicksilver { get; private set; } = new Stat<int>();
 
         /// <summary>
         /// The player's current active ship.
@@ -25,24 +64,18 @@ namespace NoMansSky.Api
         public Exosuit Exosuit { get; set; }
 
         /// <summary>
-        /// [BROKEN] Called whenever the value of the Player's health changes.
-        /// <br/>The parameter is the amount that the health changed.
-        /// </summary>
-        public IModEventHook<int> OnHealthChanged { get; set; }
-
-        /// <summary>
-        /// [BROKEN] Called whenever the value of the Player's shield changes.
-        /// <br/>The parameter is the amount that the shield changed.
-        /// </summary>
-        public IModEventHook<float> OnShieldChanged { get; set; }
-
-        /// <summary>
         /// Called when the pointer to GcPlayerStateData is aquired. This only called once when a profile
         /// is selected for the first time. Afterwords it is reused even if you go back to the Main Menu
         /// and switch to a different save.
         /// <br/>The parameter is the aquired pointer.
         /// </summary>
         public IModEvent<long> OnPlayerStateAquired { get; set; }
+
+        /// <summary>
+        /// Called when the pointer to the actual Player Instance has been aquired.
+        /// </summary>
+        public IModEvent<long> OnBaseAddressAquired { get; set; }
+
 
         private GcPlayerStateData* state;
         private bool initialized;
@@ -62,6 +95,7 @@ namespace NoMansSky.Api
                 return;
 
             instance.OnPlayerStateAquired += instance.SetGcPlayerStateData;
+            instance.OnBaseAddressAquired += (address) => instance._baseAddress = address;
 
             instance.Exosuit = new Exosuit();
             instance.ActiveShip = new Ship();
@@ -75,76 +109,19 @@ namespace NoMansSky.Api
         /// <br/>Calling this method will negatively affect the game and might break your mods.
         /// </summary>
         /// <param name="address"></param>
-        private void SetGcPlayerStateData(long address)
+        private unsafe void SetGcPlayerStateData(long address)
         {
             _gcPlayerStateAddress = address;
             if (_gcPlayerStateAddress == 0)
                 return;
 
             state = (GcPlayerStateData*) _gcPlayerStateAddress;
-        }
 
-        /// <summary>
-        /// Returns the health of the player's shield.
-        /// </summary>
-        /// <returns></returns>
-        public float GetShieldHealth() => state->shield;
-
-        /// <summary>
-        /// Returns the player's current health.
-        /// </summary>
-        /// <returns></returns>
-        public int GetHealth() => state->health;
-
-        /// <summary>
-        /// Returns how many units the player currently has.
-        /// </summary>
-        /// <returns></returns>
-        public long GetUnits() => state->units;
-
-        /// <summary>
-        /// Returns how many nanites the player currently has.
-        /// </summary>
-        /// <returns></returns>
-        public int GetNanites() => state->nanites;
-
-        /// <summary>
-        /// Returns how much quicksilver the player currently has.
-        /// </summary>
-        /// <returns></returns>
-        public int GetQuicksilver() => state->quicksilver;
-
-        /// <summary>
-        /// Raise the player's health by an amount.
-        /// </summary>
-        /// <param name="amount">Amount to raise health by.</param>
-        public void RaiseHealth(int amount)
-        {
-            SetHealth(GetHealth() + amount);
-        }
-
-        /// <summary>
-        /// Reduce the player's health by an amount.
-        /// </summary>
-        /// <param name="amount">Amount to raise health by.</param>
-        public void ReduceHealth(int amount)
-        {
-            SetHealth(GetHealth() - amount);
-        }
-
-        /// <summary>
-        /// Set the player's health.
-        /// </summary>
-        /// <param name="newHealth">Amount to set the player's health to.</param>
-        public void SetHealth(int newHealth) // amount = 38
-        {
-            if (newHealth <= 0)
-            {
-                // don't let the player die if we haven't loaded in the game yet.
-                newHealth = Game.Instance.IsInGame ? 0 : 1; 
-            }
-
-            throw new NotImplementedException();
+            Shield.Init(StatType.Shield.ToString(), address + 0xB0);
+            Health.Init(StatType.Health.ToString(), address + 0xB4);
+            Units.Init(StatType.Units.ToString(), address + 0xBC);
+            Nanites.Init(StatType.Nanites.ToString(), address + 0xC0);
+            Quicksilver.Init(StatType.Quicksilver.ToString(), address + 0xC4);
         }
     }
 }

@@ -4,7 +4,7 @@ using Reloaded.ModHelper;
 using System;
 using System.Runtime.InteropServices;
 
-namespace NoMansSky.Api.Hooks
+namespace NoMansSky.Api.Hooks.GameHooks
 {
     public unsafe class InGame_Update : IModHook
     {
@@ -27,7 +27,7 @@ namespace NoMansSky.Api.Hooks
         public void InitHook(IModLogger _logger, IReloadedHooks _hooks)
         {
             logger = _logger;
-            
+
             string pattern = "48 83 EC 28 48 8D 0D ? ? ? ? E8 ? ? ? ? 83 B8 ? ? ? ? ? 74 2E";
 
             Function = _hooks.CreateFunction<HookDelegate>(new Signature(pattern).Scan());

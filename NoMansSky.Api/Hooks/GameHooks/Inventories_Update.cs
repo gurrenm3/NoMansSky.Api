@@ -4,46 +4,47 @@ using Reloaded.ModHelper;
 using System;
 using System.Runtime.InteropServices;
 
-namespace NoMansSky.Api.Hooks
+namespace NoMansSky.Api.Hooks.GameHooks
 {
-    public unsafe class Game_Update : IModHook
+    public unsafe class Inventories_Update : IModHook
     {
         [Function(CallingConventions.Microsoft)]
         [UnmanagedFunctionPointer(CallingConvention.StdCall, CharSet = CharSet.Ansi)]
-        public delegate double HookDelegate();
+        public delegate long HookDelegate(long a1, long a2, long a3, long* a4, long a5, int a6, long a7, int a8, char a9);
 
         /// <summary>
         /// ModEventHook that's called when the original function is called.
         /// </summary>
-        public static IModEventHook ModEventHook => Game.Instance.OnUpdate;
+        public static IModEventHook ModEventHook { get; } = new SharedModEventHook();
+
         public static IFunction<HookDelegate> Function { get; set; }
         public static IHook<HookDelegate> Hook;
 
-        public string HookName => "Game_Update";
+        public string HookName => "InventoriesGUI_Update";
         private IModLogger logger;
-        private TimeHooked time;
 
         public void InitHook(IModLogger _logger, IReloadedHooks _hooks)
         {
             logger = _logger;
             
-            string pattern = "40 53 48 83 EC 20 48 8D 4C 24 ? FF 15 ? ? ? ? 48 8B 5C 24 ? 48 8D 4C 24 ? FF 15 ? ? ? ? F2";
+            string pattern = "48 89 5C 24 ? 48 89 6C 24 ? 4C 89 44 24 ? 56 57 41 54 41 55 41 57 48 81 EC ? ? ? ? 48 8B E9 48 C7 44 24";
+
             Function = _hooks.CreateFunction<HookDelegate>(new Signature(pattern).Scan());
             Hook = Function.Hook(CodeToExecute).Activate();
-
-            time = Game.Instance.Time as TimeHooked;
         }
 
-        private double CodeToExecute()
+        private long CodeToExecute(long a1, long a2, long a3, long* a4, long a5, int a6, long a7, int a8, char a9)
         {
             ModEventHook.Prefix.Invoke();
-
-            double elapsedTime = Hook.OriginalFunction();
-            time.Update(elapsedTime);
-
+            var result = Hook.OriginalFunction(a1, a2, a3, a4, a5, a6, a7, a8, a9);
             ModEventHook.Postfix.Invoke();
 
-            return elapsedTime;
+            if (!Game.Instance.IsInventoryOpen)
+            {
+                Game.Instance.OnInventoriesOpened.Invoke();
+            }
+
+            return result;
         }
     }
 }
