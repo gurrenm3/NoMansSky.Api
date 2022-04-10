@@ -7,14 +7,6 @@ namespace NoMansSky.Api
     /// </summary>
     public unsafe class Player
     {
-        public enum StatType
-        {
-            Health,
-            Shield,
-            Units,
-            Nanites,
-            Quicksilver
-        }
 
         /// <summary>
         /// The address of <see cref="GcPlayerStateData"/>.
@@ -117,11 +109,11 @@ namespace NoMansSky.Api
 
             state = (GcPlayerStateData*) _gcPlayerStateAddress;
 
-            (Shield as RealStat<int>).Init(StatType.Shield.ToString(), address + 0xB0);
-            (Health as RealStat<int>).Init(StatType.Health.ToString(), address + 0xB4);
-            (Units as RealStat<int>).Init(StatType.Units.ToString(), address + 0xBC);
-            (Nanites as RealStat<int>).Init(StatType.Nanites.ToString(), address + 0xC0);
-            (Quicksilver as RealStat<int>).Init(StatType.Quicksilver.ToString(), address + 0xC4);
+            (Shield as RealStat<int>).Init("Shield", address + 0xB0);
+            (Health as RealStat<int>).Init("Health", address + 0xB4);
+            (Units as RealStat<int>).Init("Units", address + 0xBC);
+            (Nanites as RealStat<int>).Init("Nanites", address + 0xC0);
+            (Quicksilver as RealStat<int>).Init("Quicksilver", address + 0xC4);
         }
     }
 }
