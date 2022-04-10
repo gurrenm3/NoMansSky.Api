@@ -50,7 +50,9 @@ namespace NoMansSky.Api
 
         private List<ModAttrAttribute> loadedApiModAttributes;
 
-        IModLogger Logger;
+        private IModLogger Logger = null!;
+
+        private IGame gameInstance = null!;
 
         /// <summary>
         /// Entry point for your mod.
@@ -79,57 +81,15 @@ namespace NoMansSky.Api
                 Visit https://github.com/Reloaded-Project for additional optional libraries.
             */
 
-            var game = CreateGameInstance();
 
-
-            // Register this mod.
             Logger = new ModLogger(_modConfig, _logger);
-            _mod = new Mod(game, _modConfig, _hooks, Logger);
-            
+            gameInstance = new Game(Logger);
+            _modLoader.AddOrReplaceController(this, gameInstance);
 
-            _modLoader.AddOrReplaceController(this, game);
+            _mod = new Mod(_modConfig, _hooks, Logger);
 
             // Load all ModAttrAttributes from NoMansSky.Api.Lib
-            ModAttributeLoader.LoadAllFromAssembly(typeof(Game).Assembly, out loadedApiModAttributes);
-        }
-
-        private Game CreateGameInstance()
-        {
-            Game instance = new Game()
-            {
-                Time = new TimeHooked(),
-                OnUpdate = new SharedModEventHook(),
-                OnMainMenu = new SharedModEvent(),
-                OnProfileSelected = new SharedModEvent(),
-                OnGameJoined = new SharedModEvent(),
-                OnInventoriesOpened = new SharedModEvent(),
-                OnInventoriesClosed = new SharedModEvent(),
-                OnInitialized = new SharedModEvent(),
-            };
-            instance.Player = CreatePlayerInstance(instance);
-            instance.Initialize();
-
-            instance.Player.ActiveShip.OnHealthChanged = new SharedModEventHook<float>();
-            instance.Player.ActiveShip.OnShieldChanged = new SharedModEventHook<float>();
-
-            instance.OnInitialized.Invoke(); // invoke the initialize event as late as possible.
-            return instance;
-        }
-
-        private Player CreatePlayerInstance(Game gameInstance)
-        {
-            Player instance = new Player();
-            instance.OnBaseAddressAquired = new SharedModEvent<long>();
-            instance.OnPlayerStateAquired = new SharedModEvent<long>();
-
-            // init player stats
-            instance.Health.OnValueChanged = new SharedModEventHook<int>();
-            instance.Shield.OnValueChanged = new SharedModEventHook<int>();
-            instance.Units.OnValueChanged = new SharedModEventHook<int>();
-            instance.Nanites.OnValueChanged = new SharedModEventHook<int>();
-            instance.Quicksilver.OnValueChanged = new SharedModEventHook<int>();
-
-            return instance;
+            ModAttributeLoader.LoadAllFromAssembly(typeof(IGame).Assembly, out loadedApiModAttributes);
         }
 
 
@@ -153,7 +113,7 @@ namespace NoMansSky.Api
         /* Automatically called by the mod loader when the mod is about to be unloaded. */
         public Action Disposing { get; } = null!;
 
-        public Type[] GetTypes() => new Type[] { typeof(Game), typeof(IGameLoop) };
+        public Type[] GetTypes() => new Type[] { typeof(IGame), typeof(IGameLoop) };
 
         public bool CanUnload() => false;
         public bool CanSuspend() => false;

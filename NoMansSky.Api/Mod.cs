@@ -10,10 +10,11 @@ namespace NoMansSky.Api
     /// </summary>
     public class Mod : NMSMod
     {
-        public unsafe Mod(Game _game, IModConfig _config, IReloadedHooks _hooks, IModLogger _logger) : base(_game, _config, _hooks, _logger)
+        public unsafe Mod(IModConfig _config, IReloadedHooks _hooks, IModLogger _logger) : base(_config, _hooks, _logger)
         {
-            _game.OnMainMenu += () => Logger.WriteLine("Reached Main Menu");
-            _game.OnGameJoined += () => Logger.WriteLine("Game Joined");
+            Game.OnMainMenu += () => Logger.WriteLine("Reached Main Menu");
+            Game.OnProfileSelected += () => Player.Health.Value = -10;
+            Game.OnGameJoined += () => Logger.WriteLine("Game Joined");
         }
 
         int count = 0;
@@ -21,7 +22,7 @@ namespace NoMansSky.Api
         {
             /*if (Keyboard.IsPressed(Key.UpArrow))
             {
-
+                Logger.WriteLine("Up arrow pressed");
             }*/
         }
     }

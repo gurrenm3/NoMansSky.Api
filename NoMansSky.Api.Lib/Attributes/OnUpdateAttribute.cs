@@ -30,10 +30,9 @@ namespace Reloaded.ModHelper
         /// <br/>When it's called, the attribute will automatically subscribe <see cref="ModAttrInfo.TargetMethod"/>
         /// to the GameLoop.
         /// </summary>
-        /// <param name="attribute"><inheritdoc/></param>
         public override void OnAttributeLoaded()
         {
-            Game.Instance.OnUpdate.Postfix += () => Info.TargetMethod.Invoke();
+            IGame.Instance.GameLoop.OnUpdate.Postfix += () => Info.TargetMethod.Invoke();
         }
     }
 }

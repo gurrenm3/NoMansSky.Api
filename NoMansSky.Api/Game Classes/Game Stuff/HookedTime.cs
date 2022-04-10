@@ -2,7 +2,7 @@
 
 namespace NoMansSky.Api
 {
-    public class TimeHooked : ITime
+    public class HookedTime : ITime
     {
         /// <summary>
         /// <inheritdoc/>

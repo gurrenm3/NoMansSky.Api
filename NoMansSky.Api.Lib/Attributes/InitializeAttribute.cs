@@ -28,15 +28,14 @@ namespace NoMansSky.Api
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
-        /// <param name="attribute"></param>
         public override void OnAttributeLoaded()
         {
-            if (Game.Instance.IsInitialized)
+            if (IGame.Instance.IsInitialized)
             {
                 Info.TargetMethod.Invoke();
             }
 
-            Game.Instance.OnInitialized += () => Info.TargetMethod.Invoke();
+            IGame.Instance.OnInitialized += () => Info.TargetMethod.Invoke();
         }
     }
 }

@@ -50,7 +50,7 @@ namespace NoMansSky.TestMod
         /// <summary>
         /// Instance of game class.
         /// </summary>
-        private Game _game = null!;
+        private IGame gameInstance = null!;
 
         /// <summary>
         /// Entry point for your mod.
@@ -82,10 +82,10 @@ namespace NoMansSky.TestMod
 
             // The API publishes the instance of the Game class so mods can access it.
             // The line below is where this mod aquires the Game instance that was published.
-            _modLoader.GetController<Game>().TryGetTarget(out _game);
-
+            _modLoader.GetController<IGame>().TryGetTarget(out gameInstance);
+            
             var modLogger = new ModLogger(_modConfig, _logger);
-            _mod = new Mod(_game, _modConfig, _hooks, modLogger);
+            _mod = new Mod(_modConfig, _hooks, modLogger);
         }
 
         private void OnConfigurationUpdated(IConfigurable obj)

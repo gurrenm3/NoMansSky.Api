@@ -3,9 +3,9 @@
 namespace NoMansSky.Api
 {
     /// <summary>
-    /// Represents the player's exosuit.
+    /// <inheritdoc/>
     /// </summary>
-    public unsafe class Exosuit
+    public unsafe class Exosuit : IExosuit
     {
         private GcPlayerStateData* state;
 
@@ -14,21 +14,27 @@ namespace NoMansSky.Api
         /// </summary>
         public Exosuit()
         {
-            // Initialize when we have the player pointer
-            Game.Instance.Player.OnPlayerStateAquired += Initialize; 
+            var game = Game.Instance;
+            var player = game.Player;
+            var onAquired = player.OnPlayerStateAquired;
+
+            Game.Instance.Player.OnPlayerStateAquired += (address) =>
+            {
+                state = (GcPlayerStateData*)address;
+            };
         }
 
         /// <summary>
         /// Initializes this object. Called after the player has selected a profile.
         /// </summary>
         /// <param name="playerStateAddress"></param>
-        internal void Initialize(long playerStateAddress)
+        private void Initialize(long playerStateAddress)
         {
-            state = (GcPlayerStateData*)playerStateAddress;
+            
         }
 
         /// <summary>
-        /// Returns the Exosuit's general inventory.
+        /// <inheritdoc/>
         /// </summary>
         /// <returns></returns>
         public Inventory GetInventory()
@@ -39,7 +45,7 @@ namespace NoMansSky.Api
         }
 
         /// <summary>
-        /// Returns the Exosuit's technology inventory.
+        /// <inheritdoc/>
         /// </summary>
         /// <returns></returns>
         public Inventory GetTechnology()
@@ -50,7 +56,7 @@ namespace NoMansSky.Api
         }
 
         /// <summary>
-        /// Returns the Exosuit's cargo inventory.
+        /// <inheritdoc/>
         /// </summary>
         /// <returns></returns>
         public Inventory GetCargo()

@@ -2,7 +2,7 @@
 
 namespace NoMansSky.Api
 {
-    public class SuitRefiner
+    public class SuitRefiner : ISuitRefiner
     {
 
     }
