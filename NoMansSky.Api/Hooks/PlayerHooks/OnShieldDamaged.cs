@@ -35,12 +35,15 @@ namespace NoMansSky.Api.Hooks.PlayerHooks
 
         private long CodeToExecute(long self, float damage, int a3, long* a4, long* a5, long a6, float** a7)
         {
-
-            logger.WriteLine($"Shield damaged for: {damage}");
-            amountChangedParam.value = (int)damage;
+            var currentShield = Game.Instance.Player.Shield;
+            var damageFloored = Mathf.FloorToInt(damage);
+            var newShieldValue = currentShield + damageFloored;
+            amountChangedParam.value = newShieldValue;
 
             ModEventHook.Prefix.Invoke(amountChangedParam);
-            var result = Hook.OriginalFunction(self, amountChangedParam.value, a3, a4, a5, a6, a7);
+            float actualDamage = amountChangedParam.value - currentShield;
+
+            var result = Hook.OriginalFunction(self, actualDamage, a3, a4, a5, a6, a7);
             ModEventHook.Postfix.Invoke(amountChangedParam);
 
             return result;

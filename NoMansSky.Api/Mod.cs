@@ -10,7 +10,7 @@ namespace NoMansSky.Api
     /// </summary>
     public class Mod : NMSMod
     {
-        public unsafe Mod(Game _game, IModConfig _config, IReloadedHooks _hooks, ILogger _logger) : base(_game, _config, _hooks, _logger)
+        public unsafe Mod(Game _game, IModConfig _config, IReloadedHooks _hooks, IModLogger _logger) : base(_game, _config, _hooks, _logger)
         {
             _game.OnMainMenu += () => Logger.WriteLine("Reached Main Menu");
             _game.OnGameJoined += () => Logger.WriteLine("Game Joined");

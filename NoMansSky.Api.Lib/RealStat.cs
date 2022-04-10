@@ -4,39 +4,35 @@ using System;
 namespace NoMansSky.Api
 {
     /// <summary>
-    /// Wrapper class for important stat values in memory.
+    /// Represents a real stat that exists within the game and therefore has a corrisponding memory address/pointer.
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public unsafe class Stat<T>
+    public unsafe class RealStat<T> : Stat<T>
     {
-        /// <summary>
-        /// Called whenever the value of this stat has changed.
-        /// </summary>
-        public IModEventHook<T> OnValueChanged { get; set; }
-
-        /// <summary>
-        /// The name of this stat
-        /// </summary>
-        public string Name { get; protected set; }
-
-        /// <summary>
-        /// The current value of this stat.
-        /// </summary>
-        public T Value { get => (T)GetValue(); set => SetValue(value); }
-
         /// <summary>
         /// The address of the stat.
         /// </summary>
-        public long Address => _address;        
-        private long _address;
-        private bool _isInitialized;
-
-        private EventParam<T> eventParams = new EventParam<T>();
+        public long Address => _address;
 
         /// <summary>
-        /// Creates a new <see cref="Stat{T}"/> without assigning it's fields and properties.
+        /// Backing field for <see cref="Address"/>.
         /// </summary>
-        public Stat()
+        protected long _address;
+
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
+        public override T Value { get => (T)GetValue(); set => SetValue(value); }
+
+        /// <summary>
+        /// Used to track whether or not this stat has finished initializing and can be safely used.
+        /// </summary>
+        protected bool _isInitialized;
+
+        /// <summary>
+        /// Creates a new instance of this class without setting any of it's values.
+        /// </summary>
+        public RealStat()
         {
 
         }
@@ -46,7 +42,7 @@ namespace NoMansSky.Api
         /// </summary>
         /// <param name="name"></param>
         /// <param name="address"></param>
-        public Stat(string name, long address)
+        public RealStat(string name, long address)
         {
             Init(name, address);
         }
@@ -56,13 +52,13 @@ namespace NoMansSky.Api
         /// </summary>
         /// <param name="name"></param>
         /// <param name="address"></param>
-        public void Init(string name, long address)
+        public virtual void Init(string name, long address)
         {
             if (_isInitialized)
                 return;
 
-            Name = name;
-            this._address = address;
+            _name = name;
+            _address = address;
             _isInitialized = true;
         }
 
@@ -163,20 +159,6 @@ namespace NoMansSky.Api
             {
                 OnValueChanged.Postfix.Invoke(eventParams);
             }
-        }
-
-        /// <summary>
-        /// Returns the held value as a string.
-        /// </summary>
-        /// <returns></returns>
-        public override string ToString()
-        {
-            return Value.ToString();
-        }
-
-        public static implicit operator T(Stat<T> stat)
-        {
-            return stat.Value;
         }
     }
 }

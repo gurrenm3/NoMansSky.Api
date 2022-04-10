@@ -31,27 +31,27 @@ namespace NoMansSky.Api
         /// <summary>
         /// Represents the player's Health.
         /// </summary>
-        public Stat<int> Health { get; private set; } = new Stat<int>();
+        public Stat<int> Health { get; private set; } = new RealStat<int>();
 
         /// <summary>
         /// Represents the player's Shield.
         /// </summary>
-        public Stat<int> Shield { get; private set; } = new Stat<int>();
+        public Stat<int> Shield { get; private set; } = new RealStat<int>();
 
         /// <summary>
         /// Represents the player's Units.
         /// </summary>
-        public Stat<int> Units { get; private set; } = new Stat<int>();
+        public Stat<int> Units { get; private set; } = new RealStat<int>();
 
         /// <summary>
         /// Represents the player's Nanites.
         /// </summary>
-        public Stat<int> Nanites { get; private set; } = new Stat<int>();
+        public Stat<int> Nanites { get; private set; } = new RealStat<int>();
 
         /// <summary>
         /// Represents the player's Quicksilver.
         /// </summary>
-        public Stat<int> Quicksilver { get; private set; } = new Stat<int>();
+        public Stat<int> Quicksilver { get; private set; } = new RealStat<int>();
 
         /// <summary>
         /// The player's current active ship.
@@ -117,11 +117,11 @@ namespace NoMansSky.Api
 
             state = (GcPlayerStateData*) _gcPlayerStateAddress;
 
-            Shield.Init(StatType.Shield.ToString(), address + 0xB0);
-            Health.Init(StatType.Health.ToString(), address + 0xB4);
-            Units.Init(StatType.Units.ToString(), address + 0xBC);
-            Nanites.Init(StatType.Nanites.ToString(), address + 0xC0);
-            Quicksilver.Init(StatType.Quicksilver.ToString(), address + 0xC4);
+            (Shield as RealStat<int>).Init(StatType.Shield.ToString(), address + 0xB0);
+            (Health as RealStat<int>).Init(StatType.Health.ToString(), address + 0xB4);
+            (Units as RealStat<int>).Init(StatType.Units.ToString(), address + 0xBC);
+            (Nanites as RealStat<int>).Init(StatType.Nanites.ToString(), address + 0xC0);
+            (Quicksilver as RealStat<int>).Init(StatType.Quicksilver.ToString(), address + 0xC4);
         }
     }
 }

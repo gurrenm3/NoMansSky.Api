@@ -80,11 +80,12 @@ namespace NoMansSky.Api
             */
 
             var game = CreateGameInstance();
-            
+
 
             // Register this mod.
-            _mod = new Mod(game, _modConfig, _hooks, _logger);
-            Logger = _mod.Logger;
+            Logger = new ModLogger(_modConfig, _logger);
+            _mod = new Mod(game, _modConfig, _hooks, Logger);
+            
 
             _modLoader.AddOrReplaceController(this, game);
 
