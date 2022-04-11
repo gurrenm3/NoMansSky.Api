@@ -34,7 +34,7 @@ This project is an API for modding No Mans Sky. It's purpose is to help mod make
    - All NMS API code will also work seamlessly with multiple mods active. It's designed to prevent modders from accidentally breaking things for the player or other mods.
 
 ## How to get started?
-In order to mod NMS in this diverse way, we must use Memory Modding techniques. That's programmer talk for "it's damn difficult". We'd normally have to do **a ton** of ground work just to make our mods barely possible. Luckly, a suite of amazing Memory Modding tools exists that does all of the work for us. This set of tools is called [Reloaded2](https://github.com/Reloaded-Project). These tools are truly powerful and incredibly well made, which is why this API depends on them. To get started you will first need to download the latest version of the [Reloaded2 Mod Manager](https://github.com/Reloaded-Project/Reloaded-II/releases/latest). 
+In order to mod NMS in this diverse way, we must use Memory Modding techniques. That's programmer talk for "it's damn difficult". We'd normally have to do **a ton** of ground work just to make our mods barely possible. Luckily, a suite of amazing Memory Modding tools exists that does all of the work for us. This set of tools is called [Reloaded2](https://github.com/Reloaded-Project). These tools are truly powerful and incredibly well made, which is why this API depends on them. To get started you will first need to download the latest version of the [Reloaded2 Mod Manager](https://github.com/Reloaded-Project/Reloaded-II/releases/latest). 
 
 ## Planned features
 Some features that are coming soon are:
