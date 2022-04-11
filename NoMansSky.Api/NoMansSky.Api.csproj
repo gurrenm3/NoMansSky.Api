@@ -9,6 +9,11 @@
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
     <OutputPath>$(RELOADEDIIMODS)\NoMansSky.Api</OutputPath>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
+    <PackageTags>NoMansSky; NoManSky; NMS; Mod; Modding; Tool; Api; Reloaded; Reloaded2</PackageTags>
+    <PackageIcon>Icon.png</PackageIcon>
+    <RepositoryUrl>https://github.com/gurrenm3/NoMansSky.Api</RepositoryUrl>
+    <RepositoryType>Git</RepositoryType>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
 
   <ItemGroup>
@@ -24,26 +29,40 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+
+	<PropertyGroup>
+		<PackageLicenseFile>LICENSE</PackageLicenseFile>
+		<RepositoryType>git</RepositoryType>
+		<PackageReleaseNotes>Initial Release</PackageReleaseNotes>
+		<Title>$(AssemblyName)</Title>
+		<PackageId>Gurrenm3.$(AssemblyName)</PackageId>
+		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+		<Description>A C# modding API for No Man's Sky. Built with Reloaded2, a set of extremely powerful modding tools.
+The purpose of this library is to help mod makers create incredibly diverse and unique mods that would normally be quite impossible. </Description>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<None Include="LICENSE" Pack="true" PackagePath="" />
+	</ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Gurrenm3.NoMansSky.Api.Shared" Version="1.0.0" />
+    <PackageReference Include="Gurrenm3.Reloaded.ModHelper" Version="1.0.0" />
     <PackageReference Include="Reloaded.Memory.Sigscan" Version="2.0.0" />
     <PackageReference Include="Reloaded.Mod.Interfaces" Version="2.1.0" />
     <PackageReference Include="Reloaded.SharedLib.Hooks" Version="1.9.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Reloaded.ModHelper\Reloaded.ModHelper.Shared\Reloaded.ModHelper.Shared.csproj" />
-    <ProjectReference Include="..\..\Reloaded.ModHelper\Reloaded.ModHelper\Reloaded.ModHelper.csproj" />
-    <ProjectReference Include="..\NoMansSky.Api.Shared\NoMansSky.Api.Shared.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="libMBIN">
-      <HintPath>..\Dependencies\libMBIN.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-
-  <ItemGroup>
     <None Update="Icon.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
     </None>
   </ItemGroup>
 

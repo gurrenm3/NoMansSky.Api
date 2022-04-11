@@ -53,6 +53,7 @@ namespace NoMansSky.Api
         private IModLogger Logger = null!;
 
         private IGame gameInstance = null!;
+        private IGameLoop gameLoop = null!;
 
         /// <summary>
         /// Entry point for your mod.
@@ -84,7 +85,11 @@ namespace NoMansSky.Api
 
             Logger = new ModLogger(_modConfig, _logger);
             gameInstance = new Game(Logger);
+            gameLoop = gameInstance.GameLoop;
+            Logger.WriteLine($"gameLoop == null {gameLoop == null}");
+
             _modLoader.AddOrReplaceController(this, gameInstance);
+            _modLoader.AddOrReplaceController(this, gameLoop);
 
             _mod = new Mod(_modConfig, _hooks, Logger);
 

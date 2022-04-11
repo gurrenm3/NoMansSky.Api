@@ -12,7 +12,7 @@ namespace NoMansSky.Api
         /// <summary>
         /// Represents the instance of the Game class.
         /// </summary>
-        public IGame Game => Api.Game.Instance;
+        public IGame Game => IGame.Instance;
 
         /// <summary>
         /// Represents the instance of the Game Loop.
