@@ -28,7 +28,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\NoMansSky.Api.Lib\NoMansSky.Api.Lib.csproj" />
     <ProjectReference Include="..\NoMansSky.Api\NoMansSky.Api.csproj" />
   </ItemGroup>
 

@@ -32,13 +32,19 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Reloaded.ModHelper\Reloaded.ModHelper.Shared\Reloaded.ModHelper.Shared.csproj" />
     <ProjectReference Include="..\..\Reloaded.ModHelper\Reloaded.ModHelper\Reloaded.ModHelper.csproj" />
-    <ProjectReference Include="..\NoMansSky.Api.Lib\NoMansSky.Api.Lib.csproj" />
+    <ProjectReference Include="..\NoMansSky.Api.Shared\NoMansSky.Api.Shared.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <Reference Include="libMBIN">
       <HintPath>..\Dependencies\libMBIN.dll</HintPath>
     </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Icon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>
