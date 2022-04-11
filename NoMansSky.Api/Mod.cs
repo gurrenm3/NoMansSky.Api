@@ -16,8 +16,8 @@ namespace NoMansSky.Api
 
             Player.Quicksilver.OnValueChanged.Prefix += (newVal) =>
             {
-                Logger.WriteLine($"Quicksilver is changing to {newVal}. Setting it to 696969 instead");
-                newVal.value = 696969;
+                Logger.WriteLine($"Quicksilver is changing to {newVal}. Setting it to 1234567 instead");
+                newVal.value = 1234567;
             };
         }
         

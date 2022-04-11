@@ -28,8 +28,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Reloaded.ModHelper\Reloaded.ModHelper.Interfaces\Reloaded.ModHelper.Interfaces.csproj" />
-    <ProjectReference Include="..\..\Reloaded.ModHelper\Reloaded.ModHelper\Reloaded.ModHelper.csproj" />
     <ProjectReference Include="..\NoMansSky.Api.Lib\NoMansSky.Api.Lib.csproj" />
     <ProjectReference Include="..\NoMansSky.Api\NoMansSky.Api.csproj" />
   </ItemGroup>
