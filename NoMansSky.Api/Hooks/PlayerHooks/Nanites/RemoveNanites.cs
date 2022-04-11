@@ -6,7 +6,7 @@ using static NoMansSky.Api.Hooks.Macros;
 
 namespace NoMansSky.Api.Hooks.PlayerHooks
 {
-    public unsafe class OnUnitsRemoved : IModHook
+    public unsafe class RemoveNanites : IModHook
     {
         #region Asm Hook Variables
 
@@ -26,9 +26,9 @@ namespace NoMansSky.Api.Hooks.PlayerHooks
         /// <summary>
         /// ModEventHook that's called when the original function is called.
         /// </summary>
-        public static IModEventHook<int> ModEventHook => Game.Instance.Player.Units.OnValueChanged;
+        public static IModEventHook<int> ModEventHook => Game.Instance.Player.Nanites.OnValueChanged;
 
-        public string HookName => "Player Remove Units.";
+        public string HookName => "Player Remove Nanites.";
         private EventParam<int> amountChangedParam = new EventParam<int>();
         private IModLogger logger;
 
@@ -38,7 +38,7 @@ namespace NoMansSky.Api.Hooks.PlayerHooks
 
             pattern1Func = CodeToExecutePattern1;
 
-            string pattern1 = "2B F8 89 B9 BC ? ? ? 48 8D 0D";
+            string pattern1 = "2B F8 89 B9 C0 ? ? ? 48 8D 0D";
             long pattern1Address = new Signature(pattern1).Scan();
 
             string[] pattern1Asm =
@@ -51,12 +51,12 @@ namespace NoMansSky.Api.Hooks.PlayerHooks
 
         private void CodeToExecutePattern1(int amountToRemove)
         {
-            int currentUnits = Game.Instance.Player.Units;
-            int newUnits = currentUnits - amountToRemove;
-            amountChangedParam.value = newUnits;
+            int currentNanites = Game.Instance.Player.Nanites;
+            int newNanites = currentNanites - amountToRemove;
+            amountChangedParam.value = newNanites;
 
             ModEventHook.Prefix.Invoke(amountChangedParam);
-            Game.Instance.Player.Units.Value = amountChangedParam;            
+            Game.Instance.Player.Nanites.Value = amountChangedParam;            
             ModEventHook.Postfix.Invoke(amountChangedParam);
         }
     }

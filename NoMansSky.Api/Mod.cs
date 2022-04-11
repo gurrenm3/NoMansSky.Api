@@ -1,5 +1,4 @@
-﻿using NoMansSky.Api.Hooks.PlayerHooks;
-using Reloaded.Hooks.ReloadedII.Interfaces;
+﻿using Reloaded.Hooks.ReloadedII.Interfaces;
 using Reloaded.Mod.Interfaces;
 using Reloaded.ModHelper;
 
@@ -13,17 +12,21 @@ namespace NoMansSky.Api
         public unsafe Mod(IModConfig _config, IReloadedHooks _hooks, IModLogger _logger) : base(_config, _hooks, _logger)
         {
             Game.OnMainMenu += () => Logger.WriteLine("Reached Main Menu");
-            Game.OnProfileSelected += () => Player.Health.Value = -10;
             Game.OnGameJoined += () => Logger.WriteLine("Game Joined");
-        }
 
-        int count = 0;
+            Player.Quicksilver.OnValueChanged.Prefix += (newVal) =>
+            {
+                Logger.WriteLine($"Quicksilver is changing to {newVal}. Setting it to 696969 instead");
+                newVal.value = 696969;
+            };
+        }
+        
         public override void Update()
         {
-            /*if (Keyboard.IsPressed(Key.UpArrow))
+            if (Keyboard.IsPressed(Key.UpArrow))
             {
-                Logger.WriteLine("Up arrow pressed");
-            }*/
+
+            }
         }
     }
 }

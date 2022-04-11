@@ -6,13 +6,13 @@ using static NoMansSky.Api.Hooks.Macros;
 
 namespace NoMansSky.Api.Hooks.PlayerHooks
 {
-    public unsafe class OnUnitsFromScanReward : IModHook
+    public unsafe class RemoveUnits : IModHook
     {
         #region Asm Hook Variables
 
         // The line below creates the function hook while specifying which registers the function uses.
-        [Function(new FunctionAttribute.Register[2] { FunctionAttribute.Register.rcx, FunctionAttribute.Register.rdx }, FunctionAttribute.Register.rax, false)]
-        public delegate void OnChangedFunc1(int currentUnits, int amountToAdd);
+        [Function(new FunctionAttribute.Register[1] { FunctionAttribute.Register.rax }, FunctionAttribute.Register.rax, false)]
+        public delegate void OnChangedFunc1(int amountLost);
 
         public OnChangedFunc1 pattern1Func;
 
@@ -38,7 +38,7 @@ namespace NoMansSky.Api.Hooks.PlayerHooks
 
             pattern1Func = CodeToExecutePattern1;
 
-            string pattern1 = "03 CA 89 88 ? ? ? ? 48 8D 0D ? ? ? ? ";
+            string pattern1 = "2B F8 89 B9 BC ? ? ? 48 8D 0D";
             long pattern1Address = new Signature(pattern1).Scan();
 
             string[] pattern1Asm =
@@ -49,9 +49,10 @@ namespace NoMansSky.Api.Hooks.PlayerHooks
             pattern1AsmHook = _hooks.CreateAsmHook(pattern1Asm, pattern1Address, AsmHookBehaviour.DoNotExecuteOriginal).Activate();
         }
 
-        private void CodeToExecutePattern1(int currentUnits, int amountToAdd)
+        private void CodeToExecutePattern1(int amountToRemove)
         {
-            int newUnits = currentUnits + amountToAdd;
+            int currentUnits = Game.Instance.Player.Units;
+            int newUnits = currentUnits - amountToRemove;
             amountChangedParam.value = newUnits;
 
             ModEventHook.Prefix.Invoke(amountChangedParam);
