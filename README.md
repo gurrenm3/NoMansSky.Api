@@ -1,6 +1,6 @@
-[![Supported by the No Man's Sky Community Developers & Designers](https://raw.githubusercontent.com/NMSCD/About/master/badge/purple.svg)](https://github.com/NMSCD)
-
 # NoMansSky.API
+
+[![Supported by the No Man's Sky Community Developers & Designers](https://raw.githubusercontent.com/NMSCD/About/master/badge/purple.svg)](https://github.com/NMSCD)
 
 A C# modding API for the game No Mans Sky.
 Built with [Reloaded II](https://github.com/Reloaded-Project), an extremely powerful set of modding tools.
@@ -53,6 +53,7 @@ If you want to make mods with NoMansSky.Api, you'll need to follow all of the sa
 ## Planned features
 Some features that are coming soon are:
 
+- Access to more stats from the Player, Ship, Freighter, Exosuit, and MultiTool
 - Better ability to manipulate items and inventories
 - Custom items
 - More than 3 multi-tools
