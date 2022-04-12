@@ -1,4 +1,7 @@
+[![Supported by the No Man's Sky Community Developers & Designers](https://raw.githubusercontent.com/NMSCD/About/master/badge/purple.svg)](https://github.com/NMSCD)
+
 # NoMansSky.API
+
 A C# modding API for the game No Mans Sky.
 Built with [Reloaded II](https://github.com/Reloaded-Project), an extremely powerful set of modding tools.
 
