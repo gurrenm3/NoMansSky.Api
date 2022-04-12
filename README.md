@@ -3,7 +3,7 @@ A C# modding API for the game No Mans Sky.
 Built with [Reloaded II](https://github.com/Reloaded-Project), an extremely powerful set of modding tools.
 
 **IMPORTANT:**
-This project is a work in progress and will likely have breaking changes in the future.
+This project is a work in progress and may have breaking changes in the future.
 
 ## What is this project?
 This project is an API for modding No Mans Sky. It's purpose is to help mod makers create crazy powerful mods that would otherwise be very impossible. At a high level, all this project does is use memory modding techniques and hooking to expose No Mans Sky to a C# API that other modders can use.
