@@ -40,10 +40,11 @@
 		<RepositoryType>git</RepositoryType>
 		<PackageReleaseNotes>Initial Release</PackageReleaseNotes>
 		<Title>$(AssemblyName)</Title>
-		<PackageId>Gurrenm3.$(AssemblyName)</PackageId>
+		<PackageId>$(AssemblyName)</PackageId>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 		<Description>A C# modding API for No Man's Sky. Built with Reloaded2, a set of extremely powerful modding tools.
 The purpose of this library is to help mod makers create incredibly diverse and unique mods that would normally be quite impossible. </Description>
+		<Authors>Gurrenm3</Authors>
 	</PropertyGroup>
 
 	<ItemGroup>

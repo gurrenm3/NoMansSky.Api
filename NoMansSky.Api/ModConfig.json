@@ -30,6 +30,12 @@
       "RepositoryName": "",
       "UseReleaseTag": true,
       "AssetFileName": "Mod.zip"
+    },
+    "NuGet": {
+      "AllowUpdateFromAnyRepository": true,
+      "DefaultRepositoryUrls": [
+        "http://packages.sewer56.moe:5000/v3/index.json"
+      ]
     }
   },
   "IsUniversalMod": false,
@@ -38,6 +44,7 @@
   ],
   "OptionalDependencies": [],
   "SupportedAppId": [
+    "nms.exe",
     "nms.exe.unpacked.exe"
   ]
 }

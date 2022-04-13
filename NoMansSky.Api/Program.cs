@@ -86,7 +86,6 @@ namespace NoMansSky.Api
             Logger = new ModLogger(_modConfig, _logger);
             gameInstance = new Game(Logger);
             gameLoop = gameInstance.GameLoop;
-            Logger.WriteLine($"gameLoop == null {gameLoop == null}");
 
             _modLoader.AddOrReplaceController(this, gameInstance);
             _modLoader.AddOrReplaceController(this, gameLoop);

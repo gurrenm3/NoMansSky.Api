@@ -35,6 +35,11 @@ namespace NoMansSky.Api
         public IShip ActiveShip => Game.Player.ActiveShip;
 
         /// <summary>
+        /// Represents the player's current multitool.
+        /// </summary>
+        public IMultiTool ActiveMultiTool => Game.Player.ActiveMultiTool;
+
+        /// <summary>
         /// Creates an instance of this class.
         /// </summary>
         public NMSMod(IModConfig _config, IReloadedHooks _hooks, IModLogger _logger) : base(_config, _hooks, _logger)
