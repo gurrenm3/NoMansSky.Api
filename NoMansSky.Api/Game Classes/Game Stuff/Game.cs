@@ -20,7 +20,12 @@ namespace NoMansSky.Api
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
-        public IPlayer Player { get; set; } 
+        public IPlayer Player { get; set; }
+
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
+        public IMBinManager MBinManager { get; set; } = new MBinManager();
 
         /// <summary>
         /// <inheritdoc/>
@@ -50,12 +55,12 @@ namespace NoMansSky.Api
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
-        public IModEvent OnGameJoined { get; set; } = new SharedModEvent();
+        public IModEvent OnProfileSelected { get; set; } = new SharedModEvent();
 
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
-        public IModEvent OnProfileSelected { get; set; } = new SharedModEvent();
+        public IModEvent OnGameJoined { get; set; } = new SharedModEvent();
 
         /// <summary>
         /// <inheritdoc/>

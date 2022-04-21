@@ -45,7 +45,7 @@ namespace NoMansSky.Api
         /// <summary>
         /// Represents the player's current active ship.
         /// </summary>
-        public IShip ActiveShip { get; }
+        public IShip Ship { get; }
 
         /// <summary>
         /// Represents the player's exosuit.

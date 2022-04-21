@@ -52,11 +52,14 @@ The purpose of this library is to help mod makers create incredibly diverse and 
 	</ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Gurrenm3.NoMansSky.Api.Shared" Version="1.0.0" />
     <PackageReference Include="Gurrenm3.Reloaded.ModHelper" Version="1.0.0" />
     <PackageReference Include="Reloaded.Memory.Sigscan" Version="2.0.0" />
     <PackageReference Include="Reloaded.Mod.Interfaces" Version="2.1.0" />
     <PackageReference Include="Reloaded.SharedLib.Hooks" Version="1.9.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\NoMansSky.Api.Shared\NoMansSky.Api.Shared.csproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -65,6 +68,10 @@ The purpose of this library is to help mod makers create incredibly diverse and 
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Game Classes\Items\" />
   </ItemGroup>
 
 </Project>

@@ -24,7 +24,6 @@ namespace NoMansSky.Api.Hooks.PlayerHooks
 
         public string HookName => "Possible Player Update";
         private IModLogger logger;
-        bool didInventoryUpdate = false;
 
         public void InitHook(IModLogger _logger, IReloadedHooks _hooks)
         {
@@ -49,11 +48,6 @@ namespace NoMansSky.Api.Hooks.PlayerHooks
             ModEventHook.Prefix.Invoke(playerAddress, this.deltaTime);
             Hook.OriginalFunction(self, deltaTime);
             ModEventHook.Postfix.Invoke(playerAddress, this.deltaTime);
-        }
-
-        private void SetPlayerBaseAddress(long address, float deltaTime)
-        {
-            Game.Instance.Player.OnBaseAddressAquired.Invoke(address);
         }
     }
 }

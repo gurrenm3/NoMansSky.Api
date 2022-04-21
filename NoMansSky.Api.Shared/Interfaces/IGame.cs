@@ -1,4 +1,5 @@
 ﻿using Reloaded.ModHelper;
+using System.Collections.Generic;
 
 namespace NoMansSky.Api
 {
@@ -30,15 +31,15 @@ namespace NoMansSky.Api
         public IModEvent OnMainMenu { get; set; }
 
         /// <summary>
-        /// Called whenever the player first joins the game after selecting a profile.
-        /// </summary>
-        public IModEvent OnGameJoined { get; set; }
-
-        /// <summary>
         /// Called when a profile is selected by the user.
         /// <br/>A profile is one of the save files that are shown on the load screen.
         /// </summary>
         public IModEvent OnProfileSelected { get; set; }
+
+        /// <summary>
+        /// Called whenever the player first joins the game after selecting a profile.
+        /// </summary>
+        public IModEvent OnGameJoined { get; set; }
 
         /// <summary>
         /// Called when the player opens the Inventories screen.
@@ -51,6 +52,11 @@ namespace NoMansSky.Api
         /// <br/>This is the screen that lets them view the inventories for their ship, freigher, multi-tool, etc.
         /// </summary>
         public IModEvent OnInventoriesClosed { get; set; }
+        
+        /// <summary>
+        /// A manager for all of the currently loaded MBIN files.
+        /// </summary>
+        public IMBinManager MBinManager { get; set; }
 
         /// <summary>
         /// Reflects whether or not the player has loaded into the game.

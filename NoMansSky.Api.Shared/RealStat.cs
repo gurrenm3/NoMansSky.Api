@@ -52,14 +52,15 @@ namespace NoMansSky.Api
         /// </summary>
         /// <param name="name"></param>
         /// <param name="address"></param>
-        public virtual void Init(string name, long address)
+        public virtual RealStat<T> Init(string name, long address)
         {
             if (_isInitialized)
-                return;
+                return this;
 
             _name = name;
             _address = address;
             _isInitialized = true;
+            return this;
         }
 
         /// <summary>

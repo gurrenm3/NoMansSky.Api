@@ -62,7 +62,14 @@ namespace NoMansSky.Api.Hooks
             int offset = *(int*)(scanResult + 3);
             long address = (scanResult + 7) + offset; // address + 7 = the end of LEA instruction.
             address += 0x68; // adding 0x68 because that's the offset to the start of the player pointer
+
             var gcPlayerStatePointer = MemoryUtils.GetAddressFromOffsets(address, 0xB8, 0x8, 0x158, 0x4D8, 0x40, 0);
+            
+            if (gcPlayerStatePointer == 0)
+                logger.WriteLine("Failed to get Pointer to GcPlayerStateData!", LogLevel.Error);
+            else
+                logger.WriteLine($"[For CheatEngine Users] Pointer to GcPlayerStateAddress = Base Address: {address.ToString("X")}. Offsets: 0xB8, 0x8, 0x158, 0x4D8, 0x40, 0");
+
             return *(long*)gcPlayerStatePointer;
         }
     }

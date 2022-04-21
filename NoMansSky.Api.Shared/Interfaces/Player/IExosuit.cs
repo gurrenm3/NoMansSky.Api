@@ -6,6 +6,11 @@
     public interface IExosuit
     {
         /// <summary>
+        /// Represents the player's suit refiner.
+        /// </summary>
+        public IRefiner SuitRefiner { get; protected set; }
+
+        /// <summary>
         /// Returns the Exosuit's general inventory.
         /// </summary>
         /// <returns></returns>

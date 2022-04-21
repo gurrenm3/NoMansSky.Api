@@ -47,7 +47,7 @@ namespace NoMansSky.Api
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
-        public IShip ActiveShip => _activeShip;
+        public IShip Ship => _activeShip;
         private IShip _activeShip = null!;
 
         /// <summary>
@@ -103,7 +103,7 @@ namespace NoMansSky.Api
             Nanites.OnValueChanged = new SharedModEventHook<int>();
             Quicksilver.OnValueChanged = new SharedModEventHook<int>();
 
-            _exosuit = new Exosuit();
+            _exosuit = new Exosuit(logger);
             _multiTool = new MultiTool();
             _activeShip = new Ship();
 

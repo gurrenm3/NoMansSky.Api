@@ -50,4 +50,8 @@ This project contains all of the code that can be published for use in other mod
 	  <PackageReference Include="Gurrenm3.Reloaded.ModHelper.Shared" Version="1.0.0" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Folder Include="Interfaces\Items\" />
+	</ItemGroup>
+
 </Project>

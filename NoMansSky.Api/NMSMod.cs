@@ -32,7 +32,7 @@ namespace NoMansSky.Api
         /// <summary>
         /// Represents the player's current ship.
         /// </summary>
-        public IShip ActiveShip => Game.Player.ActiveShip;
+        public IShip ActiveShip => Game.Player.Ship;
 
         /// <summary>
         /// Represents the player's current multitool.
