@@ -9,38 +9,48 @@ namespace NoMansSky.Api
     /// </summary>
     public unsafe class Mod : NMSMod
     {
+        /// <summary>
+        /// Used for logging messages within the api. Not necessary for your mods.
+        /// </summary>
+        internal static Mod Instance { get; private set; }
+
+        public override bool ShouldUpdateSettings => true;
+
+        ModSettingBool allowDoubleJump = new ModSettingBool(true);
+        ModSettingBool allowDoubleJump2 = new ModSettingBool();
+        ModSettingInt maxHealth = new ModSettingInt(1000);
+        ModSettingDouble speed = new ModSettingDouble(60.412);
+        ModSettingString username = new ModSettingString("Gurrenm3");
+
         public Mod(IModConfig _config, IReloadedHooks _hooks, IModLogger _logger) : base(_config, _hooks, _logger)
         {
-            /*Game.OnMainMenu += () => Logger.WriteLine("Reached Main Menu");
-            Game.OnGameJoined += () => Logger.WriteLine("Game Joined");
+            
+        }
 
-            Player.Quicksilver.OnValueChanged.Prefix += (newVal) =>
-            {
-                Logger.WriteLine($"Quicksilver is changing to {newVal}. Setting it to 1234567 instead");
-                newVal.value = 1234567;
-            };*/
+        protected override void Awake()
+        {
+            base.Awake();
+            Instance = this;
+        }
 
-            /*Game.OnProfileSelected += () =>
+        protected override void OnInitialized()
+        {
+            WriteLine(username.Value);
+            settingsManager.onSettingsChanged += () =>
             {
-                Logger.WriteLine("AAA");
-                *//*foreach (var mbin in Game.MBinManager.GetAllMBIN())
-                {
-                    Logger.WriteLine($"{mbin.Name}: {mbin.Address.ToString("X")}");
-                }*//*
-            };*/
+                Logger.WriteLine($"Username changed to: {username.Value}");
+            };
         }
 
         public override void Update()
         {
             if (Keyboard.IsPressed(Key.UpArrow))
             {
-                Logger.WriteLine(Exosuit.SuitRefiner.Input.GetQuantity());
-
-                /*var address = (long)((long*)Exosuit.SuitRefiner.Address + 30);
-
-                var input = (GcInventoryElement*)address;
-                Logger.WriteLine(input->amount);*/
+                
             }
         }
+
+        internal static void WriteLine(string message) => Instance?.Logger?.WriteLine(message);
+        internal static void WriteLine(object message) => Instance?.Logger?.WriteLine(message);
     }
 }
