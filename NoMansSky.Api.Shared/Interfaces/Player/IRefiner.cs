@@ -13,16 +13,16 @@
         /// <summary>
         /// Represents the fuel of the refiner.
         /// </summary>
-        public InventoryItem Fuel { get; set; }
+        public IInventoryItem Fuel { get; set; }
         
         /// <summary>
         /// Represents the item to be refined.
         /// </summary>
-        public InventoryItem Input { get; set; }
+        public IInventoryItem Input { get; set; }
 
         /// <summary>
         /// Represents the newly refined item.
         /// </summary>
-        public InventoryItem Output { get; set; }
+        public IInventoryItem Output { get; set; }
     }
 }

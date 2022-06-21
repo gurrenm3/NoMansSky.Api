@@ -14,18 +14,18 @@
         /// Returns the Exosuit's general inventory.
         /// </summary>
         /// <returns></returns>
-        public Inventory GetInventory();
+        public IInventory GetInventory();
 
         /// <summary>
         /// Returns the Exosuit's technology inventory.
         /// </summary>
         /// <returns></returns>
-        public Inventory GetTechnology();
+        public IInventory GetTechnology();
 
         /// <summary>
         /// Returns the Exosuit's cargo inventory.
         /// </summary>
         /// <returns></returns>
-        public Inventory GetCargo();
+        public IInventory GetCargo();
     }
 }

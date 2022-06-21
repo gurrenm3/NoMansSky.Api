@@ -32,39 +32,26 @@ namespace NoMansSky.Api
 
             game.MBinManager.OnMBinLoaded += (mbin) =>
             {
-                if (mbin.Name == GcComponent.cGcRefinerUnitComponentData.ToString())
+                if (mbin.Name != GcComponent.cGcRefinerUnitComponentData.ToString())
+                    return;
+                
+                if (mbin.Address == 0)
                 {
-                    var baseAddress = mbin.Address + 0x100;
-                    //var address = (long)(long*)((byte*)baseAddress);
-                    var address = baseAddress;
-                    //System.Console.WriteLine($"AAA: {address}");
-                    SuitRefiner = new Refiner(address);
-
-                    if (address != 100)
-                    {
-                        logger.WriteLine($"[For CheatEngine Users] Suit Refiner address: {address.ToString("X")}");
-                    }
+                    logger.WriteLine("Failed to get address for suit refiner.", LogLevel.Error);
+                    return;
                 }
-            };
-        }
 
-        private void Test(long baseAddress)
-        {
-            var address = (long)(long*)((byte*)baseAddress + 30);
-            System.Console.WriteLine($"AAA: {address}");
-            SuitRefiner = new Refiner(address);
-
-            if (address != 100)
-            {
+                var address = mbin.Address + 0x100;
                 logger.WriteLine($"[For CheatEngine Users] Suit Refiner address: {address.ToString("X")}");
-            }
+                SuitRefiner = new Refiner(address);
+            };
         }
 
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
         /// <returns></returns>
-        public Inventory GetInventory()
+        public IInventory GetInventory()
         {
             var inventory = new Inventory();
             inventory.InitFromAddress(state->exosuitInventoryAddress);
@@ -75,7 +62,7 @@ namespace NoMansSky.Api
         /// <inheritdoc/>
         /// </summary>
         /// <returns></returns>
-        public Inventory GetTechnology()
+        public IInventory GetTechnology()
         {
             var inventory = new Inventory();
             inventory.InitFromAddress(state->exosuitTechnologyAddress);
@@ -86,7 +73,7 @@ namespace NoMansSky.Api
         /// <inheritdoc/>
         /// </summary>
         /// <returns></returns>
-        public Inventory GetCargo()
+        public IInventory GetCargo()
         {
             var inventory = new Inventory();
             inventory.InitFromAddress(state->exosuitCargoAddress);

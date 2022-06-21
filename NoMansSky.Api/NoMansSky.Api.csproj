@@ -14,6 +14,7 @@
     <RepositoryUrl>https://github.com/gurrenm3/NoMansSky.Api</RepositoryUrl>
     <RepositoryType>Git</RepositoryType>
     <PackageReadmeFile>README.md</PackageReadmeFile>
+	<UseWPF>true</UseWPF>
   </PropertyGroup>
 
   <ItemGroup>

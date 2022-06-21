@@ -4,7 +4,7 @@ using Reloaded.ModHelper;
 using System;
 using System.Runtime.InteropServices;
 
-namespace NoMansSky.Api.Hooks.GameHooks
+namespace NoMansSky.Api.Hooks.Mbin
 {
     public unsafe class LoadMbinHook2 : IModHook
     {
@@ -26,7 +26,7 @@ namespace NoMansSky.Api.Hooks.GameHooks
             //Hook = Function.Hook(CodeToExecute).Activate();
         }
 
-        
+
         private void CodeToExecute(long a1, long a2, int a3, int a4)
         {
             if (LoadMbinHook1.currentMbin == "cGcRefinerUnitComponentData")

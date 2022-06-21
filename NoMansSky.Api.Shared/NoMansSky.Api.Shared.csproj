@@ -47,11 +47,12 @@ This project contains all of the code that can be published for use in other mod
 	</ItemGroup>
 
 	<ItemGroup>
-	  <PackageReference Include="Gurrenm3.Reloaded.ModHelper.Shared" Version="1.0.0" />
+	  <Folder Include="Extensions\" />
+	  <Folder Include="Interfaces\Items\" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="Interfaces\Items\" />
+	  <ProjectReference Include="..\..\Reloaded.ModHelper\Reloaded.ModHelper.Shared\Reloaded.ModHelper.Shared.csproj" />
 	</ItemGroup>
 
 </Project>

@@ -6,8 +6,54 @@ namespace NoMansSky.Api
     /// <summary>
     /// Represents one inventory item.
     /// </summary>
-    public unsafe class InventoryItem
+    public unsafe class InventoryItem : IInventoryItem
     {
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
+        public GcInventoryIndex Index
+        {
+            get { return item->index; }
+            set { item->index = value; }
+        }
+
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
+        public GcInventoryType ItemType
+        {
+            get { return item->itemType; }
+            set { item->itemType = value; }
+        }
+
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
+        public string ID
+        {
+            get { return GetItemId(); }
+            set { SetItemId(value); }
+        }
+
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
+        public int Amount
+        {
+            get { return item->amount; }
+            set { item->amount = value; }
+        }
+
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
+        public int MaxAmount
+        {
+            get { return item->maxAmount; }
+            set { item->maxAmount = value; }
+        }
+
+
         /// <summary>
         /// The address of the <see cref="GcInventoryElement"/> that corresponds to this item.
         /// </summary>
@@ -36,7 +82,9 @@ namespace NoMansSky.Api
         public bool InitFromAddress(long address)
         {
             if (address == 0)
-                throw new ArgumentException("Can't make inventory item because address is empty");
+            {
+                return false;
+            }
 
             this.address = address;
             /*var test = Marshal.PtrToStructure<GcInventoryElement>((IntPtr)address);
@@ -50,7 +98,7 @@ namespace NoMansSky.Api
             /*var originalId = (char*)(address + 0x8);
             var orig = Strings.ToString(originalId);*/
 
-            return !string.IsNullOrEmpty(GetItemId());
+            return IsItemValid();
         }
 
         /// <summary>
@@ -59,7 +107,9 @@ namespace NoMansSky.Api
         /// <returns></returns>
         private bool IsItemValid()
         {
-            throw new NotImplementedException();
+            bool isNameValid = !string.IsNullOrEmpty(ID);
+            bool isTypeValid = (int)ItemType <= 2 && ItemType >= 0;
+            return isNameValid && isTypeValid;
         }
 
         /// <summary>

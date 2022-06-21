@@ -45,6 +45,12 @@ namespace NoMansSky.Api
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
+        public IModWarning ModsWarning => _modWarning;
+        private IModWarning _modWarning;
+
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
         public IModEvent OnInitialized { get; set; } = new SharedModEvent();
 
         /// <summary>
@@ -104,6 +110,8 @@ namespace NoMansSky.Api
 
             Player = new Player(logger);
             (Player as Player)?.Init();
+
+            _modWarning = new ModWarning(logger);
 
             OnInitialized.Invoke();
             IsInitialized = true;

@@ -73,5 +73,11 @@ namespace NoMansSky.Api
         /// Reflects whether or not this object has finished initializing.
         /// </summary>
         public bool IsInitialized { get; }
+
+        /// <summary>
+        /// Reflects whether or not the "Warning Mods Installed" message will be shown while starting
+        /// the game.
+        /// </summary>
+        public IModWarning ModsWarning { get; }
     }
 }

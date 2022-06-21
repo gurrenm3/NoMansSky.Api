@@ -1,4 +1,5 @@
-﻿using Reloaded.Hooks.ReloadedII.Interfaces;
+﻿using NoMansSky.Api.Hooks.Mbin;
+using Reloaded.Hooks.ReloadedII.Interfaces;
 using Reloaded.Mod.Interfaces;
 using Reloaded.ModHelper;
 
@@ -14,17 +15,13 @@ namespace NoMansSky.Api
         /// </summary>
         internal static Mod Instance { get; private set; }
 
-        public override bool ShouldUpdateSettings => true;
+        // This is an example of a mod setting.
+        //ModSettingInt startingUnits = new ModSettingInt(9999999);
 
-        ModSettingBool allowDoubleJump = new ModSettingBool(true);
-        ModSettingBool allowDoubleJump2 = new ModSettingBool();
-        ModSettingInt maxHealth = new ModSettingInt(1000);
-        ModSettingDouble speed = new ModSettingDouble(60.412);
-        ModSettingString username = new ModSettingString("Gurrenm3");
 
         public Mod(IModConfig _config, IReloadedHooks _hooks, IModLogger _logger) : base(_config, _hooks, _logger)
         {
-            
+            Game.ModsWarning.Disable();
         }
 
         protected override void Awake()
@@ -33,20 +30,17 @@ namespace NoMansSky.Api
             Instance = this;
         }
 
-        protected override void OnInitialized()
+        private void PrintInventory()
         {
-            WriteLine(username.Value);
-            settingsManager.onSettingsChanged += () =>
-            {
-                Logger.WriteLine($"Username changed to: {username.Value}");
-            };
+            var inventory = Player.Exosuit.GetInventory();
+            Logger.WriteLine($"\n{inventory}");
         }
 
         public override void Update()
         {
             if (Keyboard.IsPressed(Key.UpArrow))
             {
-                
+                //LoadMbinHook1.Invoke();
             }
         }
 

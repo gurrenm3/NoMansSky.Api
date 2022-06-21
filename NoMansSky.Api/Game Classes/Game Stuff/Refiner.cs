@@ -16,17 +16,17 @@ namespace NoMansSky.Api
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
-        public InventoryItem Fuel { get; set; } = null!;
+        public IInventoryItem Fuel { get; set; } = null!;
 
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
-        public InventoryItem Input { get; set; } = null!;
+        public IInventoryItem Input { get; set; } = null!;
 
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
-        public InventoryItem Output { get; set; } = null!;
+        public IInventoryItem Output { get; set; } = null!;
 
 
         /// <summary>

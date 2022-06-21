@@ -50,22 +50,24 @@ namespace NoMansSky.Api
         [FieldOffset(0xB8)]
         public int shipHealth;
 
+        // each inventory is 258 away from the previous one.
+
         /// <summary>
         /// Offset to the start of the Exosuit's general inventory.
         /// </summary>
-        [FieldOffset(0x1D0)]
+        [FieldOffset(0x210)] // was 0x1D0
         public long exosuitInventoryAddress;
 
         /// <summary>
         /// Offset to the start of the Exosuit's technology inventory.
         /// </summary>
-        [FieldOffset(0x3E8)]
+        [FieldOffset(0x468)] // was 0x3E8
         public long exosuitTechnologyAddress;
 
         /// <summary>
         /// Offset to the start of the Exosuit's cargo inventory.
         /// </summary>
-        [FieldOffset(0x600)]
+        [FieldOffset(0x6C0)] // was 600
         public long exosuitCargoAddress;
     }
 }

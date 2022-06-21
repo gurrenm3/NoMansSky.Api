@@ -3,6 +3,7 @@ using Reloaded.Hooks.Definitions;
 using Reloaded.Mod.Interfaces;
 using Reloaded.ModHelper;
 using System;
+using System.IO;
 
 namespace NoMansSky.Api
 {
@@ -92,6 +93,8 @@ namespace NoMansSky.Api
             _gameDataDirectory = $"{_nmsDirectory}\\GAMEDATA";
             _modsFolder = $"{_gameDataDirectory}\\MODS";
             _myModFolder = $"{_modsFolder}\\{ModConfig.ModName}";
+
+            Directory.CreateDirectory(_myModFolder);
         }
 
         /// <summary>
