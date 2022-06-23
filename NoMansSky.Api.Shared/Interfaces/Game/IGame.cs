@@ -77,6 +77,7 @@ namespace NoMansSky.Api
         /// <summary>
         /// Reflects whether or not the "Warning Mods Installed" message will be shown while starting
         /// the game.
+        /// <br/><br/>This feature was discovered by RaYRoD TV#7679 and wouldn't exist without his efforts.
         /// </summary>
         public IModWarning ModsWarning { get; }
     }
