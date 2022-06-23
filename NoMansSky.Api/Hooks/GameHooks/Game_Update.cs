@@ -8,20 +8,25 @@ namespace NoMansSky.Api.Hooks.GameHooks
 {
     public unsafe class Game_Update : IModHook
     {
+        #region Hook stuff
+
         [Function(CallingConventions.Microsoft)]
         [UnmanagedFunctionPointer(CallingConvention.StdCall, CharSet = CharSet.Ansi)]
         public delegate double HookDelegate();
+        public static IFunction<HookDelegate> Function { get; set; }
+        public static IHook<HookDelegate> Hook;
+
+        #endregion
+
 
         /// <summary>
         /// ModEventHook that's called when the original function is called.
         /// </summary>
         public static IModEventHook ModEventHook => Game.Instance.GameLoop.OnUpdate;
-        public static IFunction<HookDelegate> Function { get; set; }
-        public static IHook<HookDelegate> Hook;
-
         public string HookName => "Game_Update";
-        private IModLogger logger;
         private HookedTime time => Game.Instance.GameLoop.Time as HookedTime;
+        private IModLogger logger;
+
 
         public void InitHook(IModLogger _logger, IReloadedHooks _hooks)
         {

@@ -42,7 +42,7 @@ namespace NoMansSky.Api
                 }
 
                 var address = mbin.Address + 0x100;
-                logger.WriteLine($"[For CheatEngine Users] Suit Refiner address: {address.ToString("X")}");
+                logger.WriteLine($"Suit Refiner address: {address.ToString("X")}", LogLevel.CheatEngine);
                 SuitRefiner = new Refiner(address);
             };
         }

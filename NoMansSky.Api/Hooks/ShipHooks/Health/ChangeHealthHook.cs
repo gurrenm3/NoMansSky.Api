@@ -14,22 +14,27 @@ namespace NoMansSky.Api.Hooks.ShipHooks
         [Function(new FunctionAttribute.Register[1] { FunctionAttribute.Register.rax }, FunctionAttribute.Register.rax, false)]
         public delegate void OnChangedFunc(int amount);
 
-        public OnChangedFunc patternFunc;
-
-        // this needs to be static due to how the API auto-registers hooks
         private IReverseWrapper<OnChangedFunc> patternReverseWrap;
-
+        public OnChangedFunc patternFunc;
         private IAsmHook patternAsmHook;
 
         #endregion
 
+
+        /// <summary>
+        /// The stat this hook is tied to.
+        /// </summary>
+        private static Stat<int> Stat => Game.Instance?.Player?.Ship?.Health;
+
         /// <summary>
         /// ModEventHook that's called when the original function is called.
         /// </summary>
-        public static IModEventHook<int> ModEventHook => Game.Instance.Player.Health.OnValueChanged;
+        public static IModEventHook<int> ModEventHook => Stat?.OnValueChanged;
 
-        public string HookName => "On Ship Health Changed.";
+
         private EventParam<int> amountChangedParam = new EventParam<int>();
+        public string HookName => "On Ship Health Changed.";
+        private int previousHealth = -1;
         private IModLogger logger;
 
         public void InitHook(IModLogger _logger, IReloadedHooks _hooks)
@@ -48,21 +53,29 @@ namespace NoMansSky.Api.Hooks.ShipHooks
             patternAsmHook = _hooks.CreateAsmHook(patternAsm, patternAddress, AsmHookBehaviour.DoNotExecuteOriginal).Activate();
         }
 
-        private int previousHealth = -1;
         private void CodeToExecutePattern(int amount)
         {
             if (previousHealth == amount)
                 return;
 
+
+            bool hasGcPlayerState = Game.Instance?.Player != null && Game.Instance.Player.HasGcPlayerState;
+
+            // Player failed to initialize. Can't do hooking.
+            if (Stat == null || !hasGcPlayerState)
+            {
+                logger.WriteLine("Failed to update Ship's health because the API failed to get the Player's address.", LogLevel.Error);
+                return;
+            }
+
             previousHealth = amount;
             amountChangedParam.value = amount;
 
-            var stat = Game.Instance.Player.Ship.Health;
-            stat.OnValueChanged.Prefix.Invoke(amountChangedParam);
+            Stat.OnValueChanged.Prefix.Invoke(amountChangedParam);
 
-            stat.Value = amountChangedParam.value;
+            Stat.Value = amountChangedParam.value;
 
-            stat.OnValueChanged.Postfix.Invoke(amountChangedParam);
+            Stat.OnValueChanged.Postfix.Invoke(amountChangedParam);
         }
     }
 }

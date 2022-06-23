@@ -8,16 +8,27 @@ namespace NoMansSky.Api.Hooks.PlayerHooks
 {
     public unsafe class AddUnits : IModHook
     {
+        #region Hook stuff
+
         [Function(CallingConventions.Microsoft)]
         [UnmanagedFunctionPointer(CallingConvention.StdCall, CharSet = CharSet.Ansi)]
         public delegate long HookDelegate(long gcPlayerStateData, int amountToAdd);
+        public static IFunction<HookDelegate> Function { get; set; }
+        public static IHook<HookDelegate> Hook;
+
+        #endregion
+
+
+        /// <summary>
+        /// The stat this hook is tied to.
+        /// </summary>
+        private static Stat<int> Stat => Game.Instance?.Player?.Units;
 
         /// <summary>
         /// ModEventHook that's called when the original function is called.
         /// </summary>
-        public static IModEventHook<int> ModEventHook => Game.Instance.Player.Units.OnValueChanged;
-        public static IFunction<HookDelegate> Function { get; set; }
-        public static IHook<HookDelegate> Hook;
+        public static IModEventHook<int> ModEventHook => Stat?.OnValueChanged;
+
 
         public string HookName => "Player Add Units.";
         private EventParam<int> amountChangedParam = new EventParam<int>();
@@ -35,7 +46,13 @@ namespace NoMansSky.Api.Hooks.PlayerHooks
 
         private long CodeToExecute(long gcPlayerStateData, int amountToAdd)
         {
-            int currentUnits = Game.Instance.Player.Units;
+            bool hasGcPlayerState = Game.Instance?.Player != null && Game.Instance.Player.HasGcPlayerState;
+
+            // Player failed to initialize. Can't do hooking.
+            if (Stat == null || !hasGcPlayerState)
+                return Hook.OriginalFunction(gcPlayerStateData, amountToAdd);
+
+            int currentUnits = Stat.Value;
             int newUnits = currentUnits + amountToAdd;
             amountChangedParam.value = newUnits;
 

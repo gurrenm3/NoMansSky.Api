@@ -7,16 +7,25 @@ namespace NoMansSky.Api.Hooks.PlayerHooks
 {
     public unsafe class AddQuicksilver : IModHook
     {
+        #region Hook stuff
         [Function(CallingConventions.Microsoft)]
         [UnmanagedFunctionPointer(CallingConvention.StdCall, CharSet = CharSet.Ansi)]
         public delegate long HookDelegate(long gcPlayerStateData, int amountToAdd);
+        public static IFunction<HookDelegate> Function { get; set; }
+        public static IHook<HookDelegate> Hook;
+        #endregion
+
+
+        /// <summary>
+        /// The stat this hook is tied to.
+        /// </summary>
+        private static Stat<int> Stat => Game.Instance?.Player?.Quicksilver;
 
         /// <summary>
         /// ModEventHook that's called when the original function is called.
         /// </summary>
-        public static IModEventHook<int> ModEventHook => Game.Instance.Player.Quicksilver.OnValueChanged;
-        public static IFunction<HookDelegate> Function { get; set; }
-        public static IHook<HookDelegate> Hook;
+        public static IModEventHook<int> ModEventHook => Stat?.OnValueChanged;
+
 
         public string HookName => "Add Quicksilver";
         private EventParam<int> amountChangedParam = new EventParam<int>();
@@ -34,15 +43,21 @@ namespace NoMansSky.Api.Hooks.PlayerHooks
 
         private long CodeToExecute(long gcPlayerStateData, int amountToAdd)
         {
-            int currentQuicksilver = Game.Instance.Player.Quicksilver;
+            bool hasGcPlayerState = Game.Instance?.Player != null && Game.Instance.Player.HasGcPlayerState;
+
+            // Player failed to initialize. Can't do hooking.
+            if (Stat == null || !hasGcPlayerState)
+                return Hook.OriginalFunction(gcPlayerStateData, amountToAdd);
+
+            int currentQuicksilver = Stat.Value;
             int newQuicksilver = currentQuicksilver + amountToAdd;
             amountChangedParam.value = newQuicksilver;
 
             ModEventHook.Prefix.Invoke(amountChangedParam);
-            Game.Instance.Player.Quicksilver.Value = amountChangedParam.value;
+            Stat.Value = amountChangedParam.value;
             ModEventHook.Postfix.Invoke(amountChangedParam);
 
-            return Game.Instance.Player.Quicksilver;
+            return Stat.Value;
         }
     }
 }

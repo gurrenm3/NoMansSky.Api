@@ -8,12 +8,16 @@ namespace NoMansSky.Api.Hooks.Mbin
 {
     public unsafe class LoadMbinHook2 : IModHook
     {
+        #region Hook Stuff
+
         [Function(CallingConventions.Microsoft)]
         [UnmanagedFunctionPointer(CallingConvention.StdCall, CharSet = CharSet.Ansi)]
         public delegate void HookDelegate(long a1, long a2, int a3, int a4);
-
-        public static IHook<HookDelegate> Hook;
         public static IFunction<HookDelegate> Function { get; set; }
+        public static IHook<HookDelegate> Hook;
+
+        #endregion
+
 
         public string HookName => "Load MBIN2";
         private IModLogger logger;

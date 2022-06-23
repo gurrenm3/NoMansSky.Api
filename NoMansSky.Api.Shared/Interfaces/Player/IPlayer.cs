@@ -8,6 +8,11 @@ namespace NoMansSky.Api
     public interface IPlayer
     {
         /// <summary>
+        /// Reflects whether or not GcPlayerStateData has been initialized.
+        /// </summary>
+        public bool HasGcPlayerState { get; }
+
+        /// <summary>
         /// The address of the current instance of <see cref="GcPlayerStateData"/>.
         /// </summary>
         public long GcPlayerStateAddress { get; }

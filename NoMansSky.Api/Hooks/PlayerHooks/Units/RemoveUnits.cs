@@ -14,19 +14,23 @@ namespace NoMansSky.Api.Hooks.PlayerHooks
         [Function(new FunctionAttribute.Register[1] { FunctionAttribute.Register.rax }, FunctionAttribute.Register.rax, false)]
         public delegate void OnChangedFunc1(int amountLost);
 
-        public OnChangedFunc1 pattern1Func;
-
-        // this needs to be static due to how the API auto-registers hooks
         private IReverseWrapper<OnChangedFunc1> pattern1ReverseWrap;
-
+        public OnChangedFunc1 pattern1Func;
         private IAsmHook pattern1AsmHook;
 
         #endregion
 
+
+        /// <summary>
+        /// The stat this hook is tied to.
+        /// </summary>
+        private static Stat<int> Stat => Game.Instance?.Player?.Units;
+
         /// <summary>
         /// ModEventHook that's called when the original function is called.
         /// </summary>
-        public static IModEventHook<int> ModEventHook => Game.Instance.Player.Units.OnValueChanged;
+        public static IModEventHook<int> ModEventHook => Stat?.OnValueChanged;
+
 
         public string HookName => "Player Remove Units.";
         private EventParam<int> amountChangedParam = new EventParam<int>();
@@ -51,12 +55,21 @@ namespace NoMansSky.Api.Hooks.PlayerHooks
 
         private void CodeToExecutePattern1(int amountToRemove)
         {
-            int currentUnits = Game.Instance.Player.Units;
+            bool hasGcPlayerState = Game.Instance?.Player != null && Game.Instance.Player.HasGcPlayerState;
+
+            // Player failed to initialize. Can't do hooking.
+            if (Stat == null || !hasGcPlayerState)
+            {
+                logger.WriteLine($"Failed to remove {amountToRemove} units from the Player because the API failed to get the Player's address.", LogLevel.Error);
+                return;
+            }
+
+            int currentUnits = Stat.Value;
             int newUnits = currentUnits - amountToRemove;
             amountChangedParam.value = newUnits;
 
             ModEventHook.Prefix.Invoke(amountChangedParam);
-            Game.Instance.Player.Units.Value = amountChangedParam;            
+            Stat.Value = amountChangedParam;            
             ModEventHook.Postfix.Invoke(amountChangedParam);
         }
     }

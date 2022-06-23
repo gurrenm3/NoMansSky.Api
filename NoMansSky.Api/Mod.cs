@@ -40,7 +40,7 @@ namespace NoMansSky.Api
         {
             if (Keyboard.IsPressed(Key.UpArrow))
             {
-                //LoadMbinHook1.Invoke();
+                
             }
         }
 

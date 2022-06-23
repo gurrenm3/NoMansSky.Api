@@ -22,27 +22,32 @@ namespace NoMansSky.Api
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
-        public Stat<int> Health { get; } = new RealStat<int>();
+        public bool HasGcPlayerState => GcPlayerStateAddress != 0;
 
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
-        public Stat<int> Shield { get; } = new RealStat<int>();
+        public Stat<int> Health { get; private set; }
 
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
-        public Stat<int> Units { get; } = new RealStat<int>();
+        public Stat<int> Shield { get; private set; }
 
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
-        public Stat<int> Nanites { get; } = new RealStat<int>();
+        public Stat<int> Units { get; private set; }
 
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
-        public Stat<int> Quicksilver { get; } = new RealStat<int>();
+        public Stat<int> Nanites { get; private set; }
+
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
+        public Stat<int> Quicksilver { get; private set; } 
 
         /// <summary>
         /// <inheritdoc/>
@@ -95,6 +100,12 @@ namespace NoMansSky.Api
             OnPlayerStateAquired += SetGcPlayerStateData;
             OnBaseAddressAquired += (address) => _baseAddress = address;
 
+            Health = new RealStat<int>();
+            Shield = new RealStat<int>();
+            Units = new RealStat<int>();
+            Nanites = new RealStat<int>();
+            Quicksilver = new RealStat<int>();
+
             Health.OnValueChanged = new SharedModEventHook<int>();
             InitBadHealthError();
 
@@ -124,11 +135,11 @@ namespace NoMansSky.Api
 
             state = (GcPlayerStateData*) _gcPlayerStateAddress;
 
-            (Shield as RealStat<int>)?.Init("Shield", address + 0xB0);
-            (Health as RealStat<int>)?.Init("Health", address + 0xB4);
-            (Units as RealStat<int>)?.Init("Units", address + 0xBC);
-            (Nanites as RealStat<int>)?.Init("Nanites", address + 0xC0);
-            (Quicksilver as RealStat<int>)?.Init("Quicksilver", address + 0xC4);
+            (Shield as RealStat<int>)?.Init("Shield", address + 0x1B0);
+            (Health as RealStat<int>)?.Init("Health", address + 0x1B4);
+            (Units as RealStat<int>)?.Init("Units", address + 0x1BC);
+            (Nanites as RealStat<int>)?.Init("Nanites", address + 0x1C0);
+            (Quicksilver as RealStat<int>)?.Init("Quicksilver", address + 0x1C4);
         }
 
         /// <summary>

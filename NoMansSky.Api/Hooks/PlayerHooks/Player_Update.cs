@@ -8,9 +8,16 @@ namespace NoMansSky.Api.Hooks.PlayerHooks
 {
     public unsafe class Player_Update : IModHook
     {
+        #region Hook stuff
+
         [Function(CallingConventions.Microsoft)]
         [UnmanagedFunctionPointer(CallingConvention.StdCall, CharSet = CharSet.Ansi)]
         public delegate void HookDelegate(long self, float deltaTime);
+        public static IFunction<HookDelegate> Function { get; set; }
+        public static IHook<HookDelegate> Hook;
+
+        #endregion
+
 
         /// <summary>
         /// ModEventHook that's called when the original function is called.
@@ -18,10 +25,11 @@ namespace NoMansSky.Api.Hooks.PlayerHooks
         /// <br/>The second parameter is delta time, the time between this frame and the last one.
         /// </summary>
         public static IModEventHook<long, float> ModEventHook { get; } = new SharedModEventHook<long, float>();
-        public static IFunction<HookDelegate> Function { get; set; }
-        public static IHook<HookDelegate> Hook;
         internal static bool firstRun = false;
 
+
+        EventParam<long> playerAddress = new EventParam<long>();
+        EventParam<float> deltaTime = new EventParam<float>();
         public string HookName => "Possible Player Update";
         private IModLogger logger;
 
@@ -35,10 +43,15 @@ namespace NoMansSky.Api.Hooks.PlayerHooks
             Hook = Function.Hook(CodeToExecute).Activate();
         }
 
-        EventParam<long> playerAddress = new EventParam<long>();
-        EventParam<float> deltaTime = new EventParam<float>();
         private void CodeToExecute(long self, float deltaTime)
         {
+            // Player failed to initialize. Can't run API code.
+            if (Game.Instance?.Player != null && !Game.Instance.Player.HasGcPlayerState)
+            {
+                Hook.OriginalFunction(self, deltaTime);
+                return;
+            }
+
             if (Game.Instance.Player.BaseAddress == 0)
                 Game.Instance.Player.OnBaseAddressAquired.Invoke(self);
 

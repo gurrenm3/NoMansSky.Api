@@ -8,18 +8,21 @@ namespace NoMansSky.Api.Hooks.GameHooks
 {
     public unsafe class Inventories_Update : IModHook
     {
+        #region Hook stuff
+
         [Function(CallingConventions.Microsoft)]
         [UnmanagedFunctionPointer(CallingConvention.StdCall, CharSet = CharSet.Ansi)]
         public delegate long HookDelegate(long a1, long a2, long a3, long* a4, long a5, int a6, long a7, int a8, char a9);
+        public static IFunction<HookDelegate> Function { get; set; }
+        public static IHook<HookDelegate> Hook;
+
+        #endregion
+
 
         /// <summary>
         /// ModEventHook that's called when the original function is called.
         /// </summary>
         public static IModEventHook ModEventHook { get; } = new SharedModEventHook();
-
-        public static IFunction<HookDelegate> Function { get; set; }
-        public static IHook<HookDelegate> Hook;
-
         public string HookName => "InventoriesGUI_Update";
         private IModLogger logger;
 

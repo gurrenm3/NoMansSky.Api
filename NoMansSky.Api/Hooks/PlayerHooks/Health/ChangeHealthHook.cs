@@ -10,32 +10,29 @@ namespace NoMansSky.Api.Hooks.PlayerHooks
     {
         #region Asm Hook Variables
 
-        // The line below creates the function hook while specifying which registers the function uses.
-        [Function(new FunctionAttribute.Register[1] { FunctionAttribute.Register.rsi }, FunctionAttribute.Register.rax, false)]
-        public delegate void OnChangedFunc1(int regenAmount);
-
         [Function(new FunctionAttribute.Register[1] { FunctionAttribute.Register.rax }, FunctionAttribute.Register.rax, false)]
         public delegate void OnChangedFunc2(int regenAmount);
 
-        public OnChangedFunc1 pattern1Func;
-        public OnChangedFunc2 pattern2Func;
-
-        // this needs to be static due to how the API auto-registers hooks
-        private IReverseWrapper<OnChangedFunc1> pattern1ReverseWrap;
         private IReverseWrapper<OnChangedFunc2> pattern2ReverseWrap;
-
-        private IAsmHook pattern1AsmHook;
+        public OnChangedFunc2 pattern2Func;
         private IAsmHook pattern2AsmHook;
 
         #endregion
 
+
+        /// <summary>
+        /// The stat this hook is tied to.
+        /// </summary>
+        private static Stat<int> Stat => Game.Instance?.Player?.Health;
+
         /// <summary>
         /// ModEventHook that's called when the original function is called.
         /// </summary>
-        public static IModEventHook<int> ModEventHook => Game.Instance.Player.Health.OnValueChanged;
+        public static IModEventHook<int> ModEventHook => Stat?.OnValueChanged;
 
-        public string HookName => "On Player Health Changed.";
+
         private EventParam<int> amountChangedParam = new EventParam<int>();
+        public string HookName => "On Player Health Changed.";
         private IModLogger logger;
 
         public void InitHook(IModLogger _logger, IReloadedHooks _hooks)
@@ -47,25 +44,7 @@ namespace NoMansSky.Api.Hooks.PlayerHooks
             // to change just those 2 lines. I was able to get it working by just changing the second line of ASM.
 
             logger = _logger;
-
-            pattern1Func = CodeToExecutePattern1;
             pattern2Func = CodeToExecutePattern2;
-
-            // pattern1 is no longer being used. Will remove later
-            /*string pattern1 = "01 B3 ? ? ? ? E8 ? ? ? ? 8B 8B ? ? ? ? 3B CF 48";
-            long pattern1Address = new Signature(pattern1).Scan();
-
-            string[] pattern1Asm =
-            {
-                $"{_use32}",
-                $"{_hooks.Utilities.GetAbsoluteCallMnemonics(pattern1Func, out pattern1ReverseWrap)}",
-
-                // line below is obsolete because the ASM hook is different now.
-                //$"add {_edi}, rax" // moves the return value of function below into edi, the register the game uses to change shield
-            };
-            pattern1AsmHook = _hooks.CreateAsmHook(pattern1Asm, pattern1Address, AsmHookBehaviour.ExecuteAfter).Activate();*/
-
-
 
             string pattern2 = "3B CF 48 8B 74 24 ? 0F";
             long pattern2Address = new Signature(pattern2).Scan() + 15; // this pattern is 15 bytes before the one we want so add offset.
@@ -83,23 +62,6 @@ namespace NoMansSky.Api.Hooks.PlayerHooks
             pattern2AsmHook = _hooks.CreateAsmHook(pattern2Asm, pattern2Address, AsmHookBehaviour.ExecuteAfter, hookLength: 15).Activate();
         }
 
-        private int healthBetweenHooks = 0;
-
-        /// <summary>
-        /// This code corrolates to the first ASM line that needed to be patched.
-        /// This changes how much should be regnenerated and fires the prefix ModEventHook.
-        /// </summary>
-        /// <param name="amountChanged"></param>
-        private void CodeToExecutePattern1(int amountChanged)
-        {
-            /*var currentHealth = Game.Instance.Player.Health.Value;
-            amountChangedParam.value = currentHealth + originalRegenAmount;
-            ModEventHook.Prefix.Invoke(amountChangedParam);*/
-
-            //healthBetweenHooks = amountChangedParam.value - currentHealth;
-            //Game.Instance.Player.Health.Value = amountChangedParam.value;
-        }
-
         /// <summary>
         /// 
         /// </summary>
@@ -109,7 +71,10 @@ namespace NoMansSky.Api.Hooks.PlayerHooks
             amountChangedParam.value = newCurrentHealth;
             ModEventHook.Prefix.Invoke(amountChangedParam);
 
-            Game.Instance.Player.Health.Value = amountChangedParam.value;
+            bool hasGcPlayerState = Game.Instance?.Player != null && Game.Instance.Player.HasGcPlayerState;
+            if (hasGcPlayerState)
+                Stat.Value = amountChangedParam.value;
+
             ModEventHook.Postfix.Invoke(amountChangedParam);
         }
     }

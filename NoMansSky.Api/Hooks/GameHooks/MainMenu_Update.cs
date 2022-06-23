@@ -7,17 +7,21 @@ namespace NoMansSky.Api.Hooks.GameHooks
 {    
     public unsafe class MainMenu_Update : IModHook
     {
+        #region Hook stuff
+
         [Function(CallingConventions.Microsoft)]
         [UnmanagedFunctionPointer(CallingConvention.StdCall, CharSet = CharSet.Ansi)]
         public delegate long HookDelegate(long self, float someValue);
+        public static IFunction<HookDelegate> Function { get; set; }
+        public static IHook<HookDelegate> Hook;
+
+        #endregion
+
 
         /// <summary>
         /// ModEventHook that's called when the original function is called.
         /// </summary>
         public static IModEventHook ModEventHook { get; } = new SharedModEventHook();
-        public static IFunction<HookDelegate> Function { get; set; }
-        public static IHook<HookDelegate> Hook;
-
         public string HookName => "MainMenu.Update";
         private IModLogger logger;
         private bool firstRun = true;

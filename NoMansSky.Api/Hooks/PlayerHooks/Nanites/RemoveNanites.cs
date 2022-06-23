@@ -23,10 +23,16 @@ namespace NoMansSky.Api.Hooks.PlayerHooks
 
         #endregion
 
+
+        /// <summary>
+        /// The stat this hook is tied to.
+        /// </summary>
+        private static Stat<int> Stat => Game.Instance?.Player?.Nanites;
+
         /// <summary>
         /// ModEventHook that's called when the original function is called.
         /// </summary>
-        public static IModEventHook<int> ModEventHook => Game.Instance.Player.Nanites.OnValueChanged;
+        public static IModEventHook<int> ModEventHook => Stat?.OnValueChanged;
 
         public string HookName => "Player Remove Nanites.";
         private EventParam<int> amountChangedParam = new EventParam<int>();
@@ -51,12 +57,21 @@ namespace NoMansSky.Api.Hooks.PlayerHooks
 
         private void CodeToExecutePattern1(int amountToRemove)
         {
-            int currentNanites = Game.Instance.Player.Nanites;
+            bool hasGcPlayerState = Game.Instance?.Player != null && Game.Instance.Player.HasGcPlayerState;
+
+            // Player failed to initialize. Can't do hooking.
+            if (Stat == null || !hasGcPlayerState)
+            {
+                logger.WriteLine($"Failed to remove {amountToRemove} nanites from the Player because the API failed to get the Player's address.", LogLevel.Error);
+                return;
+            }
+
+            int currentNanites = Stat.Value;
             int newNanites = currentNanites - amountToRemove;
             amountChangedParam.value = newNanites;
 
             ModEventHook.Prefix.Invoke(amountChangedParam);
-            Game.Instance.Player.Nanites.Value = amountChangedParam;            
+            Stat.Value = amountChangedParam;            
             ModEventHook.Postfix.Invoke(amountChangedParam);
         }
     }

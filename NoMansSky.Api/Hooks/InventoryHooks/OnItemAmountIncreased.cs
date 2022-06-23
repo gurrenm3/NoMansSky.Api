@@ -45,8 +45,8 @@ namespace NoMansSky.Api.Hooks.InventoryHooks
             string pattern1 = "01 70 18 E9 ? ? ? ?";
             long pattern1Address = new Signature(pattern1).Scan();
 
-            logger.WriteLine(pattern1Address);
-            logger.WriteLine(pattern1Address.ToString("X"));
+            /*logger.WriteLine(pattern1Address);
+            logger.WriteLine(pattern1Address.ToString("X"));*/
 
             string[] pattern1Asm =
             {

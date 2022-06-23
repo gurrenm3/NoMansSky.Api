@@ -8,20 +8,32 @@ namespace NoMansSky.Api.Hooks.PlayerHooks
 {
     public unsafe class AddNanites : IModHook
     {
+        # region Hook Stuff
+
         [Function(CallingConventions.Microsoft)]
         [UnmanagedFunctionPointer(CallingConvention.StdCall, CharSet = CharSet.Ansi)]
         public delegate long HookDelegate(long gcPlayerStateData, int amountToAdd);
+        public static IFunction<HookDelegate> Function { get; set; }
+        public static IHook<HookDelegate> Hook;
+
+        #endregion
+
+
+        /// <summary>
+        /// The stat this hook is tied to.
+        /// </summary>
+        private static Stat<int> Stat => Game.Instance?.Player?.Nanites;
 
         /// <summary>
         /// ModEventHook that's called when the original function is called.
         /// </summary>
-        public static IModEventHook<int> ModEventHook => Game.Instance.Player.Nanites.OnValueChanged;
-        public static IFunction<HookDelegate> Function { get; set; }
-        public static IHook<HookDelegate> Hook;
+        public static IModEventHook<int> ModEventHook => Stat?.OnValueChanged;
 
-        public string HookName => "Add Nanites";
+
         private EventParam<int> amountChangedParam = new EventParam<int>();
+        public string HookName => "Add Nanites";
         private IModLogger logger;
+
 
         public void InitHook(IModLogger _logger, IReloadedHooks _hooks)
         {
@@ -35,7 +47,13 @@ namespace NoMansSky.Api.Hooks.PlayerHooks
 
         private long CodeToExecute(long gcPlayerStateData, int amountToAdd)
         {
-            var currentNanites = Game.Instance.Player.Nanites;
+            bool hasGcPlayerState = Game.Instance?.Player != null && Game.Instance.Player.HasGcPlayerState;
+
+            // Player failed to initialize. Can't do hooking.
+            if (Stat == null || !hasGcPlayerState)
+                return Hook.OriginalFunction(gcPlayerStateData, amountToAdd);
+
+            var currentNanites = Stat.Value;
             var newNanites = currentNanites + amountToAdd;
             amountChangedParam.value = newNanites;
 

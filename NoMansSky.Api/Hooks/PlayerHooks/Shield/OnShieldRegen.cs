@@ -13,33 +13,38 @@ namespace NoMansSky.Api.Hooks.PlayerHooks
     {
         #region Asm Hook Variables
 
-        // The line below creates the function hook while specifying which registers the function uses.
+        // hook 1
         [Function(new FunctionAttribute.Register[1] { FunctionAttribute.Register.rdi }, FunctionAttribute.Register.rax, false)]
         public delegate void OnChangedFunc1(int regenAmount);
 
+        private IReverseWrapper<OnChangedFunc1> pattern1ReverseWrap;
+        public OnChangedFunc1 pattern1Func;
+        private IAsmHook pattern1AsmHook;
+
+        // hook 2
         [Function(CallingConventions.Microsoft)]
         public delegate void OnChangedFunc2();
-
-        public OnChangedFunc1 pattern1Func;
-        public OnChangedFunc2 pattern2Func;
-
-        // this needs to be static due to how the API auto-registers hooks
-        private IReverseWrapper<OnChangedFunc1> pattern1ReverseWrap;
         private IReverseWrapper<OnChangedFunc2> pattern2ReverseWrap;
-
-        private IAsmHook pattern1AsmHook;
+        public OnChangedFunc2 pattern2Func;
         private IAsmHook pattern2AsmHook;
 
         #endregion
 
+
+        /// <summary>
+        /// The stat this hook is tied to.
+        /// </summary>
+        private static Stat<int> Stat => Game.Instance?.Player?.Shield;
+
         /// <summary>
         /// ModEventHook that's called when the original function is called.
         /// </summary>
-        public static IModEventHook<int> ModEventHook => Game.Instance.Player.Shield.OnValueChanged;
+        public static IModEventHook<int> ModEventHook => Stat?.OnValueChanged;
 
         public string HookName => "On Player Shield Regenerated.";
         private EventParam<int> amountChangedParam = new EventParam<int>();
         private IModLogger logger;
+        bool shownErrorMessage = false; // tracks whether the "Bad Player Address" msg has shown.
 
         public void InitHook(IModLogger _logger, IReloadedHooks _hooks)
         {
@@ -95,11 +100,25 @@ namespace NoMansSky.Api.Hooks.PlayerHooks
         /// <param name="originalRegenAmount"></param>
         private void CodeToExecutePattern1(int originalRegenAmount)
         {
-            var currentShield = Game.Instance.Player.Shield.Value;
+            bool hasGcPlayerState = Game.Instance?.Player != null && Game.Instance.Player.HasGcPlayerState;
+
+            // Player failed to initialize. Can't do hooking.
+            if (Stat == null || !hasGcPlayerState)
+            {
+                if (!shownErrorMessage)
+                {
+                    logger.WriteLine("Failed to regenerate Player's shield because the API failed to get the Player's address.", LogLevel.Error);
+                    shownErrorMessage = true;
+                }
+
+                return;
+            }
+
+            var currentShield = Stat.Value;
             amountChangedParam.value = currentShield + originalRegenAmount;
             ModEventHook.Prefix.Invoke(amountChangedParam);
 
-            Game.Instance.Player.Shield.Value = amountChangedParam.value;
+            Stat.Value = amountChangedParam.value;
         }
 
         /// <summary>
@@ -108,8 +127,22 @@ namespace NoMansSky.Api.Hooks.PlayerHooks
         /// </summary>
         private void CodeToExecutePattern2()
         {
+            bool hasGcPlayerState = Game.Instance?.Player != null && Game.Instance.Player.HasGcPlayerState;
+
+            // Player failed to initialize. Can't do hooking.
+            if (Stat == null || !hasGcPlayerState)
+            {
+                if (!shownErrorMessage)
+                {
+                    logger.WriteLine("Failed to regenerate the Player's shield because the API failed to get the Player's address.", LogLevel.Error);
+                    shownErrorMessage = true;
+                }
+
+                return;
+            }
+
             var postFixValue = amountChangedParam.value;
-            Game.Instance.Player.Shield.Value = postFixValue;
+            Stat.Value = postFixValue;
             ModEventHook.Postfix.Invoke(amountChangedParam);
         }
     }

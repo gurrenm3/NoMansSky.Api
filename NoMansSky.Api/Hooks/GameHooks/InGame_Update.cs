@@ -8,21 +8,25 @@ namespace NoMansSky.Api.Hooks.GameHooks
 {
     public unsafe class InGame_Update : IModHook
     {
+        #region Hook stuff
+
         [Function(CallingConventions.Microsoft)]
         [UnmanagedFunctionPointer(CallingConvention.StdCall, CharSet = CharSet.Ansi)]
         public delegate double HookDelegate();
+        public static IFunction<HookDelegate> Function { get; set; }
+        public static IHook<HookDelegate> Hook;
+
+        #endregion
+
 
         /// <summary>
         /// ModEventHook that's called when the original function is called.
         /// </summary>
         public static IModEventHook ModEventHook { get; } = new SharedModEventHook();
-        public static IFunction<HookDelegate> Function { get; set; }
-        public static IHook<HookDelegate> Hook;
-        internal static bool firstRun = false;
-
+        internal static bool firstRun = false; // used to track the first time we enter the game.
         public string HookName => "InGame_Update";
-        private IModLogger logger;
         bool didInventoryUpdate = false;
+        private IModLogger logger;
 
         public void InitHook(IModLogger _logger, IReloadedHooks _hooks)
         {
