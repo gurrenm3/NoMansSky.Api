@@ -45,7 +45,8 @@ namespace NoMansSky.Api.Hooks
 
             var result = Hook.OriginalFunction(a1);
 
-            //a1 = 0; // this is for testing. MUST NOT BE IN RELEASE.
+            //a1 = 0; // for testing when it fails to get address. MUST NOT BE IN RELEASE.
+
             TrySetPlayerStateAddress(a1);
             isLoadingProfile = false;
             ModEventHook.Postfix.Invoke();
