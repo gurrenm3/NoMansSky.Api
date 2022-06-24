@@ -10,7 +10,9 @@ namespace NoMansSky.Api
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
-        public IRefiner SuitRefiner { get; set; }
+        public IRefiner SuitRefiner =>_suitRefiner;
+        private IRefiner _suitRefiner;
+
 
         private GcPlayerStateData* state;
         private IModLogger logger;
@@ -43,7 +45,7 @@ namespace NoMansSky.Api
 
                 var address = mbin.Address + 0x100;
                 logger.WriteLine($"Suit Refiner address: {address.ToString("X")}", LogLevel.CheatEngine);
-                SuitRefiner = new Refiner(address);
+                _suitRefiner = new Refiner(address);
             };
         }
 

@@ -17,8 +17,8 @@ namespace NoMansSky.Api
         /// <summary>
         /// TODO: This is probably the list of player stats.
         /// </summary>
-        [FieldOffset(0x20)]
-        public long stats;
+        [FieldOffset(0x180)]
+        public long RealityIndex;
 
         /// <summary>
         /// The player's current shield value.
@@ -76,5 +76,17 @@ namespace NoMansSky.Api
         /// </summary>
         [FieldOffset(0x7C0)] // was 600
         public long exosuitCargoAddress;
+
+        /// <summary>
+        /// Offset to the start of the MultiTool Inventory.
+        /// </summary>
+        [FieldOffset(0xA18)]
+        public long weaponInventory;
+
+        /// <summary>
+        /// Offset to the start of the Exosuit's cargo inventory.
+        /// </summary>
+        [FieldOffset(0x1378)]
+        public long freighterInventory;
     }
 }

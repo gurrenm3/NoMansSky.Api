@@ -8,7 +8,7 @@
         /// <summary>
         /// Represents the player's suit refiner.
         /// </summary>
-        public IRefiner SuitRefiner { get; protected set; }
+        public IRefiner SuitRefiner { get; }
 
         /// <summary>
         /// Returns the Exosuit's general inventory.

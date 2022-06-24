@@ -55,11 +55,11 @@ namespace NoMansSky.Api.Hooks.PlayerHooks
 
             var currentShield = Stat.Value;
             var damageFloored = Mathf.FloorToInt(damage);
-            var newShieldValue = currentShield + damageFloored;
+            var newShieldValue = currentShield - damageFloored;
             amountChangedParam.value = newShieldValue;
 
             ModEventHook.Prefix.Invoke(amountChangedParam);
-            float actualDamage = amountChangedParam.value - currentShield;
+            float actualDamage = currentShield - amountChangedParam.value;
 
             var result = Hook.OriginalFunction(self, actualDamage, a3, a4, a5, a6, a7);
             ModEventHook.Postfix.Invoke(amountChangedParam);
