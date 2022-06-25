@@ -77,4 +77,10 @@ The purpose of this library is to help mod makers create incredibly diverse and 
     <Folder Include="Game Classes\Items\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="libMBIN">
+      <HintPath>$(RELOADEDIIMODS)\NoMansSky.Api\libMBIN.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>
