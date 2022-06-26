@@ -8,11 +8,11 @@
         /// <summary>
         /// The name of this MBIN File.
         /// </summary>
-        public string Name { get; set; }
+        public string Name { get; init; }
 
         /// <summary>
         /// The address to the instance of this MBIN file.
         /// </summary>
-        public long Address { get; set; }
+        public long Address { get; init; }
     }
 }

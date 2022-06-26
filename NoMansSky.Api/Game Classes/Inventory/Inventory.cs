@@ -1,4 +1,5 @@
-﻿using Reloaded.ModHelper;
+﻿using libMBIN.NMS.GameComponents;
+using Reloaded.ModHelper;
 using System;
 
 namespace NoMansSky.Api

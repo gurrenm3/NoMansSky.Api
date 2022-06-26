@@ -84,6 +84,7 @@ namespace NoMansSky.Api
 
 
             Logger = new ModLogger(_modConfig, _logger);
+            MemoryManager mgr = new MemoryManager(Logger);// init manager.
             gameInstance = new Game(Logger);
             gameLoop = gameInstance.GameLoop;
 
