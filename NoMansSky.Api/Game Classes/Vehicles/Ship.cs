@@ -13,9 +13,15 @@ namespace NoMansSky.Api
         public Stat<int> Health { get; set; }
 
         /// <summary>
+        /// NOT IMPLEMENTED
+        /// <br/><br/>
         /// <inheritdoc/>
         /// </summary>
-        public Stat<int> Shield { get; set; }
+        public Stat<int> Shield 
+        { 
+            get => throw new System.NotImplementedException(); 
+            set => throw new System.NotImplementedException(); 
+        }
 
         /// <summary>
         /// Creates a new instance of this class.
@@ -25,8 +31,8 @@ namespace NoMansSky.Api
             Health = new RealStat<int>();
             Health.OnValueChanged = new SharedModEventHook<int>();
 
-            Shield = new RealStat<int>();
-            Shield.OnValueChanged = new SharedModEventHook<int>();
+            /*Shield = new RealStat<int>();
+            Shield.OnValueChanged = new SharedModEventHook<int>();*/
 
             Game.Instance.Player.OnPlayerStateAquired += OnGcPlayerStateAcquired;
         }

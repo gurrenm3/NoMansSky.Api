@@ -1,4 +1,5 @@
-﻿using Reloaded.ModHelper;
+﻿using libMBIN.NMS.GameComponents;
+using Reloaded.ModHelper;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -42,7 +43,32 @@ namespace NoMansSky.Api
         /// <returns></returns>
         public IMBin GetMbin(string mbinName)
         {
-            return loadedMBIN?.FirstOrDefault(mbin => mbin?.Name == mbinName);
+            mbinName = mbinName.ToLower();
+            foreach (var mbin in loadedMBIN)
+            {
+                var currentMbinName = mbin.Name.ToLower();
+                if (mbinName == currentMbinName || mbinName == currentMbinName.Insert(0, "gc") || mbinName.Insert(0, "gc") == currentMbinName || mbinName == currentMbinName.Insert(0, "cgc") || mbinName.Insert(0, "cgc") == currentMbinName)
+                {
+                    return mbin;
+                }
+            }
+
+            return null;
+
+
+
+            /*var mbin = loadedMBIN?.FirstOrDefault(mbin => mbin?.Name.ToLower() == mbinName);
+            if (mbin == null)
+            {
+                mbinName = mbinName.Insert(0, "gc"); // try adding gc to the front 
+                mbin = loadedMBIN?.FirstOrDefault(mbin => mbin?.Name.ToLower() == mbinName);
+            }
+            if (mbin == null)
+            {
+                mbinName = mbinName.Insert(0, "c"); // try adding c to the front so it's cgc
+                mbin = loadedMBIN?.FirstOrDefault(mbin => mbin?.Name.ToLower() == mbinName);
+            }
+            return mbin;*/
         }
     }
 }

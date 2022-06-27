@@ -13,7 +13,7 @@ namespace NoMansSky.Api
         public Stat<int> Health { get; set; }
 
         /// <summary>
-        /// TODO: The Shield stat of the ship.
+        /// The Shield stat of the ship.
         /// </summary>
         public Stat<int> Shield { get; set; }
     }
