@@ -47,7 +47,6 @@ This project contains all of the code that can be published for use in other mod
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="Extensions\" />
 	  <Folder Include="Interfaces\Items\" />
 	</ItemGroup>
 

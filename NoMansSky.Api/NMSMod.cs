@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json;
-using Reloaded.Hooks.Definitions;
+﻿using Reloaded.Hooks.Definitions;
 using Reloaded.Mod.Interfaces;
 using Reloaded.ModHelper;
 using System;
