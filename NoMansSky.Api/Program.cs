@@ -88,7 +88,6 @@ namespace NoMansSky.Api
             Logger = new ModLogger(_modConfig, _logger);
 
             // memory manager stuff
-            MemoryManager_Old mgr = new MemoryManager_Old(Logger);// init manager.
             memoryMgr = new MemoryManager();
             memoryMgr.AddConverter(new NMSStringConverter(memoryMgr), alwaysRegister: true);
             memoryMgr.AddConverter(new ArrayConverter(memoryMgr), alwaysRegister: true);
