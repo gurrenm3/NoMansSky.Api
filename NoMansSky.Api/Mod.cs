@@ -40,7 +40,7 @@ namespace NoMansSky.Api
         {
             if (Keyboard.IsPressed(Key.UpArrow))
             {
-                
+                Logger.WriteLine("Up arrow pressed");
             }
         }
 
