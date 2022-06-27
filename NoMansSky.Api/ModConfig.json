@@ -2,7 +2,7 @@
   "ModId": "NoMansSky.Api",
   "ModName": "No Man\u0027s Sky API",
   "ModAuthor": "Gurrenm3",
-  "ModVersion": "1.0.1",
+  "ModVersion": "1.0.2",
   "ModDescription": "An API for modding No Man\u0027s Sky",
   "ModDll": "NoMansSky.Api.dll",
   "ModIcon": "Icon.png",
