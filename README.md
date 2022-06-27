@@ -8,10 +8,15 @@ Built with [Reloaded II](https://github.com/Reloaded-Project), an extremely powe
 **IMPORTANT:**
 This project is a work in progress and may have breaking changes in the future.
 
+-----
+
 ## What is this project?
 This project is an API for modding No Mans Sky. It's purpose is to help mod makers create crazy powerful mods that would otherwise be very impossible. At a high level, all this project does is use memory modding techniques and hooking to expose No Mans Sky to a C# API that other modders can use.
 
+-----
+
 ## Current Features
+- Complete control of all 20 Global MBin files
 - Several events like OnMainMenu, OnProfileSelected, OnGameJoined, etc.
 - The NMS Game Loop is hooked so you can run your code OnUpdate, once every frame.
 - Ability to get/set basic player stats: Units, Nanites, Quicksilver, Health, Shield.
@@ -36,19 +41,52 @@ This project is an API for modding No Mans Sky. It's purpose is to help mod make
 - Every feature has been meticulously planned to guarantee maximum ease of use without impacting performance.
    - All NMS API code will also work seamlessly with multiple mods active. It's designed to prevent modders from accidentally breaking things for the player or other mods.
 
+-----
+
 ## How to get started?
-In order to mod NMS in this diverse way, we must use Memory Modding techniques. That's programmer talk for "it's damn difficult". We'd normally have to do **a ton** of ground work just to make our mods barely possible. Luckily, a suite of amazing Memory Modding tools exists that does all of the work for us. This set of tools is called [Reloaded2](https://github.com/Reloaded-Project). These tools are truly powerful and incredibly well made, which is why this API depends on them. To get started, you will need to:
+In order to mod NMS in this new and diverse way, we must use Memory Modding techniques. That's programmer talk for "it's damn difficult". We'd normally have to do a ton of ground work just to make our mods barely possible. Luckily, a suite of amazing Memory Modding tools exists that does all of the work for us. This set of tools is called Reloaded2. These tools are truly powerful and incredibly well made, which is why this API depends on them. To get started, you will need to do either of the following:
 
-1. Download [Steamless.exe](https://github.com/atom0s/Steamless/releases/latest). This is needed to remove SteamDRM from No Mans Sky.
-2. Run Steamless on NMS.exe, located in the ``Binaries`` folder of the No Man's Sky game directory. Ex: ``Steam\steamapps\common\No Man's Sky\Binaries``. Basically, just browse for ``NMS.exe`` and then click ``Unpack File`` at the bottom of Steamless
-4. Download the latest version of the [Reloaded2 Mod Manager](https://github.com/Reloaded-Project/Reloaded-II/releases/latest). The installer is recommended since it does the work for you.
-5. Open up the Reloaded Mod Manager. On the left side of the screen is a ``+`` plus button. Click that to add a game to the manager. Browse for the unpacked EXE file created by Steamless: ``NMS.exe.unpacked.exe``. It will be in the same ``Binaries`` folder as before. It is now added to the mod manager.
-6. Download the latest version of NoMansSky.Api, which can be found [Here](https://github.com/gurrenm3/NoMansSky.Api/releases/latest)
-7. Extract the zip file to your Reloaded2 Mod's folder. It's usually located on your Desktop. Ex: ``C:\Users\thomas\Desktop\Reloaded-II\Mods``. Make sure it extracts so everything is inside of the ``NoMansSky.Api`` folder. Ex: ``C:\Users\thomas\Desktop\Reloaded-II\Mods\NoMansSky.Api``
-8. You're ready to play No Mans Sky with mods!
+__For Mod Developers__:
 
-## For Developers
-If you want to make mods with NoMansSky.Api, you'll need to follow all of the same steps above. Then all you need to do is use this [Mod Template](https://github.com/gurrenm3/NoMansSky.ModTemplate) to make your first mod! It's as easy as clicking the green "Use This Template" button at the top of the page.
+A. Remove DRM from NMS.exe for debugging/breakpoint functionality etc.
+
+1) Download Steamless.exe. This is needed to remove SteamDRM from No Mans Sky. (This will allow for adding breakpoints in your custom code for testing/debugging)
+2) Run Steamless on NMS.exe, located in the Binaries folder of the No Man's Sky game directory. Ex: `Steam\steamapps\common\No Man's Sky\Binaries`. Basically, just browse for NMS.exe and then click Unpack File at the bottom of Steamless.
+3) You can run Steamless with the default options selected, it will not affect your mod in anyway.
+
+B. Install Reloaded2 Mod Manager
+1) Download the latest version of the Reloaded2 Mod Manager. The installer is recommended since it does all the work for you. Link to installer: https://github.com/Reloaded-Project/Reloaded-II/releases/
+2) Open up the Reloaded Mod Manager. On the left side of the screen is a + plus button. Click that to add a game to the manager. Browse for the unpacked EXE file created by Steamless: `NMS.exe.unpacked.exe`. It will be in the same Binaries folder as before. It is now added to the mod manager.
+
+C. Get the NoMansSky.Api
+1) All mods made with Reloaded2 will require the use of NoMansSky.Api. It comes with all the tools you'll need to make your mods. You can get the latest version [Here](https://github.com/gurrenm3/NoMansSky.Api/releases/latest). On this page you will see a section titled "Assets". This is where you'll download the API. You'll see a few different files to choose from. The only one you need is the one named "NoMansSky.Api.zip". Click that and download it, you can ignore the rest.
+2) Extract the zip file to your Reloaded2 Mod's folder. It's usually located on your Desktop. `Ex: C:\Users\Thomas\Desktop\Reloaded-II\Mods`. Make sure it extracts so everything is inside of the NoMansSky.Api folder. Ex: `C:\Users\Thomas\Desktop\Reloaded-II\Mods\NoMansSky.Api`. __**NOTE**__: Make sure you didn't accidentally extract it like this "C:\Users\Thomas\Desktop\Reloaded-II\Mods\NoMansSky.Api\**NoMansSky.Api**". It can't be inside of 2 "NoMansSky.Api" folders. 
+3) If NoMansSky.Api isn't loading at all when you run the game, try the following steps: In the Reloaded2 Mod Manager window, click the button with 3 gears on it, select Api from the list and make sure it is selected for No Man's Sky. Image for reference: https://imgur.com/a/TuZuPmU
+4) You're ready to play with and develop mods for No Mans Sky!
+5) To make your own mods you can use the NoMansSky Mod Template. It's a template or "starter mod" is already fully setup and ready to be used for your own projects. [You can download the Mod Template here](https://github.com/gurrenm3/NoMansSky.ModTemplate)! Using it is as easy as clicking the green "Use This Template" button at the top of the page.
+
+
+
+__For Players:__
+
+A. Install Reloaded2 Mod Manager
+1) Download the latest version of the Reloaded2 Mod Manager. The installer is recommended since it does all the work for you. Link to installer: https://github.com/Reloaded-Project/Reloaded-II/releases/
+2) Open up the Reloaded Mod Manager. On the left side of the screen is a + plus button. Click that to add a game to the manager. Browse for the No Mans Sky exe file, `NMS.exe`. It is located in the Binaries folder of the No Man's Sky game directory. Ex: `Steam\steamapps\common\No Man's Sky\Binaries`. Once you select the EXE it is now added to the mod manager.
+
+B. Get the NoMansSky.Api
+1) All mods made with Reloaded2 will require the use of NoMansSky.Api. It comes with all the tools that modders need to create their mods. You can get the latest version [Here](https://github.com/gurrenm3/NoMansSky.Api/releases/latest). On this page you will see a section titled "Assets". This is where you'll download the API. You'll see a few different files to choose from. The only one you need is the one named `NoMansSky.Api.zip`. Click that and download it, you can ignore the rest.
+2) Extract the zip file to your Reloaded2 Mod's folder. It's usually located on your Desktop. `Ex: C:\Users\Thomas\Desktop\Reloaded-II\Mods`. Make sure it extracts so everything is inside of the `NoMansSky.Api folder. Ex: C:\Users\Thomas\Desktop\Reloaded-II\Mods\NoMansSky.Api`. __**NOTE**__: Make sure you didn't accidentally extract it like this "C:\Users\Thomas\Desktop\Reloaded-II\Mods\NoMansSky.Api\**NoMansSky.Api**". It can't be inside of 2 "NoMansSky.Api" folders. 
+
+C. Download the mods that use the Api.
+1) Download the latest version of any mod that uses the NoMansSky.Api. Lets call it "Mod_made_using_the_API"
+2) Extract the zip file to your Reloaded2 Mod's folder, located on your Desktop. Ex: `C:\Users\Thomas\Desktop\Reloaded-II\Mods`. Make sure it extracts so everything is inside of the "Mod_made_using_the_API" folder ( the folder name should be the name of the mod) Ex: `C:\Users\Thomas\Desktop\Reloaded-II\Mods\Mod_made_using_the_API`. Again, make sure the mod isn't in the "Mod_made_using_the_API" folder twice, like mentioned above with the Api.
+3) Repeat for however many mods you want to use.
+4) Make sure the API and the mods are selected in the Reloaded2 Mod Manager window, else the game wont use the mods nor the API.
+5) If your mod isn't loading at all when you run the game, try the following steps: In the Reloaded2 Mod Manager window, click the button with 3 gears on it, select the mod name from the list and make sure it is selected for No Man's Sky. Image for reference: https://imgur.com/a/TuZuPmU
+
+You're ready to play No Mans Sky with mods!
+
+-----
 
 ## Planned features
 Some features that are coming soon are:
