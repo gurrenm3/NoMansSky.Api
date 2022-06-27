@@ -11,19 +11,19 @@ using System.Threading.Tasks;
 
 namespace NoMansSky.Api
 {
-    public unsafe class MemoryManager
+    public unsafe class MemoryManager_Old
     {
-        public static MemoryManager Instance => _instance;
-        private static MemoryManager _instance;
+        public static MemoryManager_Old Instance => _instance;
+        private static MemoryManager_Old _instance;
         private static List<IMBin> RegisteredMbins => Game.Instance?.MBinManager?.GetAllMBIN();
         private static IModLogger logger;
 
-        public MemoryManager(IModLogger logger)
+        public MemoryManager_Old(IModLogger logger)
         {
             if (_instance != null)
                 return;
 
-            MemoryManager.logger = logger;
+            MemoryManager_Old.logger = logger;
             _instance = this;
         }
 

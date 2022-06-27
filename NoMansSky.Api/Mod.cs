@@ -1,4 +1,5 @@
 ﻿using libMBIN;
+using libMBIN.NMS;
 using libMBIN.NMS.GameComponents;
 using libMBIN.NMS.Globals;
 using libMBIN.NMS.Toolkit;
@@ -8,6 +9,7 @@ using Reloaded.Hooks.ReloadedII.Interfaces;
 using Reloaded.Mod.Interfaces;
 using Reloaded.ModHelper;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -34,66 +36,158 @@ namespace NoMansSky.Api
             Game.ModsWarning.Disable();
             Game.MBinManager.OnMBinLoaded += OnMbinLoaded;
 
+
+
             
 
-            /*Game.OnProfileSelected += () =>
+
+
+            Game.OnProfileSelected += () =>
             {
                 var address = Player.GcPlayerStateAddress;
-                var inventoryAddress = address += 0x310;
+                var inventoryAddress = address += 0x568;
 
                 inventoryAddress += 0x30; // Offset of 30 because there are 30 bytes between each item 
-                var item = MemoryManager.ReadObject<libMBIN.NMS.GameComponents.GcInventoryElement>(inventoryAddress);
-                if (item == null)
+                var mgr = new MemoryManager();
+                var listType = typeof(List<libMBIN.NMS.GameComponents.GcInventoryElement>);
+                IList inventory = (IList)mgr.GetValue(listType, inventoryAddress);
+                if (inventory == null)
                 {
                     Logger.WriteLine("Failed to load Item from memory");
                     return;
                 }
 
-                Logger.WriteLine($"--------------------------------------");
-                Logger.WriteLine($"item.id: {item.Id.Value}");
-                Logger.WriteLine($"item.amount: {item.Amount}");
-                Logger.WriteLine($"item.maxAmount: {item.MaxAmount}");
-                Logger.WriteLine($"item.itemType: {item.Type.InventoryType}");
-                Logger.WriteLine($"item.index: ({item.Index.X}, {item.Index.Y})");
-            };*/
+                Logger.WriteLine($"Inventory Count: {inventory.Count}");
+
+                foreach (libMBIN.NMS.GameComponents.GcInventoryElement item in inventory)
+                {
+                    Logger.WriteLine($"--------------------------------------");
+                    Logger.WriteLine($"item.id: {item.Id.Value}");
+                    Logger.WriteLine($"item.amount: {item.Amount}");
+                    Logger.WriteLine($"item.maxAmount: {item.MaxAmount}");
+                    Logger.WriteLine($"item.itemType: {item.Type.InventoryType}");
+                    Logger.WriteLine($"item.index: ({item.Index.X}, {item.Index.Y})");
+                }
+            };
         }
 
         private void OnMbinLoaded(IMBin mBin)
         {
+            /*// enum testing
+
+            //var type = typeof(TkCurveType.CurveEnum);
+            var type = typeof(GcAudioWwiseEvents.AkEventEnum);
+            var underlyingType = type.GetEnumUnderlyingType();
+
+            //var value = GcAudioWwiseEvents.AkEventEnum.ABANDONED_DOOR_UNLOCK;
+            var enumId = 642510125u;
+
+            foreach (var item in Enum.GetValues(type))
+            {
+                var enumAsUnderlyingType = Convert.ChangeType(item, underlyingType);
+                if (enumAsUnderlyingType.Equals(enumId))
+                {
+                    //return Convert.ChangeType(value, enumType);
+                    Logger.WriteLine(item);
+                }
+            }
+
+            Logger.WriteLine("Done");
+            //Logger.WriteLine(result);
+            return;*/
+
+
+
+            var mgr = new MemoryManager();
+
+
+            // all mbin
+            /*if (!mBin.Name.EndsWith("Globals"))
+                return;
+            long currentAddress = mBin.Address;
+            Logger.WriteLine($"Address of {mBin.Name}: {currentAddress.ToString("X")}");
+
+            var asm = typeof(GcAISpaceshipGlobals).Assembly;
+            var globalTypes = asm.GetTypes().Where(t => t.Name.ToLower().EndsWith("globals"));
+            var desiredType = globalTypes.FirstOrDefault(t => t.Name.Remove(0, 2) == mBin.Name);
+            if (desiredType == null)
+                return;
+
+            var global = mgr.GetValue(desiredType, mBin.Address);
+            Logger.WriteLine($"Loaded {mBin.Name}");*/
+
+
+            // single mbin
             var desiredType = typeof(GcAISpaceshipGlobals);
             if (mBin.Name != desiredType.Name.Remove(0, 2))
                 return;
+            Logger.WriteLine(desiredType == null);
+            if (desiredType == null)
+                return;
 
-            long currentAddress = mBin.Address;
-            Logger.WriteLine($"Address of {desiredType.Name}: {currentAddress.ToString("X")}");
-
-            var global = MemoryManager.ReadObject<GcAISpaceshipGlobals>(mBin.Address);
+            var global = (GcAISpaceshipGlobals)mgr.GetValue(desiredType, mBin.Address);
+            Logger.WriteLine($"Loaded {mBin.Name}");
 
 
-
-
-            return;
-            PrintFields(desiredType, currentAddress);
-
-            /*double totalTime = 0;
-            int count = 5;
-            for (int i = 0; i < count; i++)
+            foreach (var field in global.GetType().GetFields())
             {
-                Logger.WriteLine("Starting...");
-                Stopwatch s = new Stopwatch();
-                s.Start();
-                PrintFields(desiredType, currentAddress);
-                s.Stop();
-                Logger.WriteLine(s.Elapsed.TotalMilliseconds);
-                totalTime += s.Elapsed.TotalMilliseconds;
+                PrintFields(field.FieldType, field.GetValue(global));
             }
-            Logger.WriteLine($"Average time after {count} runs is: {totalTime / count}");*/
+        }
 
-            Logger.WriteLine("Done");
+        private void PrintFields(Type fieldType, object fieldValue)
+        {
+            if (fieldType.IsPrimitive || fieldType == typeof(decimal))
+            {
+                string msg = string.Format("name= {0, -48} value= {1,-10}", fieldType.Name, fieldValue);
+                Logger.WriteLine(msg);
+            }
+            else if (fieldType.IsEnum)
+            {
+                var value = Enum.GetValues(fieldType).GetValue((int)fieldValue);
+                string msg = string.Format("name= {0, -48} value= {1,-10}", fieldType.Name, value);
+                Logger.WriteLine(msg);
+            }
+            else if (fieldType == typeof(string))
+            {
+                string msg = string.Format("name= {0, -48} value= {1,-10}", fieldType.Name, fieldValue);
+                Logger.WriteLine(msg);
+            }
+            else if (fieldType.IsAssignableTo(typeof(INMSString)))
+            {
+                string value = ((INMSString)fieldValue).StringValue();
+                string msg = string.Format("name= {0, -48} value= {1,-10}", fieldType.Name, value);
+                Logger.WriteLine(msg);
+            }
+            else if (fieldType.IsArray)
+            {
+                Array array = (Array)fieldValue;
+                foreach (var item in array)
+                {
+                    PrintFields(item.GetType(), item);
+                }
+            }
+            else if (fieldType.IsAssignableTo(typeof(IList)))
+            {
+                IList list = (IList)fieldValue;
+                foreach (var item in list)
+                {
+                    PrintFields(item.GetType(), item);
+                }
+            }
+            else if (fieldType.IsAssignableTo(typeof(NMSTemplate)))
+            {
+                NMSTemplate template = (NMSTemplate)fieldValue;
+                foreach (var field in template.GetType().GetFields())
+                {
+                    PrintFields(field.FieldType, field.GetValue(fieldValue));
+                }
+            }
         }
 
 
-        private void PrintFields(Type classType, long baseAddress)
+
+        /*private void PrintFields(Type classType, long baseAddress)
         {
             var fields = classType.GetFields();
             for (int i = 0; i < fields.Length; i++)
@@ -113,6 +207,7 @@ namespace NoMansSky.Api
                         continue;
 
                     var array = new object[arrSize.Value];
+                    array.SetValue(arrayType, offset);
 
                     long currentAddress = baseAddress + offset;
                     for (int j = 0; j < arrSize.Value; j++)
@@ -146,18 +241,18 @@ namespace NoMansSky.Api
 
                 // it's a complex datatype, likely has it's own fields.
                 // The code below was used to prevent stack overflow from recursion.
-                /*MemoryData data = new MemoryData()
+                *//*MemoryData data = new MemoryData()
                 {
                     address = baseAddress + offset,
                     field = field,
                 };
-                leftover.Add(data); */
+                leftover.Add(data); *//*
 
 
 
                 PrintFields(fieldType, baseAddress + offset); // it must be a class. Search it for fields.
             }
-        }
+        }*/
 
         public object GetValue(Type dataType, long address)
         {

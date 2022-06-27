@@ -1,4 +1,5 @@
-﻿using NoMansSky.Api.Configuration;
+﻿using libMBIN.NMS;
+using NoMansSky.Api.Configuration;
 using NoMansSky.Api.Configuration.Implementation;
 using NoMansSky.Api.Hooks;
 using Reloaded.Hooks.ReloadedII.Interfaces;
@@ -54,6 +55,7 @@ namespace NoMansSky.Api
 
         private IGame gameInstance = null!;
         private IGameLoop gameLoop = null!;
+        private IMemoryManager memoryMgr = null!;
 
         /// <summary>
         /// Entry point for your mod.
@@ -84,7 +86,16 @@ namespace NoMansSky.Api
 
 
             Logger = new ModLogger(_modConfig, _logger);
-            MemoryManager mgr = new MemoryManager(Logger);// init manager.
+
+            // memory manager stuff
+            MemoryManager_Old mgr = new MemoryManager_Old(Logger);// init manager.
+            memoryMgr = new MemoryManager();
+            memoryMgr.AddConverter(new NMSStringConverter(memoryMgr), alwaysRegister: true);
+            memoryMgr.AddConverter(new ArrayConverter(memoryMgr), alwaysRegister: true);
+            memoryMgr.AddConverter(new ListConverter(memoryMgr), alwaysRegister: true);
+            memoryMgr.AddConverter(new NMSTemplateConverter(memoryMgr), alwaysRegister: true);
+
+
             gameInstance = new Game(Logger);
             gameLoop = gameInstance.GameLoop;
 
