@@ -28,7 +28,11 @@ namespace NoMansSky.Api
 
         private void OnMainMenu()
         {
-            
+            var memoryMgr = new MemoryManager();
+            float currentRunSpeed = memoryMgr.GetValue<float>("GcPlayerGlobals.GroundRunSpeed");
+
+            // example of settng the run speed to twice it's original value.
+            memoryMgr.SetValue("GcPlayerGlobals.GroundRunSpeed", currentRunSpeed * 2);
         }
 
 
