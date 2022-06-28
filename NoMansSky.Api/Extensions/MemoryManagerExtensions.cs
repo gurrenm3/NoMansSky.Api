@@ -1,6 +1,5 @@
 ﻿using Reloaded.ModHelper;
 using System;
-using System.Security.Cryptography;
 using System.Threading.Tasks;
 
 namespace NoMansSky.Api
@@ -13,14 +12,18 @@ namespace NoMansSky.Api
         private static MemoryManagerCache cache = new MemoryManagerCache();
 
         /// <summary>
-        /// Sets an object in memory at the provided address on a separate thread and returns when its done.
-        /// Use this for big objects so you don't lock the game.
-        /// <br/><br/>Takes a full path to the object you want to set.
-        /// <br/>Example: pathToValue = "GcPlayerGlobals.GroundRunSpeed"
+        /// Sets a value in memory at the provided path. Path must be the full location of the object you want
+        /// to set, separated by periods. Works on nested objects.
+        /// <br/>Example Path: "GcPlayerGlobals.GroundRunSpeed"
+        /// 
+        /// <br/><br/>Runs on a separate thread and returns when it's done.
+        /// It's recommended that you use this for bigger objects so you don't lock the game while
+        /// the value is being set.
+        /// <br/>Note: Since this runs on a separate thread it will not be synced with game loop.
         /// </summary>
         /// <param name="manager"></param>
-        /// <param name="pathToValue"></param>
-        /// <param name="valueToSet"></param>
+        /// <param name="pathToValue">The full path to the object you want to set, separated by periods.</param>
+        /// <param name="valueToSet">The value to be assigned to the provided path.</param>
         /// <returns></returns>
         public static async Task SetValueAsync(this MemoryManager manager, string pathToValue, object valueToSet)
         {
@@ -32,12 +35,13 @@ namespace NoMansSky.Api
         }
 
         /// <summary>
-        /// Sets an object in memory at the provided address. Takes a full path to the object you want to set.
-        /// <br/>Example: pathToValue = "GcPlayerGlobals.GroundRunSpeed"
+        /// Sets a value in memory at the provided path. Path must be the full location of the object you want
+        /// to set, separated by periods. Works on nested objects.
+        /// <br/>Example Path: "GcPlayerGlobals.GroundRunSpeed"
         /// </summary>
         /// <param name="manager"></param>
-        /// <param name="pathToValue"></param>
-        /// <param name="valueToSet"></param>
+        /// <param name="pathToValue">The full path to the object you want to set, separated by periods.</param>
+        /// <param name="valueToSet">The value to be assigned to the provided path.</param>
         public static void SetValue(this MemoryManager manager, string pathToValue, object valueToSet)
         {
             if (string.IsNullOrEmpty(pathToValue))
@@ -60,13 +64,17 @@ namespace NoMansSky.Api
 
 
         /// <summary>
-        /// Reads an object in memory on a separate thread and returns when its done.
-        /// Use this for big objects so you don't lock the game.
-        /// <br/><br/>Takes a full path to the object you want to set.
-        /// <br/>Example: pathToValue = "GcPlayerGlobals.GroundRunSpeed"
+        /// Returns the value that is stored in memory at the provided path. Path must be the full location 
+        /// of the object you want to get, separated by periods. Works on nested objects.
+        /// <br/>Example Path: "GcPlayerGlobals.GroundRunSpeed"
+        /// 
+        /// <br/><br/>Runs on a separate thread and returns when it's done.
+        /// It's recommended that you use this for bigger objects so you don't lock the game while
+        /// the value is being retrieved.
+        /// <br/>Note: Since this runs on a separate thread it will not be synced with game loop.
         /// </summary>
         /// <param name="manager"></param>
-        /// <param name="pathToValue"></param>
+        /// <param name="pathToValue">The full path to the object you want to set, separated by periods.</param>
         /// <returns></returns>
         public static async Task<object> GetValueAsync(this MemoryManager manager, string pathToValue)
         {
@@ -78,14 +86,18 @@ namespace NoMansSky.Api
         }
 
         /// <summary>
-        /// Reads an object in memory on a separate thread and returns when its done.
-        /// Use this for big objects so you don't lock the game.
-        /// <br/><br/>Takes a full path to the object you want to set.
-        /// <br/>Example: pathToValue = "GcPlayerGlobals.GroundRunSpeed"
+        /// Returns the value that is stored in memory at the provided path. Path must be the full location 
+        /// of the object you want to get, separated by periods. Works on nested objects.
+        /// <br/>Example Path: "GcPlayerGlobals.GroundRunSpeed"
+        /// 
+        /// <br/><br/>Runs on a separate thread and returns when it's done.
+        /// It's recommended that you use this for bigger objects so you don't lock the game while
+        /// the value is being retrieved.
+        /// <br/>Note: Since this runs on a separate thread it will not be synced with game loop.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="manager"></param>
-        /// <param name="pathToValue"></param>
+        /// <param name="pathToValue">The full path to the object you want to set, separated by periods.</param>
         /// <returns></returns>
         public static async Task<T> GetValueAsync<T>(this MemoryManager manager, string pathToValue)
         {
@@ -99,11 +111,12 @@ namespace NoMansSky.Api
 
 
         /// <summary>
-        /// Reads an object in memory. Takes a full path to the object you want to set.
-        /// <br/>Example: pathToValue = "GcPlayerGlobals.GroundRunSpeed"
+        /// Returns the value that is stored in memory at the provided path. Path must be the full location 
+        /// of the object you want to get, separated by periods. Works on nested objects.
+        /// <br/><br/>Example Path: "GcPlayerGlobals.GroundRunSpeed"
         /// </summary>
         /// <param name="manager"></param>
-        /// <param name="pathToValue"></param>
+        /// <param name="pathToValue">The full path to the object you want to set, separated by periods.</param>
         /// <returns></returns>
         public static object GetValue(this MemoryManager manager, string pathToValue)
         {
@@ -119,12 +132,13 @@ namespace NoMansSky.Api
         }
 
         /// <summary>
-        /// Reads an object in memory. Takes a full path to the object you want to set.
-        /// <br/>Example: pathToValue = "GcPlayerGlobals.GroundRunSpeed"
+        /// Returns the value that is stored in memory at the provided path. Path must be the full location 
+        /// of the object you want to get, separated by periods. Works on nested objects.
+        /// <br/><br/>Example Path: "GcPlayerGlobals.GroundRunSpeed"
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="manager"></param>
-        /// <param name="pathToValue"></param>
+        /// <param name="pathToValue">The full path to the object you want to set, separated by periods.</param>
         /// <returns></returns>
         public static T GetValue<T>(this MemoryManager manager, string pathToValue)
         {

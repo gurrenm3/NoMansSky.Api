@@ -57,7 +57,11 @@ namespace NoMansSky.Api
         long playerGlobalsAddress = 0;
         public async override void Update()
         {
-            
+            if (Keyboard.IsPressed(Key.UpArrow))
+            {
+                var mem = new MemoryManager();
+                int value = mem.GetValue(0);
+            }
         }
 
         internal static void WriteLine(string message) => Instance?.Logger?.WriteLine(message);

@@ -34,6 +34,7 @@ namespace NoMansSky.Api.Hooks.GameHooks
         {
             logger = _logger;
             
+            // Old pattern. Doesn't run on splash screen when game is starting. Replaced with new one below.
             //string pattern = "40 53 48 83 EC 20 48 8D 4C 24 ? FF 15 ? ? ? ? 48 8B 5C 24 ? 48 8D 4C 24 ? FF 15 ? ? ? ? F2";
             string pattern = "41 56 48 83 EC 60 48 8B 41 58";
             Function = _hooks.CreateFunction<HookDelegate>(new Signature(pattern).Scan());
