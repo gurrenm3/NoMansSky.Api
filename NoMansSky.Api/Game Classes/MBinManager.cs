@@ -46,6 +46,7 @@ namespace NoMansSky.Api
         public IMBin GetMbin(string mbinName)
         {
             mbinName = mbinName.ToLower();
+
             foreach (var mbin in loadedMBIN)
             {
                 var currentMbinName = mbin.Name.ToLower();

@@ -10,12 +10,7 @@ namespace NoMansSky.Api
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
-        public static Game Instance => _instance;
-
-        /// <summary>
-        /// Backing field for <see cref="Instance"/>.
-        /// </summary>
-        private static Game _instance = null!;
+        public static Game Instance { get; set; }
 
         /// <summary>
         /// <inheritdoc/>
@@ -98,7 +93,7 @@ namespace NoMansSky.Api
         /// <returns></returns>
         private void Initialize()
         {
-            _instance = this;
+            Instance = this;
             IGame.Instance = this;
 
             //GameLoop = new HookedGameLoop();

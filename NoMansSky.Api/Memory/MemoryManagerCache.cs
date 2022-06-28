@@ -8,7 +8,7 @@ namespace NoMansSky.Api
     internal class MemoryManagerCache
     {
         private Dictionary<string, MemoryInfo> addressCache = new Dictionary<string, MemoryInfo>();
-        private static IMBinManager MBinManager => Game.Instance?.MBinManager;
+        private static IMBinManager MBinManager => IGame.Instance?.MBinManager;
 
         public MemoryManagerCache()
         {
@@ -24,10 +24,13 @@ namespace NoMansSky.Api
             if (addressCache.TryGetValue(path, out var memInfo))
                 return memInfo;
 
+            if (MBinManager == null)
+                throw new NullReferenceException("Error! MBinManager is null! This is not suppose to happen!");
+
             // create path array.
             string[] pathSplit = path.Contains(".") ? path.Split('.') : pathSplit = new string[1] { path };
             string mbinName = pathSplit[0];
-            var mbin = MBinManager?.GetMbin(mbinName);
+            var mbin = MBinManager.GetMbin(mbinName);
             if (mbin == null)
                 throw new Exception($"Failed to get mbin with the name of \"{mbinName}\"");
 
@@ -35,7 +38,7 @@ namespace NoMansSky.Api
             if (currentType == null)
                 throw new Exception($"Failed to get the type for the mbin with the name of \"{mbinName}\"");
 
-            // code below is 
+            // code below is getting offsets from each variable. Haven't checked arrays/lists yet.
             long currentAddress = mbin.Address;
             for (int i = 1; i < pathSplit.Length; i++)
             {

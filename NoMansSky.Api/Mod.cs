@@ -24,19 +24,11 @@ namespace NoMansSky.Api
         {
             Game.ModsWarning.Disable();
             Game.OnMainMenu += OnMainMenu;
-            /*Game.OnMainMenu += () => GlobalMbinModding();
-            */
-
-            Game.GameLoop.OnUpdate.Postfix += () =>
-            {
-                var deltaTime = GameLoop.Time.DeltaTime;
-                Logger.WriteLine(deltaTime);
-            };
         }
 
         private void OnMainMenu()
         {
-            playerGlobalsAddress = Game.MBinManager.GetMbin("GcPlayerGlobals").Address;
+            
         }
 
 
@@ -59,8 +51,7 @@ namespace NoMansSky.Api
         {
             if (Keyboard.IsPressed(Key.UpArrow))
             {
-                var mem = new MemoryManager();
-                int value = mem.GetValue(0);
+                
             }
         }
 
