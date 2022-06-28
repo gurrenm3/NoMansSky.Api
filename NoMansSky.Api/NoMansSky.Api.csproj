@@ -7,7 +7,7 @@
     <LangVersion>preview</LangVersion>
     <Nullable>enable</Nullable>
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
-    <OutputPath>$(RELOADEDIIMODS)\NoMansSky.Api</OutputPath>
+	<OutputPath>$(RELOADEDIIMODS)\$(MSBuildProjectName)</OutputPath>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <PackageTags>NoMansSky; NoManSky; NMS; Mod; Modding; Tool; Api; Reloaded; Reloaded2</PackageTags>
     <PackageIcon>Icon.png</PackageIcon>

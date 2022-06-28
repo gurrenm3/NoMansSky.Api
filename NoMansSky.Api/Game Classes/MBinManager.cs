@@ -1,5 +1,7 @@
-﻿using libMBIN.NMS.GameComponents;
+﻿using libMBIN;
+using libMBIN.NMS.GameComponents;
 using Reloaded.ModHelper;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -54,21 +56,26 @@ namespace NoMansSky.Api
             }
 
             return null;
+        }
 
-
-
-            /*var mbin = loadedMBIN?.FirstOrDefault(mbin => mbin?.Name.ToLower() == mbinName);
-            if (mbin == null)
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
+        /// <param name="mbinName"></param>
+        /// <returns></returns>
+        public Type GetMbinType(string mbinName)
+        {
+            mbinName = mbinName.ToLower();
+            var types = typeof(NMSTemplate).Assembly.GetTypes();
+            foreach (var type in types)
             {
-                mbinName = mbinName.Insert(0, "gc"); // try adding gc to the front 
-                mbin = loadedMBIN?.FirstOrDefault(mbin => mbin?.Name.ToLower() == mbinName);
+                var currentMbinName = type.Name.ToLower();
+                if (mbinName == currentMbinName || mbinName == currentMbinName.Insert(0, "gc") || mbinName.Insert(0, "gc") == currentMbinName || mbinName == currentMbinName.Insert(0, "cgc") || mbinName.Insert(0, "cgc") == currentMbinName)
+                {
+                    return type;
+                }
             }
-            if (mbin == null)
-            {
-                mbinName = mbinName.Insert(0, "c"); // try adding c to the front so it's cgc
-                mbin = loadedMBIN?.FirstOrDefault(mbin => mbin?.Name.ToLower() == mbinName);
-            }
-            return mbin;*/
+            return null;
         }
     }
 }

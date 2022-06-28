@@ -1,4 +1,5 @@
 ﻿using Reloaded.ModHelper;
+using System;
 using System.Collections.Generic;
 
 namespace NoMansSky.Api
@@ -25,5 +26,12 @@ namespace NoMansSky.Api
         /// </summary>
         /// <returns></returns>
         List<IMBin> GetAllMBIN();
+
+        /// <summary>
+        /// Returns the Type of the mbin 
+        /// </summary>
+        /// <param name="mbinName"></param>
+        /// <returns></returns>
+        Type GetMbinType(string mbinName);
     }
 }

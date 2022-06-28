@@ -88,10 +88,15 @@ namespace NoMansSky.Api
             if (elementType == null)
                 return;
 
-            var list = (IList)valueToSet;            
-            int objectSize = NMSTemplate.SizeOf(elementType);
-
+            var list = (IList)valueToSet;
             int previousSize = manager.GetValue<int>(address + 0x8);
+            if (list.Count != previousSize)
+            {
+                throw new NotImplementedException("The API currently does not support changing the size of lists in memory." +
+                    " Make sure you are trying to set a list of the same size.");
+            }
+
+            int objectSize = NMSTemplate.SizeOf(elementType);
             long currentAddress = *(long*)address;
             for (int i = 0; i < list.Count; i++)
             {
