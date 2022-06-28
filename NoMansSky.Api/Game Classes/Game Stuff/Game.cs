@@ -101,6 +101,7 @@ namespace NoMansSky.Api
             _instance = this;
             IGame.Instance = this;
 
+            //GameLoop = new HookedGameLoop();
             GameLoop = new HookedGameLoop();
             GameLoop.Initialize();
 
