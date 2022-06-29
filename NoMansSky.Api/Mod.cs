@@ -4,6 +4,7 @@ using libMBIN.NMS.GameComponents;
 using Reloaded.Hooks.ReloadedII.Interfaces;
 using Reloaded.Mod.Interfaces;
 using Reloaded.ModHelper;
+using System.Linq;
 
 namespace NoMansSky.Api
 {
@@ -36,12 +37,12 @@ namespace NoMansSky.Api
 
         private void Testing()
         {
-            /*mgr = new MemoryManager();
+            mgr = new MemoryManager();
             GameLoop.OnUpdate.Postfix += () =>
             {
                 if (Key.UpArrow.IsPressed())
                 {
-                    var planets = Planet_Update.planetAddresses;
+                    var planets = Hooks.GalaxyMapHooks.Planet_Update.planetAddresses;
                     planet1Address = planets.First();
                     planetData = mgr.GetValue<GcPlanetData>(planet1Address);
                 }
@@ -56,7 +57,7 @@ namespace NoMansSky.Api
                     mgr.SetValue(planet1Address, planetData);
                     Logger.WriteLine("Planet set");
                 }
-            };*/
+            };
 
             /*Game.GalaxyMap.OnSystemHighlighted += (systemInfo) =>
             {

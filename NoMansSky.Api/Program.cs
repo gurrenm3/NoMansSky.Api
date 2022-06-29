@@ -90,8 +90,6 @@ namespace NoMansSky.Api
 
             // memory manager stuff
             memoryMgr = new MemoryManager();
-            memoryMgr.IgnoreType(typeof(GcResourceElement));
-            memoryMgr.IgnoreType(typeof(List<GcResourceElement>));
             memoryMgr.AddConverter(new NMSStringConverter(memoryMgr), alwaysRegister: true);
             memoryMgr.AddConverter(new ArrayConverter(memoryMgr), alwaysRegister: true);
             memoryMgr.AddConverter(new ListConverter(memoryMgr), alwaysRegister: true);
