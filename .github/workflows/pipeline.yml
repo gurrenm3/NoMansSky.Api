@@ -1,0 +1,77 @@
+name: NoMansSky.Api
+
+on:
+  # Run on all branches except for the gh-pages branch
+  push:
+    branches-ignore:
+      - 'gh-pages'
+  pull_request:
+    branches-ignore:
+      - 'gh-pages'
+  create:
+
+jobs:
+  build:
+    name: Build NoMansSky.Api for windows
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '5.0.100'
+      - name: Clone dependencies
+        # For now we need to manually clone this dependency. This will be fragile as it will be using the latest code always.
+        # Replace this as soon as we can.
+        run: git clone https://github.com/gurrenm3/Reloaded.ModHelper.git ../Reloaded.ModHelper/
+      - name: Build Windows .net 5 release
+        run: dotnet publish NoMansSky.Api -c Release -f net5.0-windows -r win-x64 -o Build/Release/net5/NoMansSky.Api/
+      - name: Get NoMansSky.Api build version
+        run: echo "VERSION=$(cat Build/Release/net5/NoMansSky.Api/ModConfig.json | jq ".ModVersion")" >> $GITHUB_ENV
+        shell: bash
+      - name: Upload binary for release
+        uses: actions/upload-artifact@v2
+        with:
+          name: NoMansSky.Api
+          path: Build/Release/net5/NoMansSky.Api/
+    outputs:
+      build_version: ${{ env.VERSION }}
+  release:
+    name: Release NoMansSky.Api
+    # Only run this job if the commit was tagged.
+    if: ${{ startsWith(github.ref, 'refs/tags/') }}
+    runs-on: windows-latest
+    needs: [build]
+    steps:
+      - name: Download files for release
+        uses: actions/download-artifact@v2
+        with:
+          name: NoMansSky.Api
+      - name: Create release zip
+        run: |
+          cd ..
+          7z a -tzip NoMansSky.Api.zip NoMansSky.Api
+          mv NoMansSky.Api.zip ./NoMansSky.Api/NoMansSky.Api.zip
+      - name: Get tag
+        id: tag
+        uses: dawidd6/action-get-tag@v1
+        with:
+          # Optionally strip `v` prefix
+          strip_v: true
+      - name: Upload resources if version matches
+        if: contains(needs.build.outputs.build_version, steps.tag.outputs.tag)
+        uses: softprops/action-gh-release@v1
+        with:
+          name: "${{ steps.tag.outputs.tag }}"
+          tag_name: ${{ steps.tag.outputs.tag }}
+          files: NoMansSky.Api.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Check if tag doesn't match version
+        if: "!contains(needs.build.outputs.build_version, steps.tag.outputs.tag)"
+        run: |
+          echo "There is a version mismatch between the tag and NoMansSky.Api version!"
+          echo ${{ needs.build.outputs.build_version }}
+          echo ${{ steps.tag.outputs.tag }}
+          exit 1
+        shell: bash
