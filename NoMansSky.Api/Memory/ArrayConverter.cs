@@ -10,6 +10,10 @@ namespace Reloaded.ModHelper
     {
         IMemoryManager manager;
 
+        /// <summary>
+        /// Creates an object of this converter, along with a MemoryManager for recursion.
+        /// </summary>
+        /// <param name="manager"></param>
         public ArrayConverter(IMemoryManager manager)
         {
             if (manager == null)
@@ -27,8 +31,11 @@ namespace Reloaded.ModHelper
         public bool CanConvert(Type typeToCheck)
         {
             if (typeToCheck == null)
-                throw new Exception($"{nameof(ArrayConverter)} can't check if this type can be converted," +
+            {
+                ConsoleUtil.LogError($"{nameof(ArrayConverter)} can't check if this type can be converted," +
                     $" because the type to check is NULL");
+                return false;
+            }
 
             return typeToCheck.IsArray;
         }
@@ -50,59 +57,90 @@ namespace Reloaded.ModHelper
         /// <param name="address"></param>
         /// <param name="arrayLength"></param>
         /// <returns></returns>
-        public Array GetValue(Type arrayType, long address, int arrayLength)
+        public Array GetValue(long address, Type arrayType, int arrayLength)
         {
+            if (address <= 0)
+            {
+                ConsoleUtil.LogError($"{nameof(ArrayConverter)}: Can't get Array because address was {address} and is not valid");
+                return null!;
+            }
             if (arrayType == null)
-                return null;
+            {
+                ConsoleUtil.LogError($"{nameof(ArrayConverter)}: Can't get Array because provided type is null");
+                return null!;
+            }
+            if (arrayLength <= 0)
+            {
+                ConsoleUtil.LogWarning($"{nameof(ArrayConverter)}: Can't get Array because length was zero");
+                return null!;
+            }
 
             var elementType = arrayType.GetElementType();
-            if (elementType == null)
-                return null;
-
-            dynamic array = Activator.CreateInstance(arrayType, arrayLength);
+            dynamic array = Activator.CreateInstance(arrayType, arrayLength)!;
             int objectSize = NMSTemplate.SizeOf(elementType);
 
             long currentAddress = address;
             for (int i = 0; i < arrayLength; i++)
             {
-                var arrayItem = manager.GetValue(elementType, currentAddress);
-                if (arrayItem != null)
-                    array.SetValue(arrayItem, i);
+                var arrayItem = manager.GetValue(currentAddress, elementType);
                 currentAddress += objectSize;
+
+                if (arrayItem == null)
+                {
+                    ConsoleUtil.LogWarning($"{nameof(ArrayConverter)}: Field value is null. Skipping...");
+                    continue;
+                }
+
+                array.SetValue(arrayItem, i);
             }
 
             return array;
         }
 
+        /// <summary>
+        /// Get's this array in memory.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="address"></param>
+        /// <param name="arrayLength"></param>
+        /// <returns></returns>
         public T[] GetValue<T>(long address, int arrayLength)
         {
-            var array = GetValue(typeof(T), address, arrayLength);
+            var array = GetValue(address, typeof(T), arrayLength);
+            if (array == null)
+                return default(T[])!;
+
             T[] values = new T[arrayLength];
             for (int i = 0; i < values.Length; i++)
-                values[i] = (T)array.GetValue(i);
+                values[i] = (T)array.GetValue(i)!;
+
             return values;
         }
 
         /// <summary>
         /// Do not use this with arrays. Will not work because you must provide an array length.
+        /// <br/>Use the GetValue method that takes arrayLength as an argument.
         /// </summary>
-        /// <param name="valueType"></param>
+        /// <param name="arrayType"></param>
         /// <param name="address"></param>
         /// <returns></returns>
-        public object GetValue(Type valueType, long address)
+        public object GetValue(long address, Type arrayType)
         {
-            throw new NotSupportedException("Cannot use GetValue without providing an array length. Please use overloads that accept array length.");
+            ConsoleUtil.LogError("Cannot use GetValue without providing an array length. Please use overloads that accept array length.");
+            return null!;
         }
 
         /// <summary>
         /// Do not use this with arrays. Will not work because you must provide an array length.
+        /// <br/>Use the GetValue method that takes arrayLength as an argument.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="address"></param>
         /// <returns></returns>
         public T GetValue<T>(long address)
         {
-            throw new NotSupportedException("Cannot use GetValue without providing an array length. Please use overloads that accept array length.");
+            ConsoleUtil.LogError("Cannot use GetValue without providing an array length. Please use overloads that accept array length.");
+            return default(T)!;
         }
 
         /// <summary>
@@ -112,6 +150,17 @@ namespace Reloaded.ModHelper
         /// <param name="valueToSet"></param>
         public void SetValue(long address, object valueToSet)
         {
+            if (address <= 0)
+            {
+                ConsoleUtil.LogError($"{nameof(ArrayConverter)}: Can't set array value because address was {address} and is not valid");
+                return;
+            }
+            if (valueToSet == null)
+            {
+                ConsoleUtil.LogError($"{nameof(ArrayConverter)}: Can't set array value. Provided object is null");
+                return;
+            }
+
             var elementType = valueToSet.GetType().GetElementType();
             int objectSize = NMSTemplate.SizeOf(elementType);
 
@@ -120,10 +169,9 @@ namespace Reloaded.ModHelper
             for (int i = 0; i < array.Length; i++)
             {
                 var value = array.GetValue(i);
-                manager.SetValue(currentAddress, value);
+                if (value != null)
+                    manager.SetValue(currentAddress, value);
 
-                /*var arrayItem = manager.GetValue(elementType, currentAddress);
-                array.SetValue(arrayItem, i);*/
                 currentAddress += objectSize;
             }
         }

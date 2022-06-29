@@ -50,7 +50,7 @@ namespace NoMansSky.Api
         /// <param name="valueType"></param>
         /// <param name="address"></param>
         /// <returns></returns>
-        public object GetValue(Type valueType, long address)
+        public object GetValue(long address, Type valueType)
         {
             var text = manager.GetValue<string>(address);
             return NMSString.CreateFrom(valueType, text);
@@ -64,7 +64,7 @@ namespace NoMansSky.Api
         /// <returns></returns>
         public T GetValue<T>(long address)
         {
-            var value = GetValue(typeof(T), address);
+            var value = GetValue(address, typeof(T));
             return (T)value;
         }
 

@@ -127,7 +127,7 @@ namespace NoMansSky.Api
             if (addressInfo.address == 0 || addressInfo.objectType == null)
                 throw new Exception($"Failed to get the address for {pathToValue}");
 
-            var value = manager.GetValue(addressInfo.objectType, addressInfo.address);
+            var value = manager.GetValue(addressInfo.address, addressInfo.objectType);
             return value;
         }
 

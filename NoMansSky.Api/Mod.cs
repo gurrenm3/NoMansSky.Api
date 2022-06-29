@@ -28,7 +28,7 @@ namespace NoMansSky.Api
         {
             Game.ModsWarning.Disable();
 
-
+            
 #if DEBUG
             Game.OnMainMenu += OnMainMenu;
             Testing();

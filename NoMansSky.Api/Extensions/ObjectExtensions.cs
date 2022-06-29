@@ -5,6 +5,9 @@ using System.Collections;
 
 namespace NoMansSky.Api
 {
+    /// <summary>
+    /// Extension methods for <see cref="Object"/>.
+    /// </summary>
     public static class ObjectExtensions
     {
         /// <summary>

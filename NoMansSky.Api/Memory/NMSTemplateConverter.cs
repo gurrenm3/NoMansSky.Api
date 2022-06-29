@@ -12,6 +12,10 @@ namespace NoMansSky.Api
     {
         IMemoryManager manager;
 
+        /// <summary>
+        /// Creates an instance of this class while providing a manager for recursion.
+        /// </summary>
+        /// <param name="manager"></param>
         public NMSTemplateConverter(IMemoryManager manager)
         {
             if (manager == null)
@@ -29,8 +33,11 @@ namespace NoMansSky.Api
         public bool CanConvert(Type typeToCheck)
         {
             if (typeToCheck == null)
-                throw new Exception($"{nameof(NMSTemplateConverter)} can't check if this type can be converted," +
-                    $" because the type to check is NULL");
+            {
+                ConsoleUtil.LogError($"{nameof(NMSTemplateConverter)} can't check if this type can be converted," +
+                   $" because the type to check is NULL");
+                return false;
+            }
 
             return typeToCheck.IsAssignableTo(typeof(NMSTemplate));
         }
@@ -51,36 +58,62 @@ namespace NoMansSky.Api
         /// <param name="valueType"></param>
         /// <param name="address"></param>
         /// <returns></returns>
-        public object GetValue(Type valueType, long address)
+        public object GetValue(long address, Type valueType)
         {
             var instance = Activator.CreateInstance(valueType);
 
             foreach (var field in valueType.GetFields())
             {
-                if (field?.FieldType == null || manager.ShouldIgnoreType(field.FieldType))
+                // Check that field type is valid. This should never fire?
+                if (field?.FieldType == null)
+                {
+                    ConsoleUtil.LogError($"{nameof(NMSTemplateConverter)}: Failed to get field type. Skipping field...");
                     continue;
+                }
+
+                if (manager.ShouldIgnoreType(field.FieldType))
+                {
+                    ConsoleUtil.Log($"{nameof(NMSTemplateConverter)}: Field is on the ignore list. Skipping...");
+                    continue;
+                }
 
                 var fieldOffset = NMSTemplate.OffsetOf(valueType, field.Name);
                 var value = GetFieldValue(valueType, field, address + fieldOffset);
 
-                if (value != null)
-                    field.SetValue(instance, value);
+                if (value == null)
+                {
+                    ConsoleUtil.LogWarning($"{nameof(NMSTemplateConverter)}: Field value is null. Skipping...");
+                    continue;
+                }
+
+                field.SetValue(instance, value);
             }
 
-            return instance;
+            return instance!;
         }
 
         private object GetFieldValue(Type classType, FieldInfo field, long address)
         {
             if (!field.FieldType.IsArray)
-                return manager.GetValue(field.FieldType, address);
+                return manager.GetValue(address, field.FieldType);
 
+            // Get converter for the array.
+            var converter = (ArrayConverter)manager.GetObjectConverter(field.FieldType);
+            if (converter == null)
+            {
+                ConsoleUtil.LogError($"{nameof(NMSTemplateConverter)}: Failed to get converter for this Array.");
+                return null!;
+            }
+
+            // Get size of the array.
             int? arrayLength = field.GetCustomAttribute<NMSAttribute>()?.Size;
             if (!arrayLength.HasValue)
-                throw new Exception($"Failed to get size of array for {classType.Name}.{field.Name}");
+            {
+                ConsoleUtil.LogError($"{nameof(NMSTemplateConverter)}: Failed to get size of array for {classType.Name}.{field.Name}");
+                return null!;
+            }
 
-            var converter = (ArrayConverter)manager.GetConverter(field.FieldType);
-            var array = converter.GetValue(field.FieldType, address, arrayLength.Value);
+            var array = converter.GetValue(address, field.FieldType, arrayLength.Value);
             return array;
         }
 
@@ -92,8 +125,8 @@ namespace NoMansSky.Api
         /// <returns></returns>
         public T GetValue<T>(long address)
         {
-            var value = GetValue(typeof(T), address);
-            return value == null ? default(T) : (T)value;
+            var value = GetValue(address, typeof(T));
+            return value == null ? default(T)! : (T)value;
         }
 
         /// <summary>
@@ -103,13 +136,24 @@ namespace NoMansSky.Api
         /// <param name="valueToSet"></param>
         public void SetValue(long address, object valueToSet)
         {
+            if (valueToSet == null)
+            {
+                ConsoleUtil.LogError($"{nameof(NMSTemplateConverter)}: Failed to set value because valueToSet is null");
+                return;
+            }
+
             var valueType = valueToSet.GetType();
             foreach (var field in valueType.GetFields())
             {
                 var fieldOffset = NMSTemplate.OffsetOf(valueType, field.Name);
                 var fieldValue = field.GetValue(valueToSet);
-                if (fieldValue != null)
-                    manager.SetValue(address + fieldOffset, fieldValue);
+                if (fieldValue == null)
+                {
+                    ConsoleUtil.LogWarning($"{nameof(NMSTemplateConverter)}: Can't set field value because it's is null. Skipping...");
+                    continue;
+                }
+
+                manager.SetValue(address + fieldOffset, fieldValue);
             }
         }
     }
