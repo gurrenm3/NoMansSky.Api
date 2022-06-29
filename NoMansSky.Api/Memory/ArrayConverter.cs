@@ -12,6 +12,10 @@ namespace Reloaded.ModHelper
 
         public ArrayConverter(IMemoryManager manager)
         {
+            if (manager == null)
+                throw new NullReferenceException($"Can't create {nameof(ArrayConverter)} because the provided" +
+                    $" {nameof(MemoryManager)} was null!");
+
             this.manager = manager;
         }
 
@@ -22,7 +26,7 @@ namespace Reloaded.ModHelper
         /// <returns></returns>
         public bool CanConvert(Type typeToCheck)
         {
-            return typeToCheck.IsArray;
+            return typeToCheck != null && typeToCheck.IsArray;
         }
 
         /// <summary>
@@ -44,15 +48,22 @@ namespace Reloaded.ModHelper
         /// <returns></returns>
         public Array GetValue(Type arrayType, long address, int arrayLength)
         {
-            dynamic array = Activator.CreateInstance(arrayType, arrayLength);
+            if (arrayType == null)
+                return null;
+
             var elementType = arrayType.GetElementType();
+            if (elementType == null)
+                return null;
+
+            dynamic array = Activator.CreateInstance(arrayType, arrayLength);
             int objectSize = NMSTemplate.SizeOf(elementType);
 
             long currentAddress = address;
             for (int i = 0; i < arrayLength; i++)
             {
                 var arrayItem = manager.GetValue(elementType, currentAddress);
-                array.SetValue(arrayItem, i);
+                if (arrayItem != null)
+                    array.SetValue(arrayItem, i);
                 currentAddress += objectSize;
             }
 
@@ -104,7 +115,8 @@ namespace Reloaded.ModHelper
             long currentAddress = address;
             for (int i = 0; i < array.Length; i++)
             {
-                manager.SetValue(currentAddress, array.GetValue(i));
+                var value = array.GetValue(i);
+                manager.SetValue(currentAddress, value);
 
                 /*var arrayItem = manager.GetValue(elementType, currentAddress);
                 array.SetValue(arrayItem, i);*/

@@ -13,6 +13,10 @@ namespace NoMansSky.Api
 
         public ListConverter(IMemoryManager manager)
         {
+            if (manager == null)
+                throw new NullReferenceException($"Can't create {nameof(ListConverter)} because the provided" +
+                    $" {nameof(MemoryManager)} was null!");
+
             this.manager = manager;
         }
 
@@ -23,6 +27,9 @@ namespace NoMansSky.Api
         /// <returns></returns>
         public bool CanConvert(Type typeToCheck)
         {
+            if (typeToCheck == null)
+                return false;
+
             return typeToCheck.IsGenericType && typeToCheck.GetGenericTypeDefinition() == typeof(List<>);
         }
 
@@ -44,7 +51,7 @@ namespace NoMansSky.Api
         /// <returns></returns>
         public object GetValue(Type valueType, long address)
         {
-            var elementType = valueType.GetGenericArguments().FirstOrDefault();
+            var elementType = valueType?.GetGenericArguments()?.FirstOrDefault();
             if (elementType == null)
                 return null;
 
@@ -84,7 +91,7 @@ namespace NoMansSky.Api
         public void SetValue(long address, object valueToSet)
         {
             var listType = valueToSet.GetType();
-            var elementType = listType.GetGenericArguments().FirstOrDefault();
+            var elementType = listType?.GetGenericArguments()?.FirstOrDefault();
             if (elementType == null)
                 return;
 

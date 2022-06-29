@@ -14,6 +14,10 @@ namespace NoMansSky.Api
 
         public NMSTemplateConverter(IMemoryManager manager)
         {
+            if (manager == null)
+                throw new NullReferenceException($"Can't create {nameof(NMSTemplateConverter)} because the provided" +
+                    $" {nameof(MemoryManager)} was null!");
+
             this.manager = manager;
         }
 
@@ -24,7 +28,7 @@ namespace NoMansSky.Api
         /// <returns></returns>
         public bool CanConvert(Type typeToCheck)
         {
-            return typeToCheck.IsAssignableTo(typeof(NMSTemplate));
+            return typeToCheck != null && typeToCheck.IsAssignableTo(typeof(NMSTemplate));
         }
 
         /// <summary>
@@ -45,13 +49,37 @@ namespace NoMansSky.Api
         /// <returns></returns>
         public object GetValue(Type valueType, long address)
         {
+            if (valueType == null)
+            {
+                throw new Exception("How the fuck is this null");
+            }
+
             var instance = Activator.CreateInstance(valueType);
 
             foreach (var field in valueType.GetFields())
             {
+                if (field?.FieldType == null)
+                {
+                    Console.WriteLine($"Field == null: {field == null} | Field.FieldType == null: {field?.FieldType}");
+                    continue;
+                }
+
+                if (manager.ShouldIgnoreType(field.FieldType))
+                {
+                    Console.WriteLine($"Ignoring a field");
+                    continue;
+                }
+
+                if (string.IsNullOrEmpty(field?.Name))
+                {
+                    Console.WriteLine("The name is nulL!");
+                }
+
+                Console.WriteLine($"Converting Field: {field?.Name}");
                 var fieldOffset = NMSTemplate.OffsetOf(valueType, field.Name);
                 var value = GetFieldValue(valueType, field, address + fieldOffset);
-                field.SetValue(instance, value);
+                if (value != null)
+                    field.SetValue(instance, value);
             }
 
             return instance;
@@ -59,6 +87,9 @@ namespace NoMansSky.Api
 
         private object GetFieldValue(Type classType, FieldInfo field, long address)
         {
+            if (classType == null || field?.FieldType == null)
+                return null;
+
             if (!field.FieldType.IsArray)
                 return manager.GetValue(field.FieldType, address);
 

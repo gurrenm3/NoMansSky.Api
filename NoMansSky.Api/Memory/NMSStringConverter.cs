@@ -13,6 +13,10 @@ namespace NoMansSky.Api
 
         public NMSStringConverter(IMemoryManager manager)
         {
+            if (manager == null)
+                throw new NullReferenceException($"Can't create {nameof(NMSStringConverter)} because the provided" +
+                    $" {nameof(MemoryManager)} was null!");
+
             this.manager = manager;
         }
 

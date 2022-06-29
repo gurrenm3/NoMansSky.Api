@@ -12,6 +12,13 @@ namespace NoMansSky.Api
         /// </summary>
         public static Game Instance { get; set; }
 
+
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
+        public IGalaxyMap GalaxyMap => _galaxyMap;
+        private IGalaxyMap _galaxyMap;
+
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
@@ -96,13 +103,15 @@ namespace NoMansSky.Api
             Instance = this;
             IGame.Instance = this;
 
-            //GameLoop = new HookedGameLoop();
+            
             GameLoop = new HookedGameLoop();
             GameLoop.Initialize();
 
             OnGameJoined += () => IsInGame = true;
             OnInventoriesOpened += () => IsInventoryOpen = true;
             OnInventoriesClosed += () => IsInventoryOpen = false;
+
+            _galaxyMap = new GalaxyMap();
 
             Player = new Player(logger);
             (Player as Player)?.Init();

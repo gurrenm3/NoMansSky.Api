@@ -53,6 +53,11 @@ namespace NoMansSky.Api
         public IGameLoop? GameLoop => Game?.GameLoop;
 
         /// <summary>
+        /// Represents the Galaxy Map.
+        /// </summary>
+        public IGalaxyMap? GalaxyMap => Game?.GalaxyMap;
+
+        /// <summary>
         /// Represents the instance of the Player class.
         /// </summary>
         public IPlayer? Player => Game?.Player;
@@ -78,6 +83,7 @@ namespace NoMansSky.Api
         public NMSMod(IModConfig _config, IReloadedHooks _hooks, IModLogger _logger, bool autoInitialize = true) : base(_config, _hooks, _logger, autoInitialize)
         {
             GameLoop.OnUpdate.Postfix += Update;
+            GameLoop.OnUpdate.Postfix += () => Update(GameLoop.Time.DeltaTime);
         }
 
         /// <summary>
@@ -99,6 +105,15 @@ namespace NoMansSky.Api
         /// <summary>
         /// Called once every time the game loop runs.
         /// <br/>This will run in the PostFix of the Game loop.
+        /// <br/>Gives extra convenience by providing deltaTime. Will run before the other Update method.
+        /// </summary>
+        /// <param name="deltaTime"></param>
+        public virtual void Update(double deltaTime) { }
+
+        /// <summary>
+        /// Called once every time the game loop runs.
+        /// <br/>This will run in the PostFix of the Game loop.
+        /// <br/>Will run after the Update method that provides DeltaTime.
         /// </summary>
         public virtual void Update() { }
     }

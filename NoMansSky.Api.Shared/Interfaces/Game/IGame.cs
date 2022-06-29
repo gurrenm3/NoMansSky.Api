@@ -14,6 +14,11 @@ namespace NoMansSky.Api
         public static IGame Instance { get; set; }
 
         /// <summary>
+        /// Represents the Galaxy Map.
+        /// </summary>
+        public IGalaxyMap GalaxyMap { get; }
+
+        /// <summary>
         /// The instance of the Player class that has been initialized and is currently managing the actual NMS Player.
         /// </summary>
         public IPlayer Player { get; }

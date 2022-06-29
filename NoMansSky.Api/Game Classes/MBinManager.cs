@@ -45,6 +45,10 @@ namespace NoMansSky.Api
         /// <returns></returns>
         public IMBin GetMbin(string mbinName)
         {
+            if (loadedMBIN.Count == 0)
+                throw new Exception("Failed to get mbin. None have been loaded yet." +
+                    " Consider running your code later in the game's execution.");
+
             mbinName = mbinName.ToLower();
 
             foreach (var mbin in loadedMBIN)
