@@ -27,6 +27,10 @@ namespace NoMansSky.Api
         /// <returns></returns>
         public bool CanConvert(Type typeToCheck)
         {
+            if (typeToCheck == null)
+                throw new Exception($"{nameof(NMSStringConverter)} can't check if this type can be converted," +
+                    $" because the type to check is NULL");
+
             return typeToCheck.IsAssignableTo(typeof(INMSString));
         }
 

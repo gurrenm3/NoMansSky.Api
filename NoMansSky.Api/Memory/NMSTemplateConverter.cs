@@ -28,7 +28,11 @@ namespace NoMansSky.Api
         /// <returns></returns>
         public bool CanConvert(Type typeToCheck)
         {
-            return typeToCheck != null && typeToCheck.IsAssignableTo(typeof(NMSTemplate));
+            if (typeToCheck == null)
+                throw new Exception($"{nameof(NMSTemplateConverter)} can't check if this type can be converted," +
+                    $" because the type to check is NULL");
+
+            return typeToCheck.IsAssignableTo(typeof(NMSTemplate));
         }
 
         /// <summary>
@@ -49,33 +53,13 @@ namespace NoMansSky.Api
         /// <returns></returns>
         public object GetValue(Type valueType, long address)
         {
-            if (valueType == null)
-            {
-                throw new Exception("Value type is this null");
-            }
-
             var instance = Activator.CreateInstance(valueType);
 
             foreach (var field in valueType.GetFields())
             {
-                if (field?.FieldType == null)
-                {
-                    Console.WriteLine($"Field == null: {field == null} | Field.FieldType == null: {field?.FieldType}");
+                if (field?.FieldType == null || manager.ShouldIgnoreType(field.FieldType))
                     continue;
-                }
 
-                if (manager.ShouldIgnoreType(field.FieldType))
-                {
-                    Console.WriteLine($"Ignoring a field");
-                    continue;
-                }
-
-                if (string.IsNullOrEmpty(field?.Name))
-                {
-                    Console.WriteLine("The name is nulL!");
-                }
-
-                Console.WriteLine($"Converting Field: {field?.Name}");
                 var fieldOffset = NMSTemplate.OffsetOf(valueType, field.Name);
                 var value = GetFieldValue(valueType, field, address + fieldOffset);
 
@@ -88,9 +72,6 @@ namespace NoMansSky.Api
 
         private object GetFieldValue(Type classType, FieldInfo field, long address)
         {
-            if (classType == null || field?.FieldType == null)
-                return null;
-
             if (!field.FieldType.IsArray)
                 return manager.GetValue(field.FieldType, address);
 

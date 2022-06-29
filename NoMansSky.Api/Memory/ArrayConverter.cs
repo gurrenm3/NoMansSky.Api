@@ -26,7 +26,11 @@ namespace Reloaded.ModHelper
         /// <returns></returns>
         public bool CanConvert(Type typeToCheck)
         {
-            return typeToCheck != null && typeToCheck.IsArray;
+            if (typeToCheck == null)
+                throw new Exception($"{nameof(ArrayConverter)} can't check if this type can be converted," +
+                    $" because the type to check is NULL");
+
+            return typeToCheck.IsArray;
         }
 
         /// <summary>

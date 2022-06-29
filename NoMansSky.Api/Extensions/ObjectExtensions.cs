@@ -29,7 +29,12 @@ namespace NoMansSky.Api
 
         private static string PrintFields(string fieldName, Type fieldType, object fieldValue)
         {
-            if (fieldType.Name == "Vector2f")
+            if (fieldValue == null)
+            {
+                string msg = string.Format("name= {0, -48} value= {1,-10}", fieldName, "NULL");
+                return msg += "\n";
+            }
+            else if (fieldType.Name == "Vector2f")
             {
                 var value = (Vector2f)fieldValue;
                 string vector = $"({value.x}, {value.y})";

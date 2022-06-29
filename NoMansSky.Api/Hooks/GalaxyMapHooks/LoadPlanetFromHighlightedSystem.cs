@@ -41,6 +41,7 @@ namespace NoMansSky.Api.Hooks.GalaxyMapHooks
                 $"{_hooks.Utilities.GetAbsoluteCallMnemonics(pattern2Func, out pattern2ReverseWrap)}",
             };
 
+            // this is kind of broken so it's not being used rn. Look more into later
             /*pattern2AsmHook = _hooks.CreateAsmHook(pattern2Asm, pattern2Address, AsmHookBehaviour.ExecuteAfter).Activate();
 
             GalaxyMapHooks.Planet_Update2.ModEvent.AddListener((systemData) =>

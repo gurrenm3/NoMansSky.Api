@@ -28,7 +28,8 @@ namespace NoMansSky.Api
         public bool CanConvert(Type typeToCheck)
         {
             if (typeToCheck == null)
-                return false;
+                throw new Exception($"{nameof(ListConverter)} can't check if this type can be converted," +
+                    $" because the type to check is NULL");
 
             return typeToCheck.IsGenericType && typeToCheck.GetGenericTypeDefinition() == typeof(List<>);
         }

@@ -1,54 +1,51 @@
 ﻿using Reloaded.Hooks.Definitions;
-using Reloaded.Hooks.Definitions.Enums;
 using Reloaded.Hooks.Definitions.X64;
 using Reloaded.ModHelper;
+using System;
 using System.Collections.Generic;
-using static NoMansSky.Api.Hooks.Macros;
+using System.Runtime.InteropServices;
 
-namespace NoMansSky.Api.Hooks.SpaceHooks
+namespace NoMansSky.Api.Hooks.GalaxyMapHooks
 {
     public unsafe class Planet_Update : IModHook
     {
-        #region Asm Hook Variables
+        #region Hook Stuff
 
-        [Function(new FunctionAttribute.Register[1] { FunctionAttribute.Register.rbx }, FunctionAttribute.Register.rax, false)]
-        public delegate void OnChangedFunc2(long planetAddress);
+        [Function(CallingConventions.Microsoft)]
+        [UnmanagedFunctionPointer(CallingConvention.StdCall, CharSet = CharSet.Ansi)]
+        public delegate long HookDelegate(long planetAddress, long a2, long a3);
+        public static IFunction<HookDelegate> Function { get; set; }
+        public static IHook<HookDelegate> Hook;
 
-        private IReverseWrapper<OnChangedFunc2> pattern2ReverseWrap;
-        public OnChangedFunc2 pattern2Func;
-        private IAsmHook pattern2AsmHook;
+        public static HashSet<long> planetAddresses = new HashSet<long>();
 
         #endregion
 
-
-        public string HookName => "On Planet Update";
+        
+        public string HookName => "On Planet Updated";
         private IModLogger logger;
-        private static HashSet<long> planetAddresses = new HashSet<long>();
 
         public void InitHook(IModLogger _logger, IReloadedHooks _hooks)
         {
             logger = _logger;
-            pattern2Func = CodeToExecutePattern2;
-
-            //string pattern2 = "48 8D 53 60 48 8D BB ? ? ? ?";
-            string pattern2 = "48 89 78 18 48 8B D9 4C 89 78 E8 48 8D 0D ? ? ? ? 0F 29 70 D8 4D 8B F8 0F 28 F1 E8 ? ? ? ? ";
-            long pattern2Address = new Signature(pattern2).Scan();
-            string[] pattern2Asm =
-            {
-                $"{_use32}",
-                $"{_hooks.Utilities.GetAbsoluteCallMnemonics(pattern2Func, out pattern2ReverseWrap)}",
-            };
-
-            //pattern2AsmHook = _hooks.CreateAsmHook(pattern2Asm, pattern2Address, AsmHookBehaviour.ExecuteAfter).Activate(); //, hookLength: 15
+            string pattern = "48 8B C4 53 48 81 EC ? ? ? ? 48 89 78 18";
+            Function = _hooks.CreateFunction<HookDelegate>(new Signature(pattern).Scan());
+            Hook = Function.Hook(CodeToExecute).Activate();
         }
 
-        private void CodeToExecutePattern2(long planetAddress)
+        const int offsetToBaseAddress = 0x60;
+        private long CodeToExecute(long planetAddress, long a2, long a3)
         {
-            if (planetAddresses.Contains(planetAddress))
-                return;
+            // nothing here yet. Will look into more later.
 
-            planetAddresses.Add(planetAddress);
-            logger.WriteLine($"Planet Address: {planetAddress.ToHex()}");
+            if (!planetAddresses.Contains(planetAddress + offsetToBaseAddress))
+            {
+                planetAddresses.Add(planetAddress + offsetToBaseAddress);
+            }
+
+            var result = Hook.OriginalFunction(planetAddress, a2, a3);
+
+            return result;
         }
     }
 }
