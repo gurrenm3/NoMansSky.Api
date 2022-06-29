@@ -27,7 +27,7 @@ namespace NoMansSky.Api
             Game.ModsWarning.Disable();
 
             
-            Game.GalaxyMap.OnSystemHighlighted += (systemInfo) =>
+            /*Game.GalaxyMap.OnSystemHighlighted += (systemInfo) =>
             {
                 Logger.WriteLine("System Highlighted. Printing addresses:");
                 foreach (var item in systemInfo.PlanetAddresses)
@@ -42,7 +42,7 @@ namespace NoMansSky.Api
                     Logger.WriteLine(planet.Name);
                 }
                 Logger.WriteLine("Done printing planet info");
-            };
+            };*/
 
 #if DEBUG
             Game.OnMainMenu += OnMainMenu;

@@ -41,12 +41,12 @@ namespace NoMansSky.Api.Hooks.GalaxyMapHooks
                 $"{_hooks.Utilities.GetAbsoluteCallMnemonics(pattern2Func, out pattern2ReverseWrap)}",
             };
 
-            pattern2AsmHook = _hooks.CreateAsmHook(pattern2Asm, pattern2Address, AsmHookBehaviour.ExecuteAfter).Activate();
+            /*pattern2AsmHook = _hooks.CreateAsmHook(pattern2Asm, pattern2Address, AsmHookBehaviour.ExecuteAfter).Activate();
 
-            GalaxyMapHooks.OnSystemHighlighted.ModEvent.AddListener((systemData) =>
+            GalaxyMapHooks.Planet_Update2.ModEvent.AddListener((systemData) =>
             {
                 planetAddressesInSystem.Clear();
-            });
+            });*/
         }
 
         private void CodeToExecutePattern2(long planetAddress)

@@ -30,7 +30,8 @@ namespace NoMansSky.Api.Hooks.SpaceHooks
             logger = _logger;
             pattern2Func = CodeToExecutePattern2;
 
-            string pattern2 = "48 8D 53 60 48 8D BB ? ? ? ?";
+            //string pattern2 = "48 8D 53 60 48 8D BB ? ? ? ?";
+            string pattern2 = "48 89 78 18 48 8B D9 4C 89 78 E8 48 8D 0D ? ? ? ? 0F 29 70 D8 4D 8B F8 0F 28 F1 E8 ? ? ? ? ";
             long pattern2Address = new Signature(pattern2).Scan();
             string[] pattern2Asm =
             {

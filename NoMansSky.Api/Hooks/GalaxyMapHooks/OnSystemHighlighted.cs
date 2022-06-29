@@ -28,7 +28,7 @@ namespace NoMansSky.Api.Hooks.GalaxyMapHooks
             logger = _logger;
             string pattern = "48 89 5C 24 ? 44 88 4C 24 ? 55";
             Function = _hooks.CreateFunction<HookDelegate>(new Signature(pattern).Scan());
-            Hook = Function.Hook(CodeToExecute).Activate();
+            //Hook = Function.Hook(CodeToExecute).Activate();
         }
 
         private long CodeToExecute(long a1, long a2, int a3, char a4)
