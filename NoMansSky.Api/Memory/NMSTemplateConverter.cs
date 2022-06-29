@@ -51,7 +51,7 @@ namespace NoMansSky.Api
         {
             if (valueType == null)
             {
-                throw new Exception("How the fuck is this null");
+                throw new Exception("Value type is this null");
             }
 
             var instance = Activator.CreateInstance(valueType);
@@ -78,6 +78,7 @@ namespace NoMansSky.Api
                 Console.WriteLine($"Converting Field: {field?.Name}");
                 var fieldOffset = NMSTemplate.OffsetOf(valueType, field.Name);
                 var value = GetFieldValue(valueType, field, address + fieldOffset);
+
                 if (value != null)
                     field.SetValue(instance, value);
             }

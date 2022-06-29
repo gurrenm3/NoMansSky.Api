@@ -26,7 +26,7 @@ namespace NoMansSky.Api
         {
             Game.ModsWarning.Disable();
 
-          
+            
             Game.GalaxyMap.OnSystemHighlighted += (systemInfo) =>
             {
                 Logger.WriteLine("System Highlighted. Printing addresses:");
