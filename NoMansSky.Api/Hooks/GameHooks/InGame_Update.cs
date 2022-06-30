@@ -36,16 +36,16 @@ namespace NoMansSky.Api.Hooks.GameHooks
 
             Function = _hooks.CreateFunction<HookDelegate>(new Signature(pattern).Scan());
             Hook = Function.Hook(CodeToExecute).Activate();
-            Game.Instance.OnMainMenu += () => firstRun = true; // reset firstRun so OnGameJoined works again
+            IGame.Instance.OnMainMenu += () => firstRun = true; // reset firstRun so OnGameJoined works again
             Inventories_Update.ModEventHook.Prefix += () => didInventoryUpdate = true;
 
             ModEventHook.Postfix += () =>
             {
                 // was inventory closed but api still thinks its opened? If so let API know it's closed.
-                bool shouldCloseInventory = !didInventoryUpdate && Game.Instance.IsInventoryOpen;
+                bool shouldCloseInventory = !didInventoryUpdate && IGame.Instance.IsInventoryOpen;
                 if (shouldCloseInventory)
                 {
-                    Game.Instance.OnInventoriesClosed.Invoke();
+                    IGame.Instance.OnInventoriesClosed.Invoke();
                 }
 
                 didInventoryUpdate = false;
@@ -60,7 +60,7 @@ namespace NoMansSky.Api.Hooks.GameHooks
 
             if (firstRun)
             {
-                Game.Instance.OnGameJoined.Invoke();
+                IGame.Instance.OnGameJoined.Invoke();
                 firstRun = false;
             }
 

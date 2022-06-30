@@ -33,7 +33,7 @@ namespace NoMansSky.Api.Hooks.GameHooks
             Function = _hooks.CreateFunction<HookDelegate>(new Signature(pattern).Scan());
             Hook = Function.Hook(CodeToExecute).Activate();
 
-            Game.Instance.OnGameJoined += () => firstRun = true; // reset firstRun so OnMainMenu works again.
+            IGame.Instance.OnGameJoined += () => firstRun = true; // reset firstRun so OnMainMenu works again.
         }
 
         private long CodeToExecute(long self, float someValue)
@@ -44,7 +44,7 @@ namespace NoMansSky.Api.Hooks.GameHooks
 
             if (firstRun)
             {
-                Game.Instance.OnMainMenu.Invoke();
+                IGame.Instance.OnMainMenu.Invoke();
                 firstRun = false;
             }
 

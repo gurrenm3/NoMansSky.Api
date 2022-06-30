@@ -78,12 +78,19 @@ namespace NoMansSky.Api
         public IMultiTool? ActiveMultiTool => Player?.ActiveMultiTool;
 
         /// <summary>
+        /// Instance of the memory manager. 
+        /// </summary>
+        protected readonly MemoryManager memory;
+
+        /// <summary>
         /// Creates an instance of this class.
         /// </summary>
         public NMSMod(IModConfig _config, IReloadedHooks _hooks, IModLogger _logger, bool autoInitialize = true) : base(_config, _hooks, _logger, autoInitialize)
         {
             GameLoop.OnUpdate.Postfix += Update;
             GameLoop.OnUpdate.Postfix += () => Update(GameLoop.Time.DeltaTime);
+
+            memory = new MemoryManager();
         }
 
         /// <summary>

@@ -24,7 +24,7 @@ namespace NoMansSky.Api.Hooks.ShipHooks
         /// <summary>
         /// The stat this hook is tied to.
         /// </summary>
-        private static Stat<int> Stat => Game.Instance?.Player?.Ship?.Health;
+        private static Stat<int> Stat => IGame.Instance?.Player?.Ship?.Health;
 
         /// <summary>
         /// ModEventHook that's called when the original function is called.
@@ -59,7 +59,7 @@ namespace NoMansSky.Api.Hooks.ShipHooks
                 return;
 
 
-            bool hasGcPlayerState = Game.Instance?.Player != null && Game.Instance.Player.HasGcPlayerState;
+            bool hasGcPlayerState = IGame.Instance?.Player != null && IGame.Instance.Player.HasGcPlayerState;
 
             // Player failed to initialize. Can't do hooking.
             if (Stat == null || !hasGcPlayerState)

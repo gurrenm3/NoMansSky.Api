@@ -23,9 +23,9 @@ namespace NoMansSky.Api.Hooks.GameHooks
         /// <summary>
         /// ModEventHook that's called when the original function is called.
         /// </summary>
-        public static IModEventHook ModEventHook => Game.Instance.GameLoop.OnUpdate;
+        public static IModEventHook ModEventHook => IGame.Instance.GameLoop.OnUpdate;
         public string HookName => "Game_Update";
-        private HookedTime time => Game.Instance.GameLoop.Time as HookedTime;
+        private HookedTime time => IGame.Instance.GameLoop.Time as HookedTime;
         private IModLogger logger;
         private Stopwatch stopwatch;
 

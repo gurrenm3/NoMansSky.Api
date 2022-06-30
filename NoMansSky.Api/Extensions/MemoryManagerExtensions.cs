@@ -31,7 +31,10 @@ namespace NoMansSky.Api
             {
                 await Task.Run(() => manager.SetValue(pathToValue, valueToSet));
             }
-            catch (Exception ex) { throw ex; }
+            catch (Exception ex) 
+            {
+                ConsoleUtil.LogException(ex);
+            }
         }
 
         /// <summary>
@@ -45,18 +48,28 @@ namespace NoMansSky.Api
         public static void SetValue(this MemoryManager manager, string pathToValue, object valueToSet)
         {
             if (string.IsNullOrEmpty(pathToValue))
-                throw new Exception("Cannot set value because the path to it was not set.");
+            {
+                ConsoleUtil.LogError("Cannot set value because the path to it was not set.");
+                return;
+            }
 
             var addressInfo = cache.GetAddressInfo(pathToValue);
             if (addressInfo.address == 0 || addressInfo.objectType == null)
-                throw new Exception($"Failed to get the address for {pathToValue}");
+            {
+                ConsoleUtil.LogError($"Failed to get the address for {pathToValue}");
+                return;
+            }
 
             if (valueToSet.GetType() != addressInfo.objectType)
             {
                 try { valueToSet = Convert.ChangeType(valueToSet, addressInfo.objectType); }
-                catch (Exception) { throw new ArgumentException($"Tried assigning a value with a type of" +
+                catch (Exception) 
+                {
+                    ConsoleUtil.LogError($"Tried assigning a value with a type of" +
                     $" {valueToSet.GetType()} to {pathToValue}, however it's type is" +
-                    $" a {addressInfo.objectType.Name}!"); }
+                    $" a {addressInfo.objectType.Name}!");
+                    return;
+                }
             }
 
             manager.SetValue(addressInfo.address, valueToSet);
@@ -82,7 +95,11 @@ namespace NoMansSky.Api
             {
                 return await Task.Run(() => manager.GetValue(pathToValue));
             }
-            catch (Exception ex) { throw ex; }
+            catch (Exception ex)
+            {
+                ConsoleUtil.LogException(ex);
+                return null!;
+            }
         }
 
         /// <summary>
@@ -103,10 +120,13 @@ namespace NoMansSky.Api
         {
             try
             {
-                var value = await Task.Run(() => manager.GetValue<T>(pathToValue));
-                return value == null ? default(T) : (T)value;
+                return await Task.Run(() => manager.GetValue<T>(pathToValue));
             }
-            catch (Exception ex) { throw ex; }
+            catch (Exception ex)
+            {
+                ConsoleUtil.LogException(ex);
+                return default(T)!;
+            }
         }
 
 
@@ -121,11 +141,17 @@ namespace NoMansSky.Api
         public static object GetValue(this MemoryManager manager, string pathToValue)
         {
             if (string.IsNullOrEmpty(pathToValue))
-                throw new Exception("Cannot get value because the path to it was not set.");
+            {
+                ConsoleUtil.LogError("Cannot get value because the path to it was not set.");
+                return null!;
+            }
 
             var addressInfo = cache.GetAddressInfo(pathToValue);
             if (addressInfo.address == 0 || addressInfo.objectType == null)
-                throw new Exception($"Failed to get the address for {pathToValue}");
+            {
+                ConsoleUtil.LogError($"Failed to get the address for {pathToValue}");
+                return null!;
+            }
 
             var value = manager.GetValue(addressInfo.address, addressInfo.objectType);
             return value;
@@ -143,7 +169,7 @@ namespace NoMansSky.Api
         public static T GetValue<T>(this MemoryManager manager, string pathToValue)
         {
             var value = manager.GetValue(pathToValue);
-            return value == null ? default(T) : (T)value;
+            return value == null ? default(T)! : (T)value;
         }
     }
 }

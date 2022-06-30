@@ -22,6 +22,12 @@ namespace NoMansSky.Api
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
+        public ISolarSystem CurrentSystem => _currentSystem;
+        public ISolarSystem _currentSystem;
+
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
         public IPlayer Player { get; set; }
 
         /// <summary>
@@ -68,6 +74,27 @@ namespace NoMansSky.Api
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
+        public IModEvent OnWarpStarted { get; set; } = new SharedModEvent();
+
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
+        public IModEvent OnWarping { get; set; } = new SharedModEvent();
+
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
+        public IModEvent OnWarpFinished { get; set; } = new SharedModEvent();
+
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
+        public bool IsWarping { get; private set; }
+
+
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
         public IModEvent OnGameJoined { get; set; } = new SharedModEvent();
 
         /// <summary>
@@ -107,11 +134,10 @@ namespace NoMansSky.Api
             GameLoop = new HookedGameLoop();
             GameLoop.Initialize();
 
-            OnGameJoined += () => IsInGame = true;
-            OnInventoriesOpened += () => IsInventoryOpen = true;
-            OnInventoriesClosed += () => IsInventoryOpen = false;
+            InitModEvents();
 
             _galaxyMap = new GalaxyMap();
+            _currentSystem = new SolarSystem();
 
             Player = new Player(logger);
             (Player as Player)?.Init();
@@ -120,6 +146,22 @@ namespace NoMansSky.Api
 
             OnInitialized.Invoke();
             IsInitialized = true;
+        }
+
+        private void InitModEvents()
+        {
+            OnGameJoined += () => IsInGame = true;
+            OnInventoriesOpened += () => IsInventoryOpen = true;
+            OnInventoriesClosed += () => IsInventoryOpen = false;
+
+            // Warp events
+            OnWarpStarted += () => IsWarping = true;
+            OnWarpFinished += () => IsWarping = false;
+            GameLoop.OnUpdate.Postfix += () =>
+            {
+                if (IsWarping) OnWarping?.Invoke();
+            };
+
         }
     }
 }

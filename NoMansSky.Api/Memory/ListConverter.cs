@@ -82,11 +82,13 @@ namespace NoMansSky.Api
             }
 
             var listType = typeof(List<>).MakeGenericType(elementType);
-            var list = (IList)Activator.CreateInstance(listType)!;            
-            
+            var list = (IList)Activator.CreateInstance(listType)!;
+            int listSize = manager.GetValue<int>(address + 0x8);
+            if (listSize == 0)
+                return list;
+
             int objectSize = NMSTemplate.SizeOf(elementType);
             long currentAddress = *(long*)address;
-            int listSize = manager.GetValue<int>(address + 0x8);
             for (int i = 0; i < listSize; i++)
             {
                 var listItem = manager.GetValue(currentAddress, elementType);

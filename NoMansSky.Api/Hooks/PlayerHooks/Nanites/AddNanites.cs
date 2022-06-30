@@ -22,7 +22,7 @@ namespace NoMansSky.Api.Hooks.PlayerHooks
         /// <summary>
         /// The stat this hook is tied to.
         /// </summary>
-        private static Stat<int> Stat => Game.Instance?.Player?.Nanites;
+        private static Stat<int> Stat => IGame.Instance?.Player?.Nanites;
 
         /// <summary>
         /// ModEventHook that's called when the original function is called.
@@ -47,7 +47,7 @@ namespace NoMansSky.Api.Hooks.PlayerHooks
 
         private long CodeToExecute(long gcPlayerStateData, int amountToAdd)
         {
-            bool hasGcPlayerState = Game.Instance?.Player != null && Game.Instance.Player.HasGcPlayerState;
+            bool hasGcPlayerState = IGame.Instance?.Player != null && IGame.Instance.Player.HasGcPlayerState;
 
             // Player failed to initialize. Can't do hooking.
             if (Stat == null || !hasGcPlayerState)

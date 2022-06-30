@@ -75,7 +75,7 @@ namespace NoMansSky.Api.Hooks
         private void TrySetPlayerStateAddress(long address)
         {
             debug.WriteLine("Attempting to get PlayerStateAddress");
-            if (Game.Instance?.Player != null && Game.Instance.Player.GcPlayerStateAddress > 0)
+            if (IGame.Instance?.Player != null && IGame.Instance.Player.GcPlayerStateAddress > 0)
             {
                 debug.WriteLine($"GcPlayerStateData was aready set");
                 return;
@@ -93,7 +93,7 @@ namespace NoMansSky.Api.Hooks
             logger.WriteLine($"Address of GcPlayerStateData: {address.ToString("X")}", LogLevel.CheatEngine);
 
             debug.WriteLine("Invoking Game.Instance?.Player?.OnPlayerStateAquired");
-            Game.Instance?.Player?.OnPlayerStateAquired.Invoke(address);
+            IGame.Instance?.Player?.OnPlayerStateAquired.Invoke(address);
             
         }
     }

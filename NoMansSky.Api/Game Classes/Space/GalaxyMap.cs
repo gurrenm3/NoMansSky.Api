@@ -1,4 +1,5 @@
-﻿using Reloaded.ModHelper;
+﻿using NoMansSky.Api.Hooks.GalaxyMapHooks;
+using Reloaded.ModHelper;
 
 namespace NoMansSky.Api
 {
@@ -8,9 +9,16 @@ namespace NoMansSky.Api
     public class GalaxyMap : IGalaxyMap
     {
         /// <summary>
+        /// TODO
+        /// <br/><br/><inheritdoc/>
+        /// </summary>
+        public IModEvent<ISolarSystemData> OnSystemHighlighted { get; set; } 
+            = new SharedModEvent<ISolarSystemData>();
+
+        /// <summary>
         /// <inheritdoc/>
         /// </summary>
-        public IModEvent<ISolarSystemData> OnSystemHighlighted { get; set; }
+        public bool IsOpened { get; internal set; } // managed in GalaxyMap.Update hook
 
         public GalaxyMap()
         {

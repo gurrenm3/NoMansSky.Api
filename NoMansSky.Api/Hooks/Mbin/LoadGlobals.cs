@@ -45,7 +45,7 @@ namespace NoMansSky.Api.Hooks.Mbin
                 }
 
                 var mbin = new MBin() { Name = cleanedName, Address = addressToLoadedMbin };
-                Game.Instance.MBinManager.OnMBinLoaded.Invoke(mbin);
+                IGame.Instance.MBinManager.OnMBinLoaded.Invoke(mbin);
             }
 
             return result;

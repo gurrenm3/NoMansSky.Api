@@ -19,6 +19,11 @@ namespace NoMansSky.Api
         public IGalaxyMap GalaxyMap { get; }
 
         /// <summary>
+        /// Represents the solar system that the player is currently in.
+        /// </summary>
+        public ISolarSystem CurrentSystem { get; }
+
+        /// <summary>
         /// The instance of the Player class that has been initialized and is currently managing the actual NMS Player.
         /// </summary>
         public IPlayer Player { get; }
@@ -45,6 +50,22 @@ namespace NoMansSky.Api
         /// Called whenever the player first joins the game after selecting a profile.
         /// </summary>
         public IModEvent OnGameJoined { get; set; }
+
+        /// <summary>
+        /// Called when the player first starts warping to a new system.
+        /// </summary>
+        public IModEvent OnWarpStarted { get; set; }
+
+        /// <summary>
+        /// Called continuously while the player is in warp.
+        /// </summary>
+        public IModEvent OnWarping { get; set; }
+
+        /// <summary>
+        /// Called once the player has finished warping into a new system.
+        /// </summary>
+        public IModEvent OnWarpFinished { get; set; }
+
 
         /// <summary>
         /// Called when the player opens the Inventories screen.
@@ -78,6 +99,12 @@ namespace NoMansSky.Api
         /// Reflects whether or not this object has finished initializing.
         /// </summary>
         public bool IsInitialized { get; }
+
+        /// <summary>
+        /// Reflects whether or not the player is currently warping to a new system.
+        /// </summary>
+        public bool IsWarping { get; }
+
 
         /// <summary>
         /// Reflects whether or not the "Warning Mods Installed" message will be shown while starting

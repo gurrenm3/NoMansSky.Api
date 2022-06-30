@@ -6,53 +6,47 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
-namespace NoMansSky.Api.Hooks.GalaxyMapHooks
+namespace NoMansSky.Api.Hooks.SpaceHooks
 {
-    public unsafe class Planet_Update : IModHook
+    public unsafe class OnWarpFinished : IModHook
     {
         #region Hook Stuff
 
         [Function(CallingConventions.Microsoft)]
         [UnmanagedFunctionPointer(CallingConvention.StdCall, CharSet = CharSet.Ansi)]
-        public delegate long HookDelegate(long planetAddress, long a2, long a3);
+        public delegate long HookDelegate(long systemDataAddress, long a2);
         public static IFunction<HookDelegate> Function { get; set; }
         public static IHook<HookDelegate> Hook;
 
         /// <summary>
         /// The mod event tied to when a planet gets loaded.
         /// </summary>
-        public static IModEvent<long> ModEvent => IGame.Instance?.CurrentSystem?.OnPlanetLoaded!;
+        public static IModEvent ModEvent => IGame.Instance?.OnWarpFinished!;
 
         #endregion
 
         
-        public string HookName => "On Planet Updated";
+        public string HookName => "On Warp Finished";
         private IModLogger logger;
-        private HashSet<long> planetAddresses = new HashSet<long>();
 
         public void InitHook(IModLogger _logger, IReloadedHooks _hooks)
         {
             logger = _logger;
-            string pattern = "48 8B C4 53 48 81 EC ? ? ? ? 48 89 78 18";
+            string pattern = "48 89 4C 24 ? 57 48 83 EC 30 48 C7 44 24 ? ? ? ? ? 48 89 5C 24 ? 48 89 74 24 ? 48 8B F2 48 8B F9 0F 10 02 0F 11 01 48";
             Function = _hooks.CreateFunction<HookDelegate>(new Signature(pattern).Scan());
             Hook = Function.Hook(CodeToExecute).Activate();
-
-            IGame.Instance.OnWarpStarted += () => planetAddresses.Clear();
         }
 
-        const int offsetToBaseAddress = 0x60;
-        private long CodeToExecute(long planetAddress, long a2, long a3)
+        
+        private long CodeToExecute(long systemDataAddress, long a2)
         {
-            long actualPlanetAddress = planetAddress + offsetToBaseAddress;
-            if (!planetAddresses.Contains(actualPlanetAddress))
+            logger.WriteLine(systemDataAddress.ToHex());
+            if (IGame.Instance.IsWarping)
             {
-                if (ModEvent != null)
-                    ModEvent.Invoke(actualPlanetAddress);
-
-                planetAddresses.Add(actualPlanetAddress);
+                ModEvent?.Invoke();
             }
 
-            var result = Hook.OriginalFunction(planetAddress, a2, a3);
+            var result = Hook.OriginalFunction(systemDataAddress, a2);
 
             return result;
         }

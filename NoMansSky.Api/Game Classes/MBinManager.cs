@@ -22,7 +22,9 @@ namespace NoMansSky.Api
         {
             OnMBinLoaded += (mbin) =>
             {
-                loadedMBIN.Add(mbin);
+                // ignore duplicates 
+                if (!loadedMBIN.Any(m=>m.Address == mbin.Address))
+                    loadedMBIN.Add(mbin);
             };
         }
 

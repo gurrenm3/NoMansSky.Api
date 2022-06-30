@@ -42,9 +42,9 @@ namespace NoMansSky.Api.Hooks.GameHooks
             var result = Hook.OriginalFunction(a1, a2, a3, a4, a5, a6, a7, a8, a9);
             ModEventHook.Postfix.Invoke();
 
-            if (!Game.Instance.IsInventoryOpen)
+            if (!IGame.Instance.IsInventoryOpen)
             {
-                Game.Instance.OnInventoriesOpened.Invoke();
+                IGame.Instance.OnInventoriesOpened.Invoke();
             }
 
             return result;

@@ -23,7 +23,7 @@ namespace NoMansSky.Api.Hooks.PlayerHooks
         /// <summary>
         /// The stat this hook is tied to.
         /// </summary>
-        private static Stat<int> Stat => Game.Instance?.Player?.Health;
+        private static Stat<int> Stat => IGame.Instance?.Player?.Health;
 
         /// <summary>
         /// ModEventHook that's called when the original function is called.
@@ -71,7 +71,7 @@ namespace NoMansSky.Api.Hooks.PlayerHooks
             amountChangedParam.value = newCurrentHealth;
             ModEventHook.Prefix.Invoke(amountChangedParam);
 
-            bool hasGcPlayerState = Game.Instance?.Player != null && Game.Instance.Player.HasGcPlayerState;
+            bool hasGcPlayerState = IGame.Instance?.Player != null && IGame.Instance.Player.HasGcPlayerState;
             if (hasGcPlayerState)
                 Stat.Value = amountChangedParam.value;
 

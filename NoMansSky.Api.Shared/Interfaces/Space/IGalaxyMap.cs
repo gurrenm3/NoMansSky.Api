@@ -12,5 +12,10 @@ namespace NoMansSky.Api
         /// <br/>Passes along the data about the system that was highlighted.
         /// </summary>
         public IModEvent<ISolarSystemData> OnSystemHighlighted { get; set; }
+
+        /// <summary>
+        /// Reflects whether or not the Galaxy Map is currently opened.
+        /// </summary>
+        public bool IsOpened { get; }
     }
 }

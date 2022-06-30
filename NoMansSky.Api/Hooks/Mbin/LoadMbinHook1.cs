@@ -22,7 +22,7 @@ namespace NoMansSky.Api.Hooks.Mbin
         /// <summary>
         /// ModEventHook that's called when the original function is called.
         /// </summary>
-        public static IModEvent<IMBin> ModEvent => Game.Instance.MBinManager.OnMBinLoaded;
+        public static IModEvent<IMBin> ModEvent => IGame.Instance.MBinManager.OnMBinLoaded;
         public static string currentMbin;
         public string HookName => "Load MBIN";
         private IModLogger logger;
