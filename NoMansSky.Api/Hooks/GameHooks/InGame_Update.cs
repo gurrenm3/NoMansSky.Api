@@ -18,15 +18,23 @@ namespace NoMansSky.Api.Hooks.GameHooks
 
         #endregion
 
+        /// <summary>
+        /// Reflects whether or not this is currently firing.
+        /// <br/>It does not run on main menu, on galaxy map, or on warp.
+        /// </summary>
+        public static bool IsFiring { get; private set; }
 
         /// <summary>
         /// ModEventHook that's called when the original function is called.
         /// </summary>
         public static IModEventHook ModEventHook { get; } = new SharedModEventHook();
+
         internal static bool firstRun = false; // used to track the first time we enter the game.
         public string HookName => "InGame_Update";
         bool didInventoryUpdate = false;
         private IModLogger logger;
+
+        private bool didRunThisFrame = false;
 
         public void InitHook(IModLogger _logger, IReloadedHooks _hooks)
         {
@@ -50,10 +58,27 @@ namespace NoMansSky.Api.Hooks.GameHooks
 
                 didInventoryUpdate = false;
             };
+
+            IGame.Instance.GameLoop.OnUpdate.Prefix += () =>
+            {
+                didRunThisFrame = false;
+            };
+            IGame.Instance.GameLoop.OnUpdate.Postfix += () =>
+            {
+                // it's not currently running.
+                if (!didRunThisFrame)
+                {
+                    IsFiring = false;
+                }
+            };
         }
+
 
         private double CodeToExecute()
         {
+            IsFiring = true;
+            didRunThisFrame = true;
+
             ModEventHook.Prefix.Invoke();
             var result = Hook.OriginalFunction();
             ModEventHook.Postfix.Invoke();

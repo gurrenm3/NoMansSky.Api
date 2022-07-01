@@ -1,4 +1,5 @@
-﻿using Reloaded.ModHelper;
+﻿using NoMansSky.Api.Hooks.GameHooks;
+using Reloaded.ModHelper;
 
 namespace NoMansSky.Api
 {
@@ -10,7 +11,7 @@ namespace NoMansSky.Api
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
-        public static Game Instance { get; set; }
+        public static Game? Instance { get; set; }
 
 
         /// <summary>
@@ -23,7 +24,7 @@ namespace NoMansSky.Api
         /// <inheritdoc/>
         /// </summary>
         public ISolarSystem CurrentSystem => _currentSystem;
-        public ISolarSystem _currentSystem;
+        private ISolarSystem _currentSystem;
 
         /// <summary>
         /// <inheritdoc/>
@@ -34,6 +35,11 @@ namespace NoMansSky.Api
         /// <inheritdoc/>
         /// </summary>
         public IMBinManager MBinManager { get; set; } = new MBinManager();
+
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
+        public bool IsOnMainMenu { get; private set; }
 
         /// <summary>
         /// <inheritdoc/>
@@ -49,6 +55,16 @@ namespace NoMansSky.Api
         /// <inheritdoc/>
         /// </summary>
         public bool IsInitialized { get; private set; }
+
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
+        public bool IsLoadingIntoGame { get; internal set; }
+
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
+        public bool IsProfileSelected { get; private set; }
 
         /// <summary>
         /// <inheritdoc/>
@@ -79,17 +95,12 @@ namespace NoMansSky.Api
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
-        public IModEvent OnWarping { get; set; } = new SharedModEvent();
-
-        /// <summary>
-        /// <inheritdoc/>
-        /// </summary>
         public IModEvent OnWarpFinished { get; set; } = new SharedModEvent();
 
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
-        public bool IsWarping { get; private set; }
+        public bool IsWarping { get; internal set; }
 
 
         /// <summary>
@@ -150,18 +161,36 @@ namespace NoMansSky.Api
 
         private void InitModEvents()
         {
-            OnGameJoined += () => IsInGame = true;
-            OnInventoriesOpened += () => IsInventoryOpen = true;
-            OnInventoriesClosed += () => IsInventoryOpen = false;
+            // profile selected events
+            OnProfileSelected += () =>
+            {
+                IsOnMainMenu = false;
+                IsProfileSelected = true;
+                IsLoadingIntoGame = true;
+            };
+
+            // game joined events
+            OnGameJoined += () =>
+            {
+                IsInGame = true;
+                IsLoadingIntoGame = false;
+            };
 
             // Warp events
             OnWarpStarted += () => IsWarping = true;
             OnWarpFinished += () => IsWarping = false;
-            GameLoop.OnUpdate.Postfix += () =>
+
+            // main menu events
+            OnMainMenu += () =>
             {
-                if (IsWarping) OnWarping?.Invoke();
+                IsProfileSelected = false;
+                IsInGame = false;
+                IsOnMainMenu = true;
             };
 
+            // other events
+            OnInventoriesOpened += () => IsInventoryOpen = true;
+            OnInventoriesClosed += () => IsInventoryOpen = false;
         }
     }
 }

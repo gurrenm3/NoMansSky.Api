@@ -1,6 +1,7 @@
 ﻿using Reloaded.Hooks.Definitions;
 using Reloaded.Hooks.Definitions.X64;
 using Reloaded.ModHelper;
+using System;
 using System.Runtime.InteropServices;
 
 namespace NoMansSky.Api.Hooks.GalaxyMapHooks
@@ -27,60 +28,54 @@ namespace NoMansSky.Api.Hooks.GalaxyMapHooks
         public string HookName => "GalaxyMap.Update";
         private IModLogger logger;
         private GalaxyMap galaxyMap;
-        private int updateCount = 0;
-        private int lastUpdateCount = 0;
-        private IGame game;
+        private bool ranUpdateFromHere = false; // reflects whether game.update was manually invoked here.
+        private Game game;
 
         public void InitHook(IModLogger _logger, IReloadedHooks _hooks)
         {
-            game = IGame.Instance;
+            game = (Game)IGame.Instance;
             galaxyMap = (GalaxyMap)game.GalaxyMap;
             logger = _logger;
 
             // string pattern = "48 8B 49 10 E9 ? ? ? ? " // has duplicates. Use it to find pattern below if issues.
             string pattern = "48 8B 49 10 E9 67 ? ? ? ";
             Function = _hooks.CreateFunction<HookDelegate>(new Signature(pattern).Scan());
-            //Hook = Function.Hook(CodeToExecute).Activate();
+            Hook = Function.Hook(CodeToExecute).Activate();
 
-
-
-
-            /*game.GameLoop.OnUpdate.Prefix += () =>
+            // Handles GalaxyMap.OnClosed
+            game.GameLoop.OnUpdate.Prefix += () =>
             {
-
-            };
-
-            game.GameLoop.OnUpdate.Postfix += () =>
-            {
-                // these should log 1:1 otherwise I need to account for different firing amounts.
-                logger.WriteLine("Game.Update");
-                if (!galaxyMap.IsOpened)
-                    return;
-
-                if (updateCount > lastUpdateCount)
-                {
-                    lastUpdateCount++;
-                }
-                else if (updateCount == lastUpdateCount) // it didn't update this frame. It's closed or we're warping
+                if (!ranUpdateFromHere && galaxyMap.IsOpened)
                 {
                     galaxyMap.IsOpened = false;
-                    updateCount = 0;
-                    lastUpdateCount = 0;
+                    galaxyMap.OnClosed.Invoke();
                 }
-            };*/
+            };
         }
 
         private long CodeToExecute(long galaxyMapAddress, float deltaTime)
         {
-            logger.WriteLine("GalaxyMap.Update");
+            // we're loading into a save file.
+            if (!game.IsInGame)
+                return Hook.OriginalFunction(galaxyMapAddress, deltaTime);
 
-            updateCount++;
-            galaxyMap.IsOpened = true;
+            // this is the first frame it's opened
+            if (!galaxyMap.IsOpened)
+            {
+                galaxyMap.IsOpened = true;
+                galaxyMap.OnOpened.Invoke();
+            }
+
+            // have to manually call update loop because it doesn't run while GalaxyMap is opened.
+            ranUpdateFromHere = true;
+            game.GameLoop.OnUpdate.Prefix.Invoke();
             ModEventHook.Prefix.Invoke();
 
             var result = Hook.OriginalFunction(galaxyMapAddress, deltaTime);
 
             ModEventHook.Postfix.Invoke();
+            game.GameLoop.OnUpdate.Postfix.Invoke();
+            ranUpdateFromHere = false;
 
             return result;
         }

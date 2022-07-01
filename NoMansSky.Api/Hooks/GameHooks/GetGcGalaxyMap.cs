@@ -18,7 +18,7 @@ namespace NoMansSky.Api.Hooks.GameHooks
 
         #endregion
 
-        public static IModEvent<ISolarSystemData> ModEvent => IGame.Instance.GalaxyMap.OnSystemHighlighted;
+        
 
         public string HookName => "Some function to get GcGalaxyMap";
         private IModLogger logger;

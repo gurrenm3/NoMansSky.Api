@@ -45,37 +45,43 @@ namespace NoMansSky.Api
         /// <summary>
         /// Represents the instance of the Game class.
         /// </summary>
-        public IGame? Game => IGame.Instance;
+        public IGame Game => IGame.Instance;
 
         /// <summary>
         /// Represents the instance of the Game Loop.
         /// </summary>
-        public IGameLoop? GameLoop => Game?.GameLoop;
+        public IGameLoop GameLoop => Game?.GameLoop!;
 
         /// <summary>
         /// Represents the Galaxy Map.
         /// </summary>
-        public IGalaxyMap? GalaxyMap => Game?.GalaxyMap;
+        public IGalaxyMap GalaxyMap => Game?.GalaxyMap!;
+
+        /// <summary>
+        /// Represents the current solar system.
+        /// </summary>
+        public ISolarSystem CurrentSystem => Game?.CurrentSystem!;
+
 
         /// <summary>
         /// Represents the instance of the Player class.
         /// </summary>
-        public IPlayer? Player => Game?.Player;
+        public IPlayer Player => Game?.Player!;
 
         /// <summary>
         /// Represents the player's exosuit.
         /// </summary>
-        public IExosuit? Exosuit => Player?.Exosuit;
+        public IExosuit Exosuit => Player?.Exosuit!;
 
         /// <summary>
         /// Represents the player's current ship.
         /// </summary>
-        public IShip? ActiveShip => Player?.Ship;
+        public IShip ActiveShip => Player?.Ship!;
 
         /// <summary>
         /// Represents the player's current multitool.
         /// </summary>
-        public IMultiTool? ActiveMultiTool => Player?.ActiveMultiTool;
+        public IMultiTool ActiveMultiTool => Player?.ActiveMultiTool!;
 
         /// <summary>
         /// Instance of the memory manager. 

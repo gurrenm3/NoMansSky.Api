@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
-namespace NoMansSky.Api.Hooks.GalaxyMapHooks
+namespace NoMansSky.Api.Hooks.SpaceHooks
 {
     public unsafe class Planet_Update : IModHook
     {
@@ -18,14 +18,15 @@ namespace NoMansSky.Api.Hooks.GalaxyMapHooks
         public static IFunction<HookDelegate> Function { get; set; }
         public static IHook<HookDelegate> Hook;
 
+        #endregion
+
+
         /// <summary>
         /// The mod event tied to when a planet gets loaded.
         /// </summary>
         public static IModEvent<long> ModEvent => IGame.Instance?.CurrentSystem?.OnPlanetLoaded!;
 
-        #endregion
 
-        
         public string HookName => "On Planet Updated";
         private IModLogger logger;
         private HashSet<long> planetAddresses = new HashSet<long>();

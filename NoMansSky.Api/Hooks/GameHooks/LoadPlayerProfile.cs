@@ -44,7 +44,7 @@ namespace NoMansSky.Api.Hooks
             Hook = Function.Hook(CodeToExecute).Activate();
 
             debug.WriteLine("Subscribing to Game.Instance.OnProfileSelected");
-            ModEventHook.Postfix += () => Game.Instance.OnProfileSelected.Invoke();
+            ModEventHook.Postfix += () => IGame.Instance.OnProfileSelected.Invoke();
         }
 
        

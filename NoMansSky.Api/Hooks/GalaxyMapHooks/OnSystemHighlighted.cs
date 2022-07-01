@@ -18,7 +18,7 @@ namespace NoMansSky.Api.Hooks.GalaxyMapHooks
 
         #endregion
 
-        public static IModEvent<ISolarSystemData> ModEvent => IGame.Instance.GalaxyMap.OnSystemHighlighted;
+        //public static IModEvent<ISolarSystemData> ModEvent => IGame.Instance.GalaxyMap.OnSystemHighlighted;
 
         public string HookName => "GalaxyMap.OnSystemHighlighted";
         private IModLogger logger;
@@ -42,7 +42,7 @@ namespace NoMansSky.Api.Hooks.GalaxyMapHooks
             ISolarSystemData systemData = new SolarSystemData();
             systemData.PlanetAddresses.AddRange(planetAddresses);
 
-            ModEvent.Invoke(systemData);
+            //ModEvent.Invoke(systemData);
 
             return result;
         }

@@ -1,9 +1,6 @@
-﻿using libMBIN.NMS.GameComponents;
-using Reloaded.Hooks.Definitions;
+﻿using Reloaded.Hooks.Definitions;
 using Reloaded.Hooks.Definitions.X64;
 using Reloaded.ModHelper;
-using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
 namespace NoMansSky.Api.Hooks.SpaceHooks
@@ -40,10 +37,10 @@ namespace NoMansSky.Api.Hooks.SpaceHooks
         
         private long CodeToExecute(long systemDataAddress, long a2)
         {
-            logger.WriteLine(systemDataAddress.ToHex());
             if (IGame.Instance.IsWarping)
             {
                 ModEvent?.Invoke();
+                IGame.Instance.CurrentSystem.OnSystemLoaded.Invoke(systemDataAddress);
             }
 
             var result = Hook.OriginalFunction(systemDataAddress, a2);

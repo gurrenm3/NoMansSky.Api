@@ -57,11 +57,6 @@ namespace NoMansSky.Api
         public IModEvent OnWarpStarted { get; set; }
 
         /// <summary>
-        /// Called continuously while the player is in warp.
-        /// </summary>
-        public IModEvent OnWarping { get; set; }
-
-        /// <summary>
         /// Called once the player has finished warping into a new system.
         /// </summary>
         public IModEvent OnWarpFinished { get; set; }
@@ -85,6 +80,16 @@ namespace NoMansSky.Api
         public IMBinManager MBinManager { get; set; }
 
         /// <summary>
+        /// Reflects whether or not the player is still on the main menu.
+        /// </summary>
+        public bool IsOnMainMenu { get; }
+
+        /// <summary>
+        /// Reflects whether or not the player has selected a profile to play on.
+        /// </summary>
+        public bool IsProfileSelected { get; }
+
+        /// <summary>
         /// Reflects whether or not the player has loaded into the game.
         /// </summary>
         public bool IsInGame { get; }
@@ -104,6 +109,12 @@ namespace NoMansSky.Api
         /// Reflects whether or not the player is currently warping to a new system.
         /// </summary>
         public bool IsWarping { get; }
+
+        /// <summary>
+        /// Reflects whether or not the player is currently loading into 
+        /// the game world after selecting a save file.
+        /// </summary>
+        public bool IsLoadingIntoGame { get; }
 
 
         /// <summary>

@@ -1,5 +1,6 @@
 ﻿using libMBIN.NMS.GameComponents;
 using Reloaded.ModHelper;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -11,6 +12,109 @@ namespace NoMansSky.Api
     public static class ISolarSystemExtensions
     {
         private static MemoryManager memory = new MemoryManager();
+
+
+        /// <summary>
+        /// Provides an easier way to mod a Planet.
+        /// </summary>
+        /// <param name="system"></param>
+        /// <param name="modify"></param>
+        public static void ModifyPlanets(this ISolarSystem system, Action<List<GcPlanetData>> modify)
+        {
+            var planets = system.GetPlanets();
+            modify.Invoke(planets);
+
+            for (int i = 0; i < planets.Count; i++)
+            {
+                var planet = planets[i];
+                if (planet == null)
+                    continue;
+
+                long planetAddress = system.PlanetAddresses[i];
+                memory.SetValue(planetAddress, planet);
+            }
+        }
+
+        /// <summary>
+        /// Provides an easier way to mod a Planet.
+        /// </summary>
+        /// <param name="system"></param>
+        /// <param name="planetIndex"></param>
+        /// <param name="modify"></param>
+        public static void ModifyPlanet(this ISolarSystem system, int planetIndex, Action<GcPlanetData> modify)
+        {
+            if (planetIndex >= system.PlanetAddresses.Count)
+            {
+                ConsoleUtil.LogError($"PlanetIndex out of bounds! Can't access planet with index of" +
+                    $" {planetIndex} because no planet exists at that index!");
+                return;
+            }
+
+            long planetAddress = system.PlanetAddresses[planetIndex];
+            var planet = system.GetPlanetData(planetAddress);
+            if (planet == null)
+            {
+                ConsoleUtil.LogError($"Failed to get Planet to Modify");
+                return;
+            }
+
+            modify.Invoke(planet);
+            memory.SetValue(planetAddress, planet);
+        }
+
+        /// <summary>
+        /// Provides an easier way to mod a Planet.
+        /// </summary>
+        /// <param name="system"></param>
+        /// <param name="planetAddress"></param>
+        /// <param name="modify"></param>
+        public static void ModifyPlanet(this ISolarSystem system, long planetAddress, Action<GcPlanetData> modify)
+        {
+            if (planetAddress <= 0)
+            {
+                ConsoleUtil.LogError($"Can't modify Planet data. planetAddress is invald!");
+                return;
+            }
+
+            var planet = system.GetPlanetData(planetAddress);
+            if (planet == null)
+            {
+                ConsoleUtil.LogError($"Failed to get Planet to Modify");
+                return;
+            }
+
+            modify.Invoke(planet);
+            memory.SetValue(planetAddress, planet);
+        }
+
+        /// <summary>
+        /// Provides an easier way of modifying the system.
+        /// </summary>
+        /// <param name="solarSystem"></param>
+        /// <param name="modify"></param>
+        public static void ModifySystemData(this ISolarSystem solarSystem, Action<GcSolarSystemData> modify)
+        {
+            solarSystem.ModifySystemData(solarSystem.SystemAddress, modify);
+        }
+
+        /// <summary>
+        /// Provides an easier way of modifying the system.
+        /// </summary>
+        /// <param name="solarSystem"></param>
+        /// <param name="systemAddress"></param>
+        /// <param name="modify"></param>
+        public static void ModifySystemData(this ISolarSystem solarSystem, long systemAddress, Action<GcSolarSystemData> modify)
+        {
+            if (systemAddress <= 0)
+            {
+                ConsoleUtil.LogError($"Can't modify system data. SystemAddress is invald!");
+                return;
+            }
+
+            var systemData = solarSystem.GetSystemData();
+            modify.Invoke(systemData);
+            memory.SetValue(systemAddress, systemData);
+        }
 
         /// <summary>
         /// Returns the System Data for this solar system.

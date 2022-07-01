@@ -9,20 +9,27 @@ namespace NoMansSky.Api
     public class GalaxyMap : IGalaxyMap
     {
         /// <summary>
-        /// TODO
-        /// <br/><br/><inheritdoc/>
+        /// <inheritdoc/>
         /// </summary>
-        public IModEvent<ISolarSystemData> OnSystemHighlighted { get; set; } 
-            = new SharedModEvent<ISolarSystemData>();
+        public IModEvent OnOpened { get; set; } = new SharedModEvent();
+
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
+        public IModEvent OnClosed { get; set; } = new SharedModEvent();
 
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
         public bool IsOpened { get; internal set; } // managed in GalaxyMap.Update hook
 
+
+        /// <summary>
+        /// Creates an instance of this class.
+        /// </summary>
         public GalaxyMap()
         {
-            OnSystemHighlighted = new SharedModEvent<ISolarSystemData>();
+            
         }
     }
 }
