@@ -6,6 +6,7 @@ using Reloaded.Hooks.ReloadedII.Interfaces;
 using Reloaded.Mod.Interfaces;
 using Reloaded.ModHelper;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace NoMansSky.Api
@@ -32,14 +33,72 @@ namespace NoMansSky.Api
             Game.OnMainMenu += OnMainMenu;
             Testing();
 
+            
 
+
+            bool done = false;
             CurrentSystem.OnPlanetLoaded += (planetAddress) =>
             {
-                var planet = CurrentSystem.GetPlanetData(planetAddress);
-                Logger.WriteLine($"PlanetLoaded: {planet.Name.AsString()}");
+                /*var planet = CurrentSystem.GetPlanetData(planetAddress);
+                var data = planet.GenerationData;
+                var dataStr = data.AsString();
+
+                Logger.WriteLine("=================================");
+                Logger.WriteLine($"Planet Name: {planet.Name.Value}\n{dataStr}");*/
+
+                if (done)
+                    return;
+
+                //var planet = CurrentSystem.GetPlanetData(planetAddress);
+
+
+                Stopwatch stopwatch = new Stopwatch();
+                int testCount = 100;
+
+                Logger.WriteLine("Testing GetPlanetData");
+                stopwatch.Start();
+                for (int i = 0; i < testCount; i++)
+                {
+                    var planet = CurrentSystem.GetPlanetData(planetAddress);
+                }
+                stopwatch.Stop();
+                Logger.WriteLine($"After {testCount} tests, it takes an average of" +
+                    $" {stopwatch.Elapsed.TotalMilliseconds / testCount}ms to GetPlanetData");
+
+
+                Logger.WriteLine("Testing SetPlanetData");
+                var planetData = CurrentSystem.GetPlanetData(planetAddress);
+                stopwatch.Restart();
+                for (int i = 0; i < testCount; i++)
+                {
+                    CurrentSystem.SetPlanetData(planetAddress, planetData);
+                }
+                stopwatch.Stop();
+                Logger.WriteLine($"After {testCount} tests, it takes an average of" +
+                    $" {stopwatch.Elapsed.TotalMilliseconds / testCount}ms to SetPlanetData");
+
+
+
+                Logger.WriteLine("Testing GetPlanetData and SetPlanetData");
+                stopwatch.Restart();
+                for (int i = 0; i < testCount; i++)
+                {
+                    var planet = CurrentSystem.GetPlanetData(planetAddress);
+                    CurrentSystem.SetPlanetData(planetAddress, planet);
+                }
+                stopwatch.Stop();
+                Logger.WriteLine($"After {testCount} tests, it takes an average of" +
+                    $" {stopwatch.Elapsed.TotalMilliseconds / testCount}ms to GetPlanetData and SetPlanetData");
+
+
+
+
+                done = true;
             };
 #endif
         }
+
+        
 
         private void Testing()
         {

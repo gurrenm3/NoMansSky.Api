@@ -64,25 +64,12 @@ namespace NoMansSky.Api
 
             foreach (var field in valueType.GetFields())
             {
-                // Check that field type is valid. This should never fire?
-                if (field?.FieldType == null)
-                {
-                    ConsoleUtil.LogError($"{nameof(NMSTemplateConverter)}: Failed to get field type. Skipping field...");
-                    continue;
-                }
-
-                if (manager.ShouldIgnoreType(field.FieldType))
-                {
-                    ConsoleUtil.Log($"{nameof(NMSTemplateConverter)}: Field is on the ignore list. Skipping...");
-                    continue;
-                }
-
                 var fieldOffset = NMSTemplate.OffsetOf(valueType, field.Name);
                 var value = GetFieldValue(valueType, field, address + fieldOffset);
 
                 if (value == null)
                 {
-                    ConsoleUtil.LogWarning($"{nameof(NMSTemplateConverter)}: Field value is null. Skipping...");
+                    ConsoleUtil.LogWarning($"{nameof(NMSTemplateConverter)}: The field \"{field.Name}\" is is null. Skipping...");
                     continue;
                 }
 
@@ -113,8 +100,7 @@ namespace NoMansSky.Api
                 return null!;
             }
 
-            var array = converter.GetValue(address, field.FieldType, arrayLength.Value);
-            return array;
+            return converter.GetValue(address, field.FieldType, arrayLength.Value);
         }
 
         /// <summary>
@@ -146,14 +132,15 @@ namespace NoMansSky.Api
             foreach (var field in valueType.GetFields())
             {
                 var fieldOffset = NMSTemplate.OffsetOf(valueType, field.Name);
-                var fieldValue = field.GetValue(valueToSet);
-                if (fieldValue == null)
+                var newFieldValue = field.GetValue(valueToSet);
+
+                /*if (fieldValue == null)
                 {
                     ConsoleUtil.LogWarning($"{nameof(NMSTemplateConverter)}: Can't set field value because it's is null. Skipping...");
                     continue;
-                }
+                }*/
 
-                manager.SetValue(address + fieldOffset, fieldValue);
+                manager.SetValue(address + fieldOffset, newFieldValue);
             }
         }
     }

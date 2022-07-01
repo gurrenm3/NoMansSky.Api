@@ -1,4 +1,5 @@
-﻿using libMBIN.NMS.GameComponents;
+﻿using libMBIN;
+using libMBIN.NMS.GameComponents;
 using Reloaded.Hooks.Definitions;
 using Reloaded.Hooks.Definitions.X64;
 using Reloaded.ModHelper;
@@ -30,6 +31,7 @@ namespace NoMansSky.Api.Hooks.SpaceHooks
         public string HookName => "On Planet Updated";
         private IModLogger logger;
         private HashSet<long> planetAddresses = new HashSet<long>();
+        private MemoryManager memory = new MemoryManager();
 
         public void InitHook(IModLogger _logger, IReloadedHooks _hooks)
         {
@@ -51,6 +53,13 @@ namespace NoMansSky.Api.Hooks.SpaceHooks
                     ModEvent.Invoke(actualPlanetAddress);
 
                 planetAddresses.Add(actualPlanetAddress);
+
+                int planetNameOffset = NMSTemplate.OffsetOf(typeof(GcPlanetData), nameof(GcPlanetData.Name));
+                long planetNameAddress = actualPlanetAddress + planetNameOffset;
+                string planetName = memory.GetValue<string>(planetNameAddress);
+
+                string msg = string.Format("Loaded Planet->  Name: {0,-18}  GcPlanetData Address: {1, -12}", planetName, actualPlanetAddress.ToHex());
+                logger.WriteLine(msg, LogLevel.CheatEngine);
             }
 
             var result = Hook.OriginalFunction(planetAddress, a2, a3);

@@ -95,6 +95,7 @@ namespace NoMansSky.Api
         {
             GameLoop.OnUpdate.Postfix += Update;
             GameLoop.OnUpdate.Postfix += () => Update(GameLoop.Time.DeltaTime);
+            Game.MBinManager.OnMBinLoaded += OnMBinLoaded;
 
             memory = new MemoryManager();
         }
@@ -129,5 +130,45 @@ namespace NoMansSky.Api
         /// <br/>Will run after the Update method that provides DeltaTime.
         /// </summary>
         public virtual void Update() { }
+
+
+        /// <summary>
+        /// Called everytime an mbin gets loaded/registered by the API. Will only work with
+        /// currently supported MBINs.
+        /// </summary>
+        /// <param name="loadedMbin"></param>
+        public virtual void OnMBinLoaded(IMBin loadedMbin) { }
+
+        /// <summary>
+        /// Called when the main menu is reached.
+        /// </summary>
+        public virtual void OnMainMenu() { }
+
+        /// <summary>
+        /// Called when the player loads into the game after selecting a save file.
+        /// </summary>
+        public virtual void OnGameJoined() { }
+
+
+        /// <summary>
+        /// A shortcut for MemoryManager.SetValue. 
+        /// <br/>Sets a value in memory at the provided path. Path must be the full location of the object you want
+        /// to set, separated by periods. Works on nested objects. 
+        /// <br/>Example Path: "GcPlayerGlobals.GroundRunSpeed"
+        /// </summary>
+        /// <param name="pathToValue">The full path to the object you want to set, separated by periods.</param>
+        /// <param name="valueToSet">The value to be assigned to the provided path.</param>
+        public void SetValue(string pathToValue, object valueToSet) => memory.SetValue(pathToValue, valueToSet);
+
+        /// <summary>
+        /// A shortcut for MemoryManager.GetValue.
+        /// <br/>Returns the value that is stored in memory at the provided path. Path must be the full location 
+        /// of the object you want to get, separated by periods. Works on nested objects.
+        /// <br/><br/>Example Path: "GcPlayerGlobals.GroundRunSpeed"
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="pathToValue">The full path to the object you want to set, separated by periods.</param>
+        /// <returns></returns>
+        public T GetValue<T>(string pathToValue) => memory.GetValue<T>(pathToValue);
     }
 }

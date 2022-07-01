@@ -1,4 +1,6 @@
-﻿using Reloaded.Hooks.Definitions;
+﻿using libMBIN;
+using libMBIN.NMS.GameComponents;
+using Reloaded.Hooks.Definitions;
 using Reloaded.Hooks.Definitions.X64;
 using Reloaded.ModHelper;
 using System.Runtime.InteropServices;
@@ -25,6 +27,7 @@ namespace NoMansSky.Api.Hooks.SpaceHooks
         
         public string HookName => "On Warp Finished";
         private IModLogger logger;
+        private MemoryManager memory = new MemoryManager();
 
         public void InitHook(IModLogger _logger, IReloadedHooks _hooks)
         {
@@ -40,7 +43,17 @@ namespace NoMansSky.Api.Hooks.SpaceHooks
             if (IGame.Instance.IsWarping)
             {
                 ModEvent?.Invoke();
-                IGame.Instance.CurrentSystem.OnSystemLoaded.Invoke(systemDataAddress);
+
+                long actualSystemAddress = systemDataAddress - 0x10;
+                IGame.Instance.CurrentSystem.OnSystemLoaded.Invoke(actualSystemAddress);
+
+                int systemNameOffset = NMSTemplate.OffsetOf(typeof(GcSolarSystemData), nameof(GcSolarSystemData.Name));
+                long systemNameAddress = actualSystemAddress + systemNameOffset;
+                string systemName = memory.GetValue<string>(systemNameAddress);
+
+
+                string msg = string.Format("Loaded into System->  Name: {0,-18}  GcSolarSystemData Address: {1, -12}", systemName, actualSystemAddress.ToHex());
+                logger.WriteLine(msg, LogLevel.CheatEngine);
             }
 
             var result = Hook.OriginalFunction(systemDataAddress, a2);
