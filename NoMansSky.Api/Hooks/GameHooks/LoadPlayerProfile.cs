@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 
 namespace NoMansSky.Api.Hooks
 {
-    public unsafe class LoadPlayerProfile : IModHook
+    internal unsafe class LoadPlayerProfile : IModHook
     {
         #region Hook stuff
 

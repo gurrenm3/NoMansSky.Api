@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 
 namespace NoMansSky.Api.Hooks.GalaxyMapHooks
 {
-    public unsafe class Warp_Update : IModHook
+    internal unsafe class Warp_Update : IModHook
     {
         #region Hook Stuff
 

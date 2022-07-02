@@ -1,9 +1,4 @@
-﻿using libMBIN.NMS;
-using libMBIN.NMS.GameComponents;
-using NoMansSky.Api.Configuration;
-using NoMansSky.Api.Configuration.Implementation;
-using NoMansSky.Api.Hooks;
-using Reloaded.Hooks.ReloadedII.Interfaces;
+﻿using Reloaded.Hooks.ReloadedII.Interfaces;
 using Reloaded.Mod.Interfaces;
 using Reloaded.Mod.Interfaces.Internal;
 using Reloaded.ModHelper;
@@ -27,11 +22,6 @@ namespace NoMansSky.Api
         /// Provides access to the mod loader API.
         /// </summary>
         private IModLoader _modLoader = null!;
-
-        /// <summary>
-        /// Stores the contents of your mod's configuration. Automatically updated by template.
-        /// </summary>
-        private Config _configuration = null!;
 
         /// <summary>
         /// An interface to Reloaded's the function hooks/detours library.
@@ -73,13 +63,6 @@ namespace NoMansSky.Api
             _logger = (ILogger)_modLoader.GetLogger();
             _modLoader.GetController<IReloadedHooks>().TryGetTarget(out _hooks!);
 
-            // Your config file is in Config.json.
-            // Need a different name, format or more configurations? Modify the `Configurator`.
-            // If you do not want a config, remove Configuration folder and Config class.
-            var configurator = new Configurator(_modLoader.GetModConfigDirectory(_modConfig.ModId));
-            _configuration = configurator.GetConfiguration<Config>(0);
-            _configuration.ConfigurationUpdated += OnConfigurationUpdated;
-
             /*
                 Your mod code starts below.
                 Visit https://github.com/Reloaded-Project for additional optional libraries.
@@ -110,23 +93,6 @@ namespace NoMansSky.Api
             // Load all ModAttrAttributes from NoMansSky.Api.Lib
             ModAttributeLoader.LoadAllFromAssembly(typeof(IGame).Assembly, out loadedApiModAttributes);
         }
-
-
-        private void OnConfigurationUpdated(IConfigurable obj)
-        {
-            /*
-                This is executed when the configuration file gets 
-                updated by the user at runtime.
-            */
-
-            // Replace configuration with new.
-            _configuration = (Config)obj;
-            _logger.WriteLine($"[{_modConfig.ModId}] Config Updated: Applying");
-
-            // Apply settings from configuration.
-            // ... your code here.
-        }
-
 
 
         /* Automatically called by the mod loader when the mod is about to be unloaded. */

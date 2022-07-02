@@ -11,7 +11,7 @@ namespace NoMansSky.Api.Hooks.InventoryHooks
     /// <summary>
     /// 
     /// </summary>
-    public unsafe class OnPlayerInventoryLoaded : IModHook
+    internal unsafe class OnPlayerInventoryLoaded : IModHook
     {
         #region Asm Hook Variables
 

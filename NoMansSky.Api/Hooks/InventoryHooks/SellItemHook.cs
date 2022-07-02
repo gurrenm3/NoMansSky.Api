@@ -4,9 +4,9 @@ using Reloaded.ModHelper;
 using System;
 using System.Runtime.InteropServices;
 
-namespace NoMansSky.Api.Hooks
+namespace NoMansSky.Api.Hooks.InventoryHooks
 {
-    public unsafe class SellItemHook : IModHook
+    internal unsafe class SellItemHook : IModHook
     {
         [Function(CallingConventions.Microsoft)]
         [UnmanagedFunctionPointer(CallingConvention.StdCall, CharSet = CharSet.Ansi)]
@@ -29,7 +29,7 @@ namespace NoMansSky.Api.Hooks
         // TODO
         private long CodeToExecute(long self, GcInventoryElement* a2, GcInventoryElement* a3)
         {
-            var item = a3;            
+            var item = a3;
 
             var result = Hook.OriginalFunction(self, a2, a3);
 

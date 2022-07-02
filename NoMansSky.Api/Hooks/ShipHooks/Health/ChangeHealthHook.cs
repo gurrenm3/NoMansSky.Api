@@ -6,7 +6,7 @@ using static NoMansSky.Api.Hooks.Macros;
 
 namespace NoMansSky.Api.Hooks.ShipHooks
 {
-    public unsafe class ChangeHealthHook : IModHook
+    internal unsafe class ChangeHealthHook : IModHook
     {
         #region Asm Hook Variables
 

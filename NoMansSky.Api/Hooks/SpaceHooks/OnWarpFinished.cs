@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 
 namespace NoMansSky.Api.Hooks.SpaceHooks
 {
-    public unsafe class OnWarpFinished : IModHook
+    internal unsafe class OnWarpFinished : IModHook
     {
         #region Hook Stuff
 

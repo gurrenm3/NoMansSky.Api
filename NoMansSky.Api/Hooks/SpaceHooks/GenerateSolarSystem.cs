@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 
 namespace NoMansSky.Api.Hooks.SpaceHooks
 {
-    public unsafe class GenerateSolarSystem : IModHook
+    internal unsafe class GenerateSolarSystem : IModHook
     {
         #region Hook Stuff
 

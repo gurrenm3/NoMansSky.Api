@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 
 namespace NoMansSky.Api.Hooks.GalaxyMapHooks
 {
-    public unsafe class OnSystemHighlighted : IModHook
+    internal unsafe class OnSystemHighlighted : IModHook
     {
         #region Hook Stuff
 

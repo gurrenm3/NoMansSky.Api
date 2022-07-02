@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 
 namespace NoMansSky.Api.Hooks.PlayerHooks
 {
-    public unsafe class AddQuicksilver : IModHook
+    internal unsafe class AddQuicksilver : IModHook
     {
         #region Hook stuff
         [Function(CallingConventions.Microsoft)]

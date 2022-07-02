@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 
 namespace NoMansSky.Api.Hooks.PlayerHooks
 {
-    public unsafe class OnShieldDamaged : IModHook
+    internal unsafe class OnShieldDamaged : IModHook
     {
         #region Hook Stuff
 

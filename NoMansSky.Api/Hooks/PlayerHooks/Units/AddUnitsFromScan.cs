@@ -6,7 +6,7 @@ using static NoMansSky.Api.Hooks.Macros;
 
 namespace NoMansSky.Api.Hooks.PlayerHooks
 {
-    public unsafe class AddUnitsFromScan : IModHook
+    internal unsafe class AddUnitsFromScan : IModHook
     {
         #region Asm Hook Variables
 

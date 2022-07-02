@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 
 namespace NoMansSky.Api.Hooks.Mbin
 {
-    public unsafe class LoadGlobals : IModHook
+    internal unsafe class LoadGlobals : IModHook
     {
         #region Hook Stuff
 

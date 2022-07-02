@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 
 namespace NoMansSky.Api.Hooks.PlayerHooks
 {
-    public unsafe class AddNanites : IModHook
+    internal unsafe class AddNanites : IModHook
     {
         # region Hook Stuff
 

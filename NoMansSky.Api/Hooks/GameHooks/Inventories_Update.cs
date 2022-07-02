@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 
 namespace NoMansSky.Api.Hooks.GameHooks
 {
-    public unsafe class Inventories_Update : IModHook
+    internal unsafe class Inventories_Update : IModHook
     {
         #region Hook stuff
 

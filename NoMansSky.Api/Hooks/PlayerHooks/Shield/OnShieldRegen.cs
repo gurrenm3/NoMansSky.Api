@@ -9,7 +9,7 @@ namespace NoMansSky.Api.Hooks.PlayerHooks
     /// <summary>
     /// Hook that deals with the player's shield regeneration.
     /// </summary>
-    public unsafe class OnShieldRegen : IModHook
+    internal unsafe class OnShieldRegen : IModHook
     {
         #region Asm Hook Variables
 

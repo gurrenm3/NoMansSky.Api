@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 
 namespace NoMansSky.Api.Hooks.PlayerHooks
 {
-    public unsafe class RemoveQuicksilver : IModHook
+    internal unsafe class RemoveQuicksilver : IModHook
     {
         #region Hook stuff
 

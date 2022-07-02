@@ -9,7 +9,7 @@ using static NoMansSky.Api.Hooks.Macros;
 
 namespace NoMansSky.Api.Hooks.GalaxyMapHooks
 {
-    public unsafe class LoadPlanetFromHighlightedSystem : IModHook
+    internal unsafe class LoadPlanetFromHighlightedSystem : IModHook
     {
         #region Asm Hook Variables
 

@@ -13,7 +13,7 @@ namespace NoMansSky.Api.Hooks.InventoryHooks
     /// <summary>
     /// 
     /// </summary>
-    public unsafe class OnItemAmountIncreased : IModHook
+    internal unsafe class OnItemAmountIncreased : IModHook
     {
         #region Asm Hook Variables
 

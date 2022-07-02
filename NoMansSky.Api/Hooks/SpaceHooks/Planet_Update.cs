@@ -9,7 +9,7 @@ using System.Runtime.InteropServices;
 
 namespace NoMansSky.Api.Hooks.SpaceHooks
 {
-    public unsafe class Planet_Update : IModHook
+    internal unsafe class Planet_Update : IModHook
     {
         #region Hook Stuff
 

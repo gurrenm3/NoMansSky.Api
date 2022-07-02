@@ -4,8 +4,8 @@ using Reloaded.ModHelper;
 using System.Runtime.InteropServices;
 
 namespace NoMansSky.Api.Hooks.GameHooks
-{    
-    public unsafe class MainMenu_Update : IModHook
+{
+    internal unsafe class MainMenu_Update : IModHook
     {
         #region Hook stuff
 

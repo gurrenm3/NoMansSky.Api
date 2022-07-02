@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 
 namespace NoMansSky.Api.Hooks.GameHooks
 {
-    public unsafe class GetGcGalaxyMap : IModHook
+    internal unsafe class GetGcGalaxyMap : IModHook
     {
         #region Hook Stuff
 
