@@ -74,10 +74,6 @@ The purpose of this library is to help mod makers create incredibly diverse and 
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Game Classes\Items\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Reference Include="libMBIN">
       <HintPath>..\Dependencies\libMBIN.dll</HintPath>
       <Private>True</Private>

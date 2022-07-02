@@ -2,7 +2,10 @@
 
 namespace NoMansSky.Api
 {
-    public class HookedTime : ITime
+    /// <summary>
+    /// A time class that is hooked to the game.
+    /// </summary>
+    internal class HookedTime : ITime
     {
         /// <summary>
         /// <inheritdoc/>

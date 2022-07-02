@@ -4,7 +4,7 @@ using System;
 namespace NoMansSky.Api
 {
     /// <summary>
-    /// Used to make methods execute automatically after <see cref="Game.Instance"/> has finished being created.
+    /// Used to make methods execute automatically after <see cref="IGame.Instance"/> has finished being created.
     /// </summary>
     public class InitializeAttribute : ModMethodAttribute
     {

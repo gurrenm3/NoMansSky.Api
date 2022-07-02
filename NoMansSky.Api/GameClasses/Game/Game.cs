@@ -4,7 +4,7 @@ using Reloaded.ModHelper;
 namespace NoMansSky.Api
 {
     /// <summary>
-    /// <inheritdoc/>
+    /// The parent class for interacting with and getting all information from No Mans Sky.
     /// </summary>
     public sealed class Game : ReloadedGame, IGame
     {

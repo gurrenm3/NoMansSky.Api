@@ -10,8 +10,8 @@ namespace NoMansSky.Api
     [StructLayout(LayoutKind.Explicit)]
     public unsafe struct GcInventoryElement
     {
-        [FieldOffset(0x0)]
-        public GcInventoryType itemType;
+        /*[FieldOffset(0x0)]
+        public GcInventoryType itemType;*/
 
         /// <summary>
         /// The ID of this item. Identifies what item it is.

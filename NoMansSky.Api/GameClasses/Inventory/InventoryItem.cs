@@ -17,14 +17,12 @@ namespace NoMansSky.Api
             set { item->index = value; }
         }
 
-        /// <summary>
-        /// <inheritdoc/>
-        /// </summary>
-        public GcInventoryType ItemType
+        // removed for now.
+        /*public GcInventoryType ItemType
         {
             get { return item->itemType; }
             set { item->itemType = value; }
-        }
+        }*/
 
         /// <summary>
         /// <inheritdoc/>
@@ -108,27 +106,22 @@ namespace NoMansSky.Api
         private bool IsItemValid()
         {
             bool isNameValid = !string.IsNullOrEmpty(ID);
-            bool isTypeValid = (int)ItemType <= 2 && ItemType >= 0;
-            return isNameValid && isTypeValid;
+            return isNameValid;
+            /*bool isTypeValid = (int)ItemType <= 2 && ItemType >= 0;
+            return isNameValid && isTypeValid;*/
         }
 
-        /// <summary>
-        /// Returns the type of this item.
-        /// </summary>
-        /// <returns></returns>
-        public GcInventoryType GetItemType()
+        // removed for now
+        /*public GcInventoryType GetItemType()
         {
             return item->itemType;
-        }
+        }*/
 
-        /// <summary>
-        /// Set's the type of this item.
-        /// </summary>
-        /// <param name="newType"></param>
-        public void SetItemType(GcInventoryType newType)
+        // removed for now.
+        /*public void SetItemType(GcInventoryType newType)
         {
             item->itemType = newType;
-        }
+        }*/
 
         /// <summary>
         /// Returns the ID of this item.

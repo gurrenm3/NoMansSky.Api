@@ -2,6 +2,9 @@
 
 namespace NoMansSky.Api
 {
+    /// <summary>
+    /// A game loop that is hooked to the game.
+    /// </summary>
     internal class HookedGameLoop : GameLoop
     {
         public override ITime Time => _time;

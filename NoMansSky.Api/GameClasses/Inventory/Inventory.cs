@@ -78,7 +78,7 @@ namespace NoMansSky.Api
         /// <returns></returns>
         public override string ToString()
         {
-            string title = string.Format("   {1,-22} | {2,-7} | {3,-7} | {4,-10} | {5,-18}", "#", "ID", "Index", "Amount", "Max Amount", "Tech Type");
+            string title = string.Format("   {1,-22} | {2,-7} | {3,-7} | {4,-10}", "#", "ID", "Index", "Amount", "Max Amount");
             string titleUnderline = "".PadRight(title.Length, '-');
 
             string msg = $"{title}\n{titleUnderline}";
@@ -86,7 +86,7 @@ namespace NoMansSky.Api
             for (int i = 0; i < items.Count; i++)
             {
                 var item = items[i];
-                msg += string.Format("\n   {1,-22}   {2,-7}   {3,-7}   {4,-10}   {5,-18}", i, item.ID, item.Index, item.Amount, item.MaxAmount, item.ItemType);
+                msg += string.Format("\n   {1,-22}   {2,-7}   {3,-7}   {4,-10}", i, item.ID, item.Index, item.Amount, item.MaxAmount);
             }
 
             msg += $"\n\n   Total Items: {items.Count}";

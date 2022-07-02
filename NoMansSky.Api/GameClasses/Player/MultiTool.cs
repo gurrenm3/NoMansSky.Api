@@ -1,7 +1,7 @@
 ﻿namespace NoMansSky.Api
 {
     /// <summary>
-    /// <inheritdoc/>
+    /// Represents a MultiTool from the game.
     /// </summary>
     public class MultiTool : IMultiTool
     {

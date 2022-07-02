@@ -3,7 +3,7 @@
 namespace NoMansSky.Api
 {
     /// <summary>
-    /// <inheritdoc/>
+    /// Represents the player's exosuit.
     /// </summary>
     public unsafe class Exosuit : IExosuit
     {
@@ -34,7 +34,7 @@ namespace NoMansSky.Api
 
             game.MBinManager.OnMBinLoaded += (mbin) =>
             {
-                if (mbin.Name != GcComponent.cGcRefinerUnitComponentData.ToString())
+                if (mbin.Name != "cGcRefinerUnitComponentData")
                     return;
                 
                 if (mbin.Address == 0)

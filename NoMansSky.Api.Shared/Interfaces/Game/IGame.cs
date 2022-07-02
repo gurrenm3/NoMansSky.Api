@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace NoMansSky.Api
 {
     /// <summary>
-    /// A parent class for interacting with and getting all information from No Mans Sky.
+    /// The parent class for interacting with and getting all information from No Mans Sky.
     /// </summary>
     public interface IGame : IReloadedGame
     {

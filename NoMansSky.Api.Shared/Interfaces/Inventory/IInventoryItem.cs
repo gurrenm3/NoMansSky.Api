@@ -13,7 +13,7 @@
         /// <summary>
         /// The type of this item.
         /// </summary>
-        public GcInventoryType ItemType { get; set; }
+        //public GcInventoryType ItemType { get; set; } // removed for now
 
         /// <summary>
         /// The ID of this item.

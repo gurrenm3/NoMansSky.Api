@@ -11,6 +11,9 @@ using System.Diagnostics;
 
 namespace NoMansSky.Api
 {
+    /// <summary>
+    /// Entry point for reloaded mods.
+    /// </summary>
     public class Program : IMod, IExports
     {
         /// <summary>
@@ -90,7 +93,7 @@ namespace NoMansSky.Api
 
             _mod = new Mod(_modConfig, _hooks, Logger);
 
-            // Load all ModAttrAttributes from NoMansSky.Api.Lib
+            // Load all ModAttrAttributes from NoMansSky.Api.Shared
             ModAttributeLoader.LoadAllFromAssembly(typeof(IGame).Assembly, out loadedApiModAttributes);
         }
 

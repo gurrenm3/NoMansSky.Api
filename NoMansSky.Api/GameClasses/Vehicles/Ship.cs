@@ -3,7 +3,7 @@
 namespace NoMansSky.Api
 {
     /// <summary>
-    /// <inheritdoc/>
+    /// Represents the player's ship.
     /// </summary>
     public class Ship : IShip
     {
