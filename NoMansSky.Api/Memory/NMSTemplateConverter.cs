@@ -2,6 +2,7 @@
 using Reloaded.ModHelper;
 using System;
 using System.Reflection;
+using System.Threading.Tasks;
 
 namespace NoMansSky.Api
 {
@@ -61,6 +62,8 @@ namespace NoMansSky.Api
         public object GetValue(long address, Type valueType)
         {
             var instance = Activator.CreateInstance(valueType);
+
+            var fields = valueType.GetFields();
 
             foreach (var field in valueType.GetFields())
             {

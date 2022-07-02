@@ -93,7 +93,10 @@ namespace NoMansSky.Api
             memoryMgr.AddConverter(new NMSStringConverter(memoryMgr), alwaysRegister: true);
             memoryMgr.AddConverter(new ArrayConverter(memoryMgr), alwaysRegister: true);
             memoryMgr.AddConverter(new ListConverter(memoryMgr), alwaysRegister: true);
+            //memoryMgr.AddConverter(new ThreadedNMSTemplateConverter(memoryMgr), alwaysRegister: true);
             memoryMgr.AddConverter(new NMSTemplateConverter(memoryMgr), alwaysRegister: true);
+
+
 
 
             gameInstance = new Game(Logger);

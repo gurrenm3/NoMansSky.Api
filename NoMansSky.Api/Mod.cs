@@ -46,6 +46,8 @@ namespace NoMansSky.Api
                 Logger.WriteLine("=================================");
                 Logger.WriteLine($"Planet Name: {planet.Name.Value}\n{dataStr}");*/
 
+                return;
+
                 if (done)
                     return;
 
@@ -59,7 +61,7 @@ namespace NoMansSky.Api
                 stopwatch.Start();
                 for (int i = 0; i < testCount; i++)
                 {
-                    var planet = CurrentSystem.GetPlanetData(planetAddress);
+                    var planet = memory.GetValue(planetAddress, typeof(GcPlanetData));
                 }
                 stopwatch.Stop();
                 Logger.WriteLine($"After {testCount} tests, it takes an average of" +
@@ -71,7 +73,7 @@ namespace NoMansSky.Api
                 stopwatch.Restart();
                 for (int i = 0; i < testCount; i++)
                 {
-                    CurrentSystem.SetPlanetData(planetAddress, planetData);
+                    //CurrentSystem.SetPlanetData(planetAddress, planetData);
                 }
                 stopwatch.Stop();
                 Logger.WriteLine($"After {testCount} tests, it takes an average of" +
@@ -83,8 +85,8 @@ namespace NoMansSky.Api
                 stopwatch.Restart();
                 for (int i = 0; i < testCount; i++)
                 {
-                    var planet = CurrentSystem.GetPlanetData(planetAddress);
-                    CurrentSystem.SetPlanetData(planetAddress, planet);
+                    /*var planet = CurrentSystem.GetPlanetData(planetAddress);
+                    CurrentSystem.SetPlanetData(planetAddress, planet);*/
                 }
                 stopwatch.Stop();
                 Logger.WriteLine($"After {testCount} tests, it takes an average of" +
@@ -135,13 +137,7 @@ namespace NoMansSky.Api
 
         public override void Update()
         {
-            message = $"IsOnMainMenu = {Game.IsOnMainMenu} | Game.IsLoadingIntoGame = {Game.IsLoadingIntoGame} | Game.IsInGame = {Game.IsInGame} | GalaxyMap.IsOpened = {GalaxyMap.IsOpened} | Game.IsWarping = {Game.IsWarping}";
-
-            if (message != lastMessage)
-            {
-                Logger.WriteLine(message);
-                lastMessage = message;
-            }
+            
         }
 #endif
 
