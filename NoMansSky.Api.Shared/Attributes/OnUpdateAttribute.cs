@@ -1,7 +1,7 @@
-﻿using NoMansSky.Api;
+﻿using Reloaded.ModHelper;
 using System;
 
-namespace Reloaded.ModHelper
+namespace NoMansSky.Api
 {
     /// <summary>
     /// Used on methods to indicate that they should automatically be subscribed to a GameLoop.

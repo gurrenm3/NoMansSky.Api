@@ -1,7 +1,8 @@
-﻿using libMBIN;
+﻿using Reloaded.ModHelper;
+using libMBIN;
 using System;
 
-namespace Reloaded.ModHelper
+namespace NoMansSky.Api
 {
     /// <summary>
     /// Used to convert arrays in memory.

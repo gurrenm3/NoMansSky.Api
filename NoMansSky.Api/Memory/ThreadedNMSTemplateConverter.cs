@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace NoMansSky.Api
 {
-    public class ThreadedNMSTemplateConverter : IMemoryConverter
+    class ThreadedNMSTemplateConverter : IMemoryConverter
     {
         class FieldData
         {
