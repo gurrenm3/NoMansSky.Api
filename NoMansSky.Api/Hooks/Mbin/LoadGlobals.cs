@@ -37,7 +37,6 @@ namespace NoMansSky.Api.Hooks.Mbin
             var actualName = Strings.ToString(mbinName);
             if (!string.IsNullOrEmpty(actualName) && addressToLoadedMbin > 0)
             {
-                logger.WriteLine($"Loading mBin: {actualName}");
                 string cleanedName = actualName.Replace(" ", "");
                 if (cleanedName.Contains("/"))
                 {
