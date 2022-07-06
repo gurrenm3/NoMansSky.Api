@@ -4,7 +4,7 @@ using Reloaded.ModHelper;
 using System;
 using System.Runtime.InteropServices;
 
-namespace NoMansSky.Api.Hooks.GalaxyMapHooks
+namespace NoMansSky.Api.Hooks.GalaxyMap
 {
     internal unsafe class GalaxyMap_Update : IModHook
     {
@@ -27,14 +27,14 @@ namespace NoMansSky.Api.Hooks.GalaxyMapHooks
 
         public string HookName => "GalaxyMap.Update";
         private IModLogger logger;
-        private GalaxyMap galaxyMap;
+        private Api.GalaxyMap galaxyMap;
         private bool ranUpdateFromHere = false; // reflects whether game.update was manually invoked here.
-        private Game game;
+        private Api.Game game;
 
         public void InitHook(IModLogger _logger, IReloadedHooks _hooks)
         {
-            game = (Game)IGame.Instance;
-            galaxyMap = (GalaxyMap)game.GalaxyMap;
+            game = (Api.Game)IGame.Instance;
+            galaxyMap = (Api.GalaxyMap)game.GalaxyMap;
             logger = _logger;
 
             // string pattern = "48 8B 49 10 E9 ? ? ? ? " // has duplicates. Use it to find pattern below if issues.

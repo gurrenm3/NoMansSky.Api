@@ -1,4 +1,6 @@
-﻿namespace NoMansSky.Api
+﻿using System;
+
+namespace NoMansSky.Api
 {
     /// <summary>
     /// Represents an MBIN file.
@@ -14,5 +16,10 @@
         /// The address to the instance of this MBIN file.
         /// </summary>
         public long Address { get; init; }
+
+        /// <summary>
+        /// The libMbin type for this mbin file.
+        /// </summary>
+        public Type MBinType { get; init; }
     }
 }

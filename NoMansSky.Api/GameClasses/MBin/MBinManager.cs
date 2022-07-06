@@ -33,7 +33,7 @@ namespace NoMansSky.Api
         /// <br/>A new list is returned in order to prevent accidentally modifying the origninal list.
         /// </summary>
         /// <returns></returns>
-        public List<IMBin> GetAllMBIN()
+        public List<IMBin> GetAllMBin()
         {
             List<IMBin> mbin = new List<IMBin>();
             mbin.AddRange(loadedMBIN);
@@ -43,9 +43,19 @@ namespace NoMansSky.Api
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public IMBin GetMBin<T>()
+        {
+            return GetMBin(typeof(T).Name);
+        }
+
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
         /// <param name="mbinName"></param>
         /// <returns></returns>
-        public IMBin GetMbin(string mbinName)
+        public IMBin GetMBin(string mbinName)
         {
             if (loadedMBIN.Count == 0)
             {
@@ -75,28 +85,6 @@ namespace NoMansSky.Api
                 var currentMbinName = mbin.Name.ToLower();
                 if (mbinName == currentMbinName.Insert(0, "gc") || mbinName.Insert(0, "gc") == currentMbinName || mbinName == currentMbinName.Insert(0, "cgc") || mbinName.Insert(0, "cgc") == currentMbinName)
                     return mbin;
-            }
-
-            return null!;
-        }
-
-        /// <summary>
-        /// <inheritdoc/>
-        /// </summary>
-        /// <param name="mbinName"></param>
-        /// <returns></returns>
-        public Type GetMbinType(string mbinName)
-        {
-            mbinName = mbinName.ToLower();
-            var types = typeof(NMSTemplate).Assembly.GetTypes();
-
-            // not checking twice like in GetMbin because it's too many types to loop over twice.
-            
-            foreach (var type in types)
-            {
-                var currentMbinName = type.Name.ToLower();
-                if (mbinName == type.Name.ToLower() || mbinName == currentMbinName.Insert(0, "gc") || mbinName.Insert(0, "gc") == currentMbinName || mbinName == currentMbinName.Insert(0, "cgc") || mbinName.Insert(0, "cgc") == currentMbinName)
-                    return type;
             }
 
             return null!;

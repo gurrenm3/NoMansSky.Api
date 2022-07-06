@@ -63,7 +63,6 @@ namespace NoMansSky.Api
         {
             var instance = Activator.CreateInstance(valueType);
 
-            var fields = valueType.GetFields();
 
             foreach (var field in valueType.GetFields())
             {

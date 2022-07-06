@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
-namespace NoMansSky.Api.Hooks.GalaxyMapHooks
+namespace NoMansSky.Api.Hooks.GalaxyMap
 {
     internal unsafe class Warp_Update : IModHook
     {

@@ -1,5 +1,11 @@
-- name: Articles
-  href: articles/
+- name: Getting Started
+  href: gettingStarted/
+- name: Code Examples
+  href: codeExamples/
+  homepage: codeExamples/index.md
+- name: Example Mods
+  href: exampleMods/
+  homepage: exampleMods/sayHello.md
 - name: Api Documentation
   href: api/
   homepage: api/index.md

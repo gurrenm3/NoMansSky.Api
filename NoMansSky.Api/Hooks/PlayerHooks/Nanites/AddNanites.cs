@@ -4,7 +4,7 @@ using Reloaded.ModHelper;
 using System;
 using System.Runtime.InteropServices;
 
-namespace NoMansSky.Api.Hooks.PlayerHooks
+namespace NoMansSky.Api.Hooks.Player
 {
     internal unsafe class AddNanites : IModHook
     {

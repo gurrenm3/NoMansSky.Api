@@ -15,23 +15,23 @@ namespace NoMansSky.Api
         IModEvent<IMBin> OnMBinLoaded { get; set; }
 
         /// <summary>
-        /// Will return the a loaded MBIN based on it's name.
+        /// Will return a loaded MBIN based on it's name.
         /// </summary>
         /// <param name="mbinName"></param>
         /// <returns></returns>
-        IMBin GetMbin(string mbinName);
+        IMBin GetMBin(string mbinName);
+
+        /// <summary>
+        /// Will return a loaded MBIN based on it's name. Get's name from type T
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        IMBin GetMBin<T>();
 
         /// <summary>
         /// Returns all MBIN files that have been captured by the API.
         /// </summary>
         /// <returns></returns>
-        List<IMBin> GetAllMBIN();
-
-        /// <summary>
-        /// Returns the Type of the mbin 
-        /// </summary>
-        /// <param name="mbinName"></param>
-        /// <returns></returns>
-        Type GetMbinType(string mbinName);
+        List<IMBin> GetAllMBin();
     }
 }

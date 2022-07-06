@@ -8,7 +8,7 @@ using System.Windows;
 using static NoMansSky.Api.Hooks.Macros;
 using static Reloaded.Hooks.Definitions.X64.FunctionAttribute;
 
-namespace NoMansSky.Api.Hooks.InventoryHooks
+namespace NoMansSky.Api.Hooks.Inventory
 {
     /// <summary>
     /// 

@@ -4,7 +4,7 @@ using Reloaded.Hooks.Definitions.X64;
 using Reloaded.ModHelper;
 using static NoMansSky.Api.Hooks.Macros;
 
-namespace NoMansSky.Api.Hooks.ShipHooks
+namespace NoMansSky.Api.Hooks.Ship
 {
     internal unsafe class ChangeHealthHook : IModHook
     {

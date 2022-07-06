@@ -4,7 +4,7 @@ using Reloaded.Hooks.Definitions.X64;
 using Reloaded.ModHelper;
 using static NoMansSky.Api.Hooks.Macros;
 
-namespace NoMansSky.Api.Hooks.PlayerHooks
+namespace NoMansSky.Api.Hooks.Player
 {
     /// <summary>
     /// Hook that deals with the player's shield regeneration.
@@ -34,7 +34,7 @@ namespace NoMansSky.Api.Hooks.PlayerHooks
         /// <summary>
         /// The stat this hook is tied to.
         /// </summary>
-        private static Stat<int> Stat => Game.Instance?.Player?.Shield;
+        private static Stat<int> Stat => Api.Game.Instance?.Player?.Shield;
 
         /// <summary>
         /// ModEventHook that's called when the original function is called.
@@ -100,7 +100,7 @@ namespace NoMansSky.Api.Hooks.PlayerHooks
         /// <param name="originalRegenAmount"></param>
         private void CodeToExecutePattern1(int originalRegenAmount)
         {
-            bool hasGcPlayerState = Game.Instance?.Player != null && Game.Instance.Player.HasGcPlayerState;
+            bool hasGcPlayerState = Api.Game.Instance?.Player != null && Api.Game.Instance.Player.HasGcPlayerState;
 
             // Player failed to initialize. Can't do hooking.
             if (Stat == null || !hasGcPlayerState)
@@ -127,7 +127,7 @@ namespace NoMansSky.Api.Hooks.PlayerHooks
         /// </summary>
         private void CodeToExecutePattern2()
         {
-            bool hasGcPlayerState = Game.Instance?.Player != null && Game.Instance.Player.HasGcPlayerState;
+            bool hasGcPlayerState = Api.Game.Instance?.Player != null && Api.Game.Instance.Player.HasGcPlayerState;
 
             // Player failed to initialize. Can't do hooking.
             if (Stat == null || !hasGcPlayerState)

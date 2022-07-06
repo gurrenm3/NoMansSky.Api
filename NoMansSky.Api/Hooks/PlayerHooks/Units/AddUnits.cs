@@ -4,7 +4,7 @@ using Reloaded.ModHelper;
 using System;
 using System.Runtime.InteropServices;
 
-namespace NoMansSky.Api.Hooks.PlayerHooks
+namespace NoMansSky.Api.Hooks.Player
 {
     internal unsafe class AddUnits : IModHook
     {
@@ -22,7 +22,7 @@ namespace NoMansSky.Api.Hooks.PlayerHooks
         /// <summary>
         /// The stat this hook is tied to.
         /// </summary>
-        private static Stat<int> Stat => Game.Instance?.Player?.Units;
+        private static Stat<int> Stat => Api.Game.Instance?.Player?.Units;
 
         /// <summary>
         /// ModEventHook that's called when the original function is called.
@@ -46,7 +46,7 @@ namespace NoMansSky.Api.Hooks.PlayerHooks
 
         private long CodeToExecute(long gcPlayerStateData, int amountToAdd)
         {
-            bool hasGcPlayerState = Game.Instance?.Player != null && Game.Instance.Player.HasGcPlayerState;
+            bool hasGcPlayerState = Api.Game.Instance?.Player != null && Api.Game.Instance.Player.HasGcPlayerState;
 
             // Player failed to initialize. Can't do hooking.
             if (Stat == null || !hasGcPlayerState)

@@ -4,7 +4,7 @@ using Reloaded.ModHelper;
 using System;
 using System.Runtime.InteropServices;
 
-namespace NoMansSky.Api.Hooks.PlayerHooks
+namespace NoMansSky.Api.Hooks.Player
 {
     internal unsafe class Player_Update : IModHook
     {
@@ -46,14 +46,14 @@ namespace NoMansSky.Api.Hooks.PlayerHooks
         private void CodeToExecute(long self, float deltaTime)
         {
             // Player failed to initialize. Can't run API code.
-            if (Game.Instance?.Player != null && !Game.Instance.Player.HasGcPlayerState)
+            if (Api.Game.Instance?.Player != null && !Api.Game.Instance.Player.HasGcPlayerState)
             {
                 Hook.OriginalFunction(self, deltaTime);
                 return;
             }
 
-            if (Game.Instance.Player.BaseAddress == 0)
-                Game.Instance.Player.OnBaseAddressAquired.Invoke(self);
+            if (Api.Game.Instance.Player.BaseAddress == 0)
+                Api.Game.Instance.Player.OnBaseAddressAquired.Invoke(self);
 
             this.playerAddress.value = self;
             this.deltaTime.value = deltaTime;

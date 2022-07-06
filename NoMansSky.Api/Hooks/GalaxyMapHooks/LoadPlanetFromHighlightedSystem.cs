@@ -7,7 +7,7 @@ using Reloaded.ModHelper;
 using System.Collections.Generic;
 using static NoMansSky.Api.Hooks.Macros;
 
-namespace NoMansSky.Api.Hooks.GalaxyMapHooks
+namespace NoMansSky.Api.Hooks.GalaxyMap
 {
     internal unsafe class LoadPlanetFromHighlightedSystem : IModHook
     {

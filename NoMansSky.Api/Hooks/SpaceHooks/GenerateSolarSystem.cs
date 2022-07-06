@@ -1,11 +1,11 @@
-﻿using NoMansSky.Api.Hooks.GameHooks;
+﻿using NoMansSky.Api.Hooks.Game;
 using Reloaded.Hooks.Definitions;
 using Reloaded.Hooks.Definitions.X64;
 using Reloaded.ModHelper;
 using System;
 using System.Runtime.InteropServices;
 
-namespace NoMansSky.Api.Hooks.SpaceHooks
+namespace NoMansSky.Api.Hooks.Space
 {
     internal unsafe class GenerateSolarSystem : IModHook
     {
@@ -23,12 +23,12 @@ namespace NoMansSky.Api.Hooks.SpaceHooks
         public string HookName => "GenerateSolarSystem";
         private IModLogger logger;
         private bool firstRun = true;
-        private Game game;
+        private Api.Game game;
 
         public void InitHook(IModLogger _logger, IReloadedHooks _hooks)
         {
             logger = _logger;
-            game = (Game)IGame.Instance;
+            game = (Api.Game)IGame.Instance;
 
             string pattern = "48 8B C4 55 41 54 41 55 41 56 41 57 48 8D 68 C8 48 81 EC ? ? ? ? 48 C7 45 ? ? ? ? ? 48 89 58 10 48 89 70 18 48 89 78 20 48";
             Function = _hooks.CreateFunction<HookDelegate>(new Signature(pattern).Scan());

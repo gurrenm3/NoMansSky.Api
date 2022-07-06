@@ -5,7 +5,7 @@ using Reloaded.Hooks.Definitions.X64;
 using Reloaded.ModHelper;
 using System.Runtime.InteropServices;
 
-namespace NoMansSky.Api.Hooks.SpaceHooks
+namespace NoMansSky.Api.Hooks.Space
 {
     internal unsafe class OnWarpFinished : IModHook
     {
@@ -44,8 +44,9 @@ namespace NoMansSky.Api.Hooks.SpaceHooks
             {
                 ModEvent?.Invoke();
 
-                long actualSystemAddress = systemDataAddress - 0x10;
-                IGame.Instance.CurrentSystem.OnSystemLoaded.Invoke(actualSystemAddress);
+                long actualSystemAddress = systemDataAddress;
+                IGame.Instance.CurrentSystem.SystemDataAddress = actualSystemAddress;
+                IGame.Instance.CurrentSystem.OnSystemLoaded.Invoke();
 
                 int systemNameOffset = NMSTemplate.OffsetOf(typeof(GcSolarSystemData), nameof(GcSolarSystemData.Name));
                 long systemNameAddress = actualSystemAddress + systemNameOffset;

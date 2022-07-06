@@ -4,7 +4,7 @@ using Reloaded.ModHelper;
 using System;
 using System.Runtime.InteropServices;
 
-namespace NoMansSky.Api.Hooks.GameHooks
+namespace NoMansSky.Api.Hooks.Game
 {
     internal unsafe class InGame_Update : IModHook
     {

@@ -1,5 +1,6 @@
-﻿using NoMansSky.Api.Hooks.GameHooks;
+﻿using NoMansSky.Api.Hooks.Game;
 using Reloaded.ModHelper;
+using System.Collections.Generic;
 
 namespace NoMansSky.Api
 {
@@ -35,6 +36,11 @@ namespace NoMansSky.Api
         /// <inheritdoc/>
         /// </summary>
         public IMBinManager MBinManager { get; set; } = new MBinManager();
+
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
+        public List<IEnvironmentObject> EnvironmentObjects { get; internal set; } = new List<IEnvironmentObject>();
 
         /// <summary>
         /// <inheritdoc/>
@@ -96,6 +102,11 @@ namespace NoMansSky.Api
         /// <inheritdoc/>
         /// </summary>
         public IModEvent OnWarpFinished { get; set; } = new SharedModEvent();
+
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
+        public IModEvent<IEnvironmentObject> OnEnvironmentObjectLoaded { get; set; } = new SharedModEvent<IEnvironmentObject>();
 
         /// <summary>
         /// <inheritdoc/>
@@ -177,7 +188,11 @@ namespace NoMansSky.Api
             };
 
             // Warp events
-            OnWarpStarted += () => IsWarping = true;
+            OnWarpStarted += () =>
+            {
+                IsWarping = true;
+                EnvironmentObjects.Clear();
+            };
             OnWarpFinished += () => IsWarping = false;
 
             // main menu events
@@ -187,6 +202,9 @@ namespace NoMansSky.Api
                 IsInGame = false;
                 IsOnMainMenu = true;
             };
+
+            // planet events
+            OnEnvironmentObjectLoaded += EnvironmentObjects.Add;
 
             // other events
             OnInventoriesOpened += () => IsInventoryOpen = true;

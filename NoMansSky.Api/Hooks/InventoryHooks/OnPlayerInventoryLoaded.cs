@@ -6,7 +6,7 @@ using System;
 using System.Runtime.InteropServices;
 using static NoMansSky.Api.Hooks.Macros;
 
-namespace NoMansSky.Api.Hooks.InventoryHooks
+namespace NoMansSky.Api.Hooks.Inventory
 {
     /// <summary>
     /// 

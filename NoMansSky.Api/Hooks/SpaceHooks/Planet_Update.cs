@@ -7,7 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
-namespace NoMansSky.Api.Hooks.SpaceHooks
+namespace NoMansSky.Api.Hooks.Space
 {
     internal unsafe class Planet_Update : IModHook
     {
@@ -25,13 +25,15 @@ namespace NoMansSky.Api.Hooks.SpaceHooks
         /// <summary>
         /// The mod event tied to when a planet gets loaded.
         /// </summary>
-        public static IModEvent<long> ModEvent => IGame.Instance?.CurrentSystem?.OnPlanetLoaded!;
+        public static IModEvent<IPlanet> ModEvent => IGame.Instance?.CurrentSystem?.OnPlanetLoaded!;
 
 
         public string HookName => "On Planet Updated";
         private IModLogger logger;
-        private HashSet<long> planetAddresses = new HashSet<long>();
+        internal static HashSet<long> planetAddresses = new HashSet<long>();
+
         private MemoryManager memory = new MemoryManager();
+
 
         public void InitHook(IModLogger _logger, IReloadedHooks _hooks)
         {
@@ -43,6 +45,7 @@ namespace NoMansSky.Api.Hooks.SpaceHooks
             IGame.Instance.OnWarpStarted += () => planetAddresses.Clear();
         }
 
+
         const int offsetToBaseAddress = 0x60;
         private long CodeToExecute(long planetAddress, long a2, long a3)
         {
@@ -50,16 +53,24 @@ namespace NoMansSky.Api.Hooks.SpaceHooks
             if (!planetAddresses.Contains(actualPlanetAddress))
             {
                 if (ModEvent != null)
-                    ModEvent.Invoke(actualPlanetAddress);
+                {
+                    Planet p = new Planet();
+                    p.PlanetDataAddress = actualPlanetAddress;
+
+                    string msg = string.Format("Loaded Planet->  Name: {0,-18}  GcPlanetData Address: {1, -12}", p.Name, actualPlanetAddress.ToHex());
+                    logger.WriteLine(msg, LogLevel.CheatEngine);
+
+                    ModEvent.Invoke(p);
+                }
 
                 planetAddresses.Add(actualPlanetAddress);
 
-                int planetNameOffset = NMSTemplate.OffsetOf(typeof(GcPlanetData), nameof(GcPlanetData.Name));
+                /*int planetNameOffset = NMSTemplate.OffsetOf(typeof(GcPlanetData), nameof(GcPlanetData.Name));
                 long planetNameAddress = actualPlanetAddress + planetNameOffset;
                 string planetName = memory.GetValue<string>(planetNameAddress);
 
                 string msg = string.Format("Loaded Planet->  Name: {0,-18}  GcPlanetData Address: {1, -12}", planetName, actualPlanetAddress.ToHex());
-                logger.WriteLine(msg, LogLevel.CheatEngine);
+                logger.WriteLine(msg, LogLevel.CheatEngine);*/
             }
 
             var result = Hook.OriginalFunction(planetAddress, a2, a3);

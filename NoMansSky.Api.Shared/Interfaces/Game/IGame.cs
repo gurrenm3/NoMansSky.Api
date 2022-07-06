@@ -37,43 +37,118 @@ namespace NoMansSky.Api
 
         /// <summary>
         /// Called whenever the main menu is reached.
+        /// <br/><br/>Example:
+        /// <example>
+        /// <code>
+        /// Game.OnMainMenu.AddListener(() =>
+        /// {
+        ///     // your code here
+        /// });
+        /// </code>
+        /// </example>
         /// </summary>
         public IModEvent OnMainMenu { get; set; }
 
         /// <summary>
         /// Called when a profile is selected by the user.
         /// <br/>A profile is one of the save files that are shown on the load screen.
+        /// <br/><br/>Example:
+        /// <example>
+        /// <code>
+        /// Game.OnProfileSelected.AddListener(() =>
+        /// {
+        ///     // your code here
+        /// });
+        /// </code>
+        /// </example>
         /// </summary>
         public IModEvent OnProfileSelected { get; set; }
 
         /// <summary>
         /// Called whenever the player first joins the game after selecting a profile.
+        /// <br/><br/>Example:
+        /// <example>
+        /// <code>
+        /// Game.OnGameJoined.AddListener(() =>
+        /// {
+        ///     // your code here
+        /// });
+        /// </code>
+        /// </example>
         /// </summary>
         public IModEvent OnGameJoined { get; set; }
 
         /// <summary>
         /// Called when the player first starts warping to a new system.
+        /// <br/><br/>Example:
+        /// <example>
+        /// <code>
+        /// Game.OnWarpStarted.AddListener(() =>
+        /// {
+        ///     // your code here
+        /// });
+        /// </code>
+        /// </example>
         /// </summary>
         public IModEvent OnWarpStarted { get; set; }
 
         /// <summary>
         /// Called once the player has finished warping into a new system.
+        /// <br/><br/>Example:
+        /// <example>
+        /// <code>
+        /// Game.OnWarpFinished.AddListener(() =>
+        /// {
+        ///     // your code here
+        /// });
+        /// </code>
+        /// </example>
         /// </summary>
         public IModEvent OnWarpFinished { get; set; }
+
+        /// <summary>
+        /// Will execute for each EnvironmentObject when it's loaded by the game.
+        /// Since the game reloads the Biome Files each time the player warps to a new system,
+        /// this will be called for each object each time you load into a system.
+        /// </summary>
+        public IModEvent<IEnvironmentObject> OnEnvironmentObjectLoaded { get; set; }
 
 
         /// <summary>
         /// Called when the player opens the Inventories screen.
         /// <br/>This is the screen that lets them view the inventories for their ship, freigher, multi-tool, etc.
+        /// <br/><br/>Example:
+        /// <example>
+        /// <code>
+        /// Game.OnInventoriesOpened.AddListener(() =>
+        /// {
+        ///     // your code here
+        /// });
+        /// </code>
+        /// </example>
         /// </summary>
         public IModEvent OnInventoriesOpened { get; set; }
 
         /// <summary>
         /// Called when the player closes the Inventories screen.
         /// <br/>This is the screen that lets them view the inventories for their ship, freigher, multi-tool, etc.
+        /// <br/><br/>Example:
+        /// <example>
+        /// <code>
+        /// Game.OnInventoriesClosed.AddListener(() =>
+        /// {
+        ///     // your code here
+        /// });
+        /// </code>
+        /// </example>
         /// </summary>
         public IModEvent OnInventoriesClosed { get; set; }
-        
+
+        /// <summary>
+        /// Contains all of the environment object files used by the game to generate biomes.
+        /// </summary>
+        public List<IEnvironmentObject> EnvironmentObjects { get; }
+
         /// <summary>
         /// A manager for all of the currently loaded MBIN files.
         /// </summary>
@@ -81,40 +156,106 @@ namespace NoMansSky.Api
 
         /// <summary>
         /// Reflects whether or not the player is still on the main menu.
+        /// <br/><br/>Example:
+        /// <example>
+        /// <code>
+        /// if (Game.IsOnMainMenu)
+        /// {
+        ///     // your code here
+        /// }
+        /// </code>
+        /// </example>
         /// </summary>
         public bool IsOnMainMenu { get; }
 
         /// <summary>
         /// Reflects whether or not the player has selected a profile to play on.
+        /// <br/><br/>Example:
+        /// <example>
+        /// <code>
+        /// if (Game.IsProfileSelected)
+        /// {
+        ///     // your code here
+        /// }
+        /// </code>
+        /// </example>
         /// </summary>
         public bool IsProfileSelected { get; }
 
         /// <summary>
+        /// Reflects whether or not the player is currently loading into 
+        /// the game world after selecting a save file.
+        /// <br/><br/>Example:
+        /// <example>
+        /// <code>
+        /// if (Game.IsLoadingIntoGame)
+        /// {
+        ///     // your code here
+        /// }
+        /// </code>
+        /// </example>
+        /// </summary>
+        public bool IsLoadingIntoGame { get; }
+
+
+        /// <summary>
         /// Reflects whether or not the player has loaded into the game.
+        /// <br/><br/>Example:
+        /// <example>
+        /// <code>
+        /// if (Game.IsInGame)
+        /// {
+        ///     // your code here
+        /// }
+        /// </code>
+        /// </example>
         /// </summary>
         public bool IsInGame { get; }
 
         /// <summary>
         /// Reflects whether or not the player's personal inventory screen is currently showing.
         /// <br/>This is the screen that lets them view the inventories for their ship, freigher, multi-tool, etc.
+        /// <br/><br/>Example:
+        /// <example>
+        /// <code>
+        /// if (Game.IsInventoryOpen)
+        /// {
+        ///     // your code here
+        /// }
+        /// </code>
+        /// </example>
         /// </summary>
         public bool IsInventoryOpen { get; }
 
         /// <summary>
         /// Reflects whether or not this object has finished initializing.
+        /// <br/><br/>Example:
+        /// <example>
+        /// <code>
+        /// if (Game.IsInitialized)
+        /// {
+        ///     // your code here
+        /// }
+        /// </code>
+        /// </example>
         /// </summary>
         public bool IsInitialized { get; }
 
         /// <summary>
         /// Reflects whether or not the player is currently warping to a new system.
+        /// <br/><br/>Example:
+        /// <example>
+        /// <code>
+        /// if (Game.IsWarping)
+        /// {
+        ///     // your code here
+        /// }
+        /// </code>
+        /// </example>
         /// </summary>
         public bool IsWarping { get; }
 
-        /// <summary>
-        /// Reflects whether or not the player is currently loading into 
-        /// the game world after selecting a save file.
-        /// </summary>
-        public bool IsLoadingIntoGame { get; }
+        
 
 
         /// <summary>

@@ -1,6 +1,7 @@
 ﻿using Reloaded.ModHelper;
 using libMBIN;
 using System;
+using System.Threading.Tasks;
 
 namespace NoMansSky.Api
 {
@@ -60,7 +61,7 @@ namespace NoMansSky.Api
         /// <returns></returns>
         public Array GetValue(long address, Type arrayType, int arrayLength)
         {
-            if (address <= 0)
+            /*if (address <= 0)
             {
                 ConsoleUtil.LogError($"{nameof(ArrayConverter)}: Can't get Array because address was {address} and is not valid");
                 return null!;
@@ -74,13 +75,26 @@ namespace NoMansSky.Api
             {
                 ConsoleUtil.LogWarning($"{nameof(ArrayConverter)}: Can't get Array because length was zero");
                 return null!;
-            }
+            }*/
 
             var elementType = arrayType.GetElementType();
             dynamic array = Activator.CreateInstance(arrayType, arrayLength)!;
             int objectSize = NMSTemplate.SizeOf(elementType);
 
             long currentAddress = address;
+            /*Parallel.For(0, arrayLength, i =>
+            {
+                var arrayItem = manager.GetValue(currentAddress, elementType);
+                currentAddress += objectSize;
+
+                if (arrayItem == null)
+                {
+                    ConsoleUtil.LogWarning($"{nameof(ArrayConverter)}: Field value is null. Skipping...");
+                    return;
+                }
+
+                array.SetValue(arrayItem, i);
+            });*/
             for (int i = 0; i < arrayLength; i++)
             {
                 var arrayItem = manager.GetValue(currentAddress, elementType);
@@ -151,7 +165,7 @@ namespace NoMansSky.Api
         /// <param name="valueToSet"></param>
         public void SetValue(long address, object valueToSet)
         {
-            if (address <= 0)
+            /*if (address <= 0)
             {
                 ConsoleUtil.LogError($"{nameof(ArrayConverter)}: Can't set array value because address was {address} and is not valid");
                 return;
@@ -160,13 +174,21 @@ namespace NoMansSky.Api
             {
                 ConsoleUtil.LogError($"{nameof(ArrayConverter)}: Can't set array value. Provided object is null");
                 return;
-            }
+            }*/
 
             var elementType = valueToSet.GetType().GetElementType();
             int objectSize = NMSTemplate.SizeOf(elementType);
 
             var array = (Array)valueToSet;
             long currentAddress = address;
+            /*Parallel.For(0, array.Length, i =>
+            {
+                var value = array.GetValue(i);
+                if (value != null)
+                    manager.SetValue(currentAddress, value);
+
+                currentAddress += objectSize;
+            });*/
             for (int i = 0; i < array.Length; i++)
             {
                 var value = array.GetValue(i);

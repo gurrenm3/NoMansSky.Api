@@ -21,7 +21,7 @@ namespace NoMansSky.Api
         /// Called whenever a solar system is highlighted.
         /// <br/>Passes along the data about the system that was highlighted.
         /// </summary>
-        //public IModEvent<ISolarSystem> OnSystemHighlighted { get; set; }
+        //public IModEvent<ISolarSystem> OnSystemHighlighted { get; set; } // removed for now because it's buggy
 
         /// <summary>
         /// Reflects whether or not the Galaxy Map is currently opened.

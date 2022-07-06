@@ -44,11 +44,7 @@ namespace NoMansSky.Api.Hooks.Mbin
             result = Hook.OriginalFunction(mbinName, a2, a3, a4, a5, a6, a7, a8, a9, a10);
 
             var mbinAddress = *((long*)mbinName + 13);
-            var mbin = new MBin()
-            {
-                Name = name,
-                Address = mbinAddress
-            };
+            var mbin = new MBin(name, mbinAddress);
 
             ModEvent?.Invoke(mbin);
             return result;

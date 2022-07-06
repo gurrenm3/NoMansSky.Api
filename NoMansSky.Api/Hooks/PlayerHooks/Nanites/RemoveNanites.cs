@@ -4,7 +4,7 @@ using Reloaded.Hooks.Definitions.X64;
 using Reloaded.ModHelper;
 using static NoMansSky.Api.Hooks.Macros;
 
-namespace NoMansSky.Api.Hooks.PlayerHooks
+namespace NoMansSky.Api.Hooks.Player
 {
     internal unsafe class RemoveNanites : IModHook
     {

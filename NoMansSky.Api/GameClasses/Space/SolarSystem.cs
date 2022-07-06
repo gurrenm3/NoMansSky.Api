@@ -1,4 +1,6 @@
-﻿using Reloaded.ModHelper;
+﻿using libMBIN;
+using libMBIN.NMS.GameComponents;
+using Reloaded.ModHelper;
 using System.Collections.Generic;
 
 namespace NoMansSky.Api
@@ -8,25 +10,37 @@ namespace NoMansSky.Api
     /// </summary>
     public class SolarSystem : ISolarSystem
     {
-        /// <summary>
-        /// <inheritdoc/>
-        /// </summary>
-        public IModEvent<long> OnSystemLoaded { get; set; } = new SharedModEvent<long>();
+        private static MemoryManager memory = new MemoryManager();
 
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
-        public long SystemAddress { get; set; }
+        public long SystemDataAddress { get; set; }
 
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
-        public IModEvent<long> OnPlanetLoaded { get; set; } = new SharedModEvent<long>();
+        public string Name
+        {
+            get => SystemDataAddress <= 0 ? null! : memory.GetValue<string>(SystemDataAddress + nameOffset);
+        }
 
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
-        public List<long> PlanetAddresses { get; set; } = new List<long>();
+        public IModEvent OnSystemLoaded { get; set; } = new SharedModEvent();
+
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
+        public IModEvent<IPlanet> OnPlanetLoaded { get; set; } = new SharedModEvent<IPlanet>();
+
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
+        public List<IPlanet> Planets { get; set; } = new List<IPlanet>();
+
+        private readonly int nameOffset;
 
 
         /// <summary>
@@ -34,7 +48,9 @@ namespace NoMansSky.Api
         /// </summary>
         public SolarSystem()
         {
-            
+            nameOffset = NMSTemplate.OffsetOf(nameof(GcSolarSystemData), nameof(GcSolarSystemData.Name));
+            OnPlanetLoaded += Planets.Add;
+            IGame.Instance.OnWarpStarted += () => Planets.Clear();
         }
     }
 }

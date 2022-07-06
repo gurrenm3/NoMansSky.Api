@@ -4,6 +4,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
+using System.Threading.Tasks;
 
 namespace NoMansSky.Api
 {
@@ -62,7 +64,7 @@ namespace NoMansSky.Api
         /// <returns></returns>
         public object GetValue(long address, Type valueType)
         {
-            if (address <= 0)
+            /*if (address <= 0)
             {
                 ConsoleUtil.LogError($"{nameof(ListConverter)}: Can't get List because address was {address} and is not valid");
                 return null!;
@@ -71,7 +73,7 @@ namespace NoMansSky.Api
             {
                 ConsoleUtil.LogError($"{nameof(ListConverter)}: Can't get List because provided type is null");
                 return null!;
-            }
+            }*/
 
             // get the type of item this list holds.
             var elementType = valueType?.GetGenericArguments()?.FirstOrDefault();
@@ -89,6 +91,17 @@ namespace NoMansSky.Api
 
             int objectSize = NMSTemplate.SizeOf(elementType);
             long currentAddress = *(long*)address;
+
+
+            /*Parallel.For(0, listSize, i =>
+            {
+                var listItem = manager.GetValue(currentAddress, elementType);
+                lock (list)
+                {
+                    list.Add(listItem);
+                }
+                currentAddress += objectSize;
+            });*/
             for (int i = 0; i < listSize; i++)
             {
                 var listItem = manager.GetValue(currentAddress, elementType);
@@ -118,17 +131,6 @@ namespace NoMansSky.Api
         /// <param name="valueToSet"></param>
         public void SetValue(long address, object valueToSet)
         {
-            if (address <= 0)
-            {
-                ConsoleUtil.LogError($"{nameof(ListConverter)}: Can't set List because address was {address} and is not valid");
-                return;
-            }
-            if (valueToSet == null)
-            {
-                ConsoleUtil.LogError($"{nameof(ListConverter)}: Can't set List because valueToSet is null!");
-                return;
-            }
-
             // get the type of item this list holds.
             var listType = valueToSet.GetType();
             var elementType = listType?.GetGenericArguments()?.FirstOrDefault();
@@ -147,6 +149,8 @@ namespace NoMansSky.Api
                 return;
             }
 
+
+            // previous code for setting lists of the same size.
             int objectSize = NMSTemplate.SizeOf(elementType);
             long currentAddress = *(long*)address;
             for (int i = 0; i < list.Count; i++)
@@ -156,6 +160,7 @@ namespace NoMansSky.Api
                     manager.SetValue(currentAddress, currentValue);
                 currentAddress += objectSize;
             }
+
 
             manager.SetValue(address + 0x8, list.Count);
         }

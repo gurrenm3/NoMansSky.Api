@@ -3,7 +3,7 @@ using Reloaded.Hooks.Definitions.X64;
 using Reloaded.ModHelper;
 using System.Runtime.InteropServices;
 
-namespace NoMansSky.Api.Hooks.GameHooks
+namespace NoMansSky.Api.Hooks.Game
 {
     internal unsafe class MainMenu_Update : IModHook
     {

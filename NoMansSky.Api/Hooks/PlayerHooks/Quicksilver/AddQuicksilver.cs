@@ -3,7 +3,7 @@ using Reloaded.Hooks.Definitions.X64;
 using Reloaded.ModHelper;
 using System.Runtime.InteropServices;
 
-namespace NoMansSky.Api.Hooks.PlayerHooks
+namespace NoMansSky.Api.Hooks.Player
 {
     internal unsafe class AddQuicksilver : IModHook
     {

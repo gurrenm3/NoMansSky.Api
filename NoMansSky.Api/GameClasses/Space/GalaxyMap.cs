@@ -1,4 +1,4 @@
-﻿using NoMansSky.Api.Hooks.GalaxyMapHooks;
+﻿using NoMansSky.Api.Hooks.GalaxyMap;
 using Reloaded.ModHelper;
 
 namespace NoMansSky.Api

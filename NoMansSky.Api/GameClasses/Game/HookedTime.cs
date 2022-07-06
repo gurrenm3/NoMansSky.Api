@@ -10,8 +10,8 @@ namespace NoMansSky.Api
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
-        public double DeltaTime => deltaTime;
-        private double deltaTime = 0;
+        public float DeltaTime => deltaTime;
+        private float deltaTime = 0;
 
         /// <summary>
         /// <inheritdoc/>
@@ -28,13 +28,10 @@ namespace NoMansSky.Api
         /// Update the Time variables based on the current <paramref name="elapsedTime"/>
         /// </summary>
         /// <param name="elapsedTime"></param>
-        public void Update(double elapsedTime)
+        public void Update(float elapsedTime)
         {
-            if (totalSeconds == 0)
-                totalSeconds = elapsedTime;
-
-            deltaTime = elapsedTime - totalSeconds;
             totalSeconds = elapsedTime;
+            deltaTime = elapsedTime - (float)totalSeconds;
         }
     }
 }

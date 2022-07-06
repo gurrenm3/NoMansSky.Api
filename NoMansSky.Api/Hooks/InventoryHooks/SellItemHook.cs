@@ -4,7 +4,7 @@ using Reloaded.ModHelper;
 using System;
 using System.Runtime.InteropServices;
 
-namespace NoMansSky.Api.Hooks.InventoryHooks
+namespace NoMansSky.Api.Hooks.Inventory
 {
     internal unsafe class SellItemHook : IModHook
     {

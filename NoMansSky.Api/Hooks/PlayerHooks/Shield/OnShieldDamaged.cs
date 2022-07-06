@@ -4,7 +4,7 @@ using Reloaded.ModHelper;
 using System;
 using System.Runtime.InteropServices;
 
-namespace NoMansSky.Api.Hooks.PlayerHooks
+namespace NoMansSky.Api.Hooks.Player
 {
     internal unsafe class OnShieldDamaged : IModHook
     {
@@ -22,7 +22,7 @@ namespace NoMansSky.Api.Hooks.PlayerHooks
         /// <summary>
         /// The stat this hook is tied to.
         /// </summary>
-        private static Stat<int> Stat => Game.Instance?.Player?.Shield;
+        private static Stat<int> Stat => Api.Game.Instance?.Player?.Shield;
 
         /// <summary>
         /// ModEventHook that's called when the original function is called.
@@ -46,7 +46,7 @@ namespace NoMansSky.Api.Hooks.PlayerHooks
 
         private long CodeToExecute(long self, float damage, int a3, long* a4, long* a5, long a6, float** a7)
         {
-            bool hasGcPlayerState = Game.Instance?.Player != null && Game.Instance.Player.HasGcPlayerState;
+            bool hasGcPlayerState = Api.Game.Instance?.Player != null && Api.Game.Instance.Player.HasGcPlayerState;
 
             // Player failed to initialize. Can't do hooking.
             if (Stat == null || !hasGcPlayerState)

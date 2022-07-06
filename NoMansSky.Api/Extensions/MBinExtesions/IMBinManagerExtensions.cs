@@ -1,5 +1,6 @@
 ﻿using Reloaded.ModHelper;
 using System;
+using System.Threading.Tasks;
 
 namespace NoMansSky.Api
 {
@@ -16,10 +17,10 @@ namespace NoMansSky.Api
         /// <typeparam name="T"></typeparam>
         /// <param name="mbinManager"></param>
         /// <param name="modify"></param>
-        public static void ModifyMbin<T>(this IMBinManager mbinManager, Action<T> modify)
+        public static void ModifyMBin<T>(this IMBinManager mbinManager, Action<T> modify)
         {
             string mbinName = nameof(T);
-            var mbin = mbinManager.GetMbin(mbinName);
+            var mbin = mbinManager.GetMBin(mbinName);
             if (mbin == null)
             {
                 ConsoleUtil.LogError($"Can't modify mbin. Tried getting Mbin by it's type but failed." +
@@ -39,7 +40,7 @@ namespace NoMansSky.Api
         /// <param name="mbinManager"></param>
         /// <param name="mbinAddress"></param>
         /// <param name="modify"></param>
-        public static void ModifyMbin<T>(this IMBinManager mbinManager, long mbinAddress, Action<T> modify)
+        public static void ModifyMBin<T>(this IMBinManager mbinManager, long mbinAddress, Action<T> modify)
         {
             if (mbinAddress <= 0)
             {
@@ -50,6 +51,20 @@ namespace NoMansSky.Api
             var mbinObject = memory.GetValue<T>(mbinAddress);
             modify.Invoke(mbinObject);
             memory.SetValue(mbinAddress, mbinObject);
+        }
+
+        /// <summary>
+        /// A high performance foreach loop that loops over all of the mbin files currently being managed.
+        /// Multiple iterations will be run simultaneously.
+        /// </summary>
+        /// <param name="mBinManager"></param>
+        /// <param name="foreachAction"></param>
+        public static void ForEachMBin(this IMBinManager mBinManager, Action<IMBin> foreachAction)
+        {
+            Parallel.ForEach(mBinManager.GetAllMBin(), mbin =>
+            {
+                foreachAction?.Invoke(mbin);
+            });
         }
     }
 }

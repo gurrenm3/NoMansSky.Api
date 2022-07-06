@@ -4,7 +4,7 @@ using Reloaded.ModHelper;
 using System;
 using System.Runtime.InteropServices;
 
-namespace NoMansSky.Api.Hooks.GalaxyMapHooks
+namespace NoMansSky.Api.Hooks.GalaxyMap
 {
     internal unsafe class OnSystemHighlighted : IModHook
     {
@@ -38,9 +38,9 @@ namespace NoMansSky.Api.Hooks.GalaxyMapHooks
 
             var result = Hook.OriginalFunction(a1, a2, a3, a4);
 
-            var planetAddresses = GalaxyMapHooks.LoadPlanetFromHighlightedSystem.planetAddressesInSystem;
-            ISolarSystemData systemData = new SolarSystemData();
-            systemData.PlanetAddresses.AddRange(planetAddresses);
+            var planetAddresses = GalaxyMap.LoadPlanetFromHighlightedSystem.planetAddressesInSystem;
+            /*ISolarSystemData systemData = new SolarSystemData();
+            systemData.PlanetAddresses.AddRange(planetAddresses);*/
 
             //ModEvent.Invoke(systemData);
 

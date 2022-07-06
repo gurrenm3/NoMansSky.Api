@@ -37,6 +37,7 @@ namespace NoMansSky.Api.Hooks.Mbin
             var actualName = Strings.ToString(mbinName);
             if (!string.IsNullOrEmpty(actualName) && addressToLoadedMbin > 0)
             {
+                logger.WriteLine($"Loading mBin: {actualName}");
                 string cleanedName = actualName.Replace(" ", "");
                 if (cleanedName.Contains("/"))
                 {
@@ -44,7 +45,7 @@ namespace NoMansSky.Api.Hooks.Mbin
                     cleanedName = split[split.Length - 1]; // set to last
                 }
 
-                var mbin = new MBin() { Name = cleanedName, Address = addressToLoadedMbin };
+                var mbin = new MBin(cleanedName, addressToLoadedMbin);
                 IGame.Instance.MBinManager.OnMBinLoaded.Invoke(mbin);
             }
 

@@ -4,7 +4,7 @@ using Reloaded.ModHelper;
 using System;
 using System.Runtime.InteropServices;
 
-namespace NoMansSky.Api.Hooks.GameHooks
+namespace NoMansSky.Api.Hooks.Game
 {
     internal unsafe class GetGcGalaxyMap : IModHook
     {
@@ -41,7 +41,7 @@ namespace NoMansSky.Api.Hooks.GameHooks
 
             address = gcGalaxyMapAddress;
 
-            var mbin = new MBin() { Name = "GcGalaxyMap", Address = gcGalaxyMapAddress };
+            var mbin = new MBin("GcGalaxyMap", gcGalaxyMapAddress);
             IGame.Instance.MBinManager.OnMBinLoaded.Invoke(mbin);
 
             return result;
