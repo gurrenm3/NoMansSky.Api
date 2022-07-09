@@ -24,6 +24,16 @@ namespace NoMansSky.Api
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
+        public ISpaceColors SpaceColors { get; private set; }
+
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
+        public IWeatherData WeatherData { get; private set; }
+
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
         public ISolarSystem CurrentSystem => _currentSystem;
         private ISolarSystem _currentSystem;
 
@@ -160,6 +170,8 @@ namespace NoMansSky.Api
 
             _galaxyMap = new GalaxyMap();
             _currentSystem = new SolarSystem();
+            SpaceColors = new SpaceColors();
+            WeatherData = new WeatherData();
 
             Player = new Player(logger);
             (Player as Player)?.Init();
@@ -185,6 +197,7 @@ namespace NoMansSky.Api
             {
                 IsInGame = true;
                 IsLoadingIntoGame = false;
+                CurrentSystem.OnSystemLoaded.Invoke();
             };
 
             // Warp events

@@ -34,7 +34,7 @@ namespace NoMansSky.Api
 
             game.MBinManager.OnMBinLoaded += (mbin) =>
             {
-                if (mbin.Name != "cGcRefinerUnitComponentData")
+                if (mbin.MBinName != "cGcRefinerUnitComponentData")
                     return;
                 
                 if (mbin.Address == 0)

@@ -70,6 +70,11 @@ namespace NoMansSky.Api
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
+        public IInventoryStoreBalance DefaultInventoryBalance { get; } = new InventoryStoreBalance();
+
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
         public IModEvent<long> OnPlayerStateAquired { get; set; } = new SharedModEvent<long>();
 
         /// <summary>

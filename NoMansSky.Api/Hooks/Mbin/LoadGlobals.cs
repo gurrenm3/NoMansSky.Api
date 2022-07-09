@@ -37,15 +37,8 @@ namespace NoMansSky.Api.Hooks.Mbin
             var actualName = Strings.ToString(mbinName);
             if (!string.IsNullOrEmpty(actualName) && addressToLoadedMbin > 0)
             {
-                string cleanedName = actualName.Replace(" ", "");
-                if (cleanedName.Contains("/"))
-                {
-                    var split = cleanedName.Split('/');
-                    cleanedName = split[split.Length - 1]; // set to last
-                }
-
-                var mbin = new MBin(cleanedName, addressToLoadedMbin);
-                IGame.Instance.MBinManager.OnMBinLoaded.Invoke(mbin);
+                var mbin = new MBin(actualName, addressToLoadedMbin);
+                IGame.Instance.MBinManager.RegisterMBin(mbin);
             }
 
             return result;

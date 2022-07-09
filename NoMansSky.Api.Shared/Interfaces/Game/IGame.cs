@@ -19,6 +19,16 @@ namespace NoMansSky.Api
         public IGalaxyMap GalaxyMap { get; }
 
         /// <summary>
+        /// Handles the colors for all of space in NMS.
+        /// </summary>
+        public ISpaceColors SpaceColors { get; }
+
+        /// <summary>
+        /// Handles the weather in the game.
+        /// </summary>
+        public IWeatherData WeatherData { get; }
+
+        /// <summary>
         /// Represents the solar system that the player is currently in.
         /// </summary>
         public ISolarSystem CurrentSystem { get; }
@@ -264,5 +274,7 @@ namespace NoMansSky.Api
         /// <br/><br/>This feature was discovered by RaYRoD TV#7679 and wouldn't exist without his efforts.
         /// </summary>
         public IModWarning ModsWarning { get; }
+
+
     }
 }

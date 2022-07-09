@@ -62,6 +62,11 @@ namespace NoMansSky.Api
         /// </summary>
         public IMultiTool ActiveMultiTool { get; }
 
+        /// <summary>
+        /// Represents the player's default inventory balance.
+        /// </summary>
+        public IInventoryStoreBalance DefaultInventoryBalance { get; }
+
 
         /// <summary>
         /// Called when the pointer to GcPlayerStateData is aquired. This only called once when a profile

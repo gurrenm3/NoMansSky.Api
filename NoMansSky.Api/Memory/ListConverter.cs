@@ -64,16 +64,11 @@ namespace NoMansSky.Api
         /// <returns></returns>
         public object GetValue(long address, Type valueType)
         {
-            /*if (address <= 0)
+            if (address <= 0)
             {
                 ConsoleUtil.LogError($"{nameof(ListConverter)}: Can't get List because address was {address} and is not valid");
                 return null!;
             }
-            if (valueType == null)
-            {
-                ConsoleUtil.LogError($"{nameof(ListConverter)}: Can't get List because provided type is null");
-                return null!;
-            }*/
 
             // get the type of item this list holds.
             var elementType = valueType?.GetGenericArguments()?.FirstOrDefault();
@@ -93,15 +88,6 @@ namespace NoMansSky.Api
             long currentAddress = *(long*)address;
 
 
-            /*Parallel.For(0, listSize, i =>
-            {
-                var listItem = manager.GetValue(currentAddress, elementType);
-                lock (list)
-                {
-                    list.Add(listItem);
-                }
-                currentAddress += objectSize;
-            });*/
             for (int i = 0; i < listSize; i++)
             {
                 var listItem = manager.GetValue(currentAddress, elementType);

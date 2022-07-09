@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace NoMansSky.Api
+﻿namespace NoMansSky.Api
 {
     /// <summary>
     /// Extension methods for <see cref="IMBin"/>.
@@ -18,7 +12,7 @@ namespace NoMansSky.Api
         /// <returns></returns>
         public static bool IsGlobalMbin(this IMBin mbin)
         {
-            return mbin.Name.EndsWith("Globals");
+            return mbin.MBinName.EndsWith("Globals");
         }
     }
 }

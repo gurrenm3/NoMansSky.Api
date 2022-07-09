@@ -7,60 +7,116 @@ namespace NoMansSky.Api
     /// <summary>
     /// Represents an MBIN file.
     /// </summary>
-    public class MBin : IMBin
+    public class MBin : IMBin, IEquatable<IMBin>
     {
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
-        public string Name { get; init; } = null!;
+        public bool IsInitialized { get; private set; }
 
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
-        public long Address { get; init; }
+        public string MBinName { get; private set; } = null!;
 
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
-        public Type MBinType { get; init; } = null!;
+        public string FullName { get; private set; } = null!;
+
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
+        public long Address { get; private set; }
+
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
+        public Type MBinType { get; private set; } = null!;
+
+        public MBin()
+        {
+
+        }
 
         public MBin(string name, long address)
         {
-            Name = name;
-            Address = address;
-            
-            MBinType = GetMBinType(name);
-            /*if (MBinType == null)
-            {
-                ConsoleUtil.LogError($"Failed to get mbin type for {name}");
-            }*/
+            Init(name, address);
         }
 
         /// <summary>
-        /// Returns the libmbin class type with the provided name.
+        /// <inheritdoc/>
         /// </summary>
-        /// <param name="mbinName"></param>
-        /// <returns></returns>
-        private Type GetMBinType(string mbinName)
+        /// <param name="name"></param>
+        /// <param name="address"></param>
+        /// <param name="initializeOnce"></param>
+        public virtual bool Init(string name, long address, bool initializeOnce = true)
         {
-            mbinName = mbinName.ToLower();
-            var types = typeof(NMSTemplate).Assembly.GetTypes();
+            if (initializeOnce && IsInitialized)
+                return false;
 
-            // not checking twice like in GetMbin because it's too many types to loop over twice.
+            Address = address;
+            MBinType = IGame.Instance.MBinManager.GetMBinType(name);
 
-            foreach (var type in types)
+            string cleanedName = name.Replace(" ", "");
+            if (cleanedName.Contains("/"))
             {
-                var currentMbinName = type.Name.ToLower();
-                if (mbinName == type.Name.ToLower() || mbinName == currentMbinName.Insert(0, "gc") || mbinName.Insert(0, "gc") == currentMbinName || mbinName == currentMbinName.Insert(0, "cgc") || mbinName.Insert(0, "cgc") == currentMbinName)
-                    return type;
+                var split = cleanedName.Split('/');
+                cleanedName = split[split.Length - 1]; // set to last
+            }
+            else if (cleanedName.Contains("\\"))
+            {
+                var split = cleanedName.Split('/');
+                cleanedName = split[split.Length - 1]; // set to last
             }
 
-            return null!;
+            cleanedName = cleanedName.TrimEnd('/').TrimEnd('\\');
+
+            if (cleanedName.ToLower().EndsWith(".mbin") || cleanedName.ToLower().EndsWith(".mxml"))
+                cleanedName = cleanedName.Remove(cleanedName.Length - 5, 5);
+
+            MBinName = cleanedName;
+            FullName = name;
+            IsInitialized = true;
+            return true;
         }
 
+        /// <summary>
+        /// Returns a formatted version of this mbin.
+        /// <br/>MBin Fullname: GcPlayerGlobals | Address: 123456789
+        /// </summary>
+        /// <returns></returns>
         public override string ToString()
         {
-            return $"MBinName: {Name} | Address: {Address.ToHex()}";
+            return $"Address: {Address.ToHex()} Fullname: {FullName}";
+        }
+
+        /// <summary>
+        /// Returns whether or not this MBin is equal to the provided object.
+        /// <br/>If provided object is an IMbin file, function will returns whether 
+        /// or not this MBin and the provided one are referring to the same mbin in memory.
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public override bool Equals(object? obj)
+        {
+            if (obj is IMBin mBin)
+                return Equals(mBin);
+
+            return base.Equals(obj);
+        }
+
+        /// <summary>
+        /// Returns whether or not this MBin and the provided one are referring to the same mbin in memory.
+        /// </summary>
+        /// <param name="other"></param>
+        /// <returns></returns>
+        public bool Equals(IMBin? other)
+        {
+            if (other == null)
+                return false;
+
+            return this.Address == other.Address && this.FullName == other.FullName;
         }
     }
 }

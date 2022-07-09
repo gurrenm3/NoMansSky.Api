@@ -55,7 +55,7 @@ The purpose of this library is to help mod makers create incredibly diverse and 
 	</ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Reloaded.Memory.Sigscan" Version="3.0.1" />
+    <PackageReference Include="Reloaded.Memory.Sigscan" Version="3.1.0" />
     <PackageReference Include="Reloaded.Mod.Interfaces" Version="2.3.0" />
     <PackageReference Include="Reloaded.SharedLib.Hooks" Version="1.9.0" />
   </ItemGroup>

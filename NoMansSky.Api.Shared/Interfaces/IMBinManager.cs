@@ -19,7 +19,7 @@ namespace NoMansSky.Api
         /// </summary>
         /// <param name="mbinName"></param>
         /// <returns></returns>
-        IMBin GetMBin(string mbinName);
+        IMBin GetMBin(string mbinName, bool useFullName = false);
 
         /// <summary>
         /// Will return a loaded MBIN based on it's name. Get's name from type T
@@ -33,5 +33,18 @@ namespace NoMansSky.Api
         /// </summary>
         /// <returns></returns>
         List<IMBin> GetAllMBin();
+
+        /// <summary>
+        /// Returns the libmbin class type with the provided name.
+        /// </summary>
+        /// <param name="mbinName"></param>
+        /// <returns></returns>
+        Type GetMBinType(string mbinName);
+
+        /// <summary>
+        /// Registers an mbin file with this manager. If no duplicates are found it will be registered and <see cref="OnMBinLoaded"/> will be invoked.
+        /// </summary>
+        /// <param name="mbinToRegister"></param>
+        bool RegisterMBin(IMBin mbinToRegister);
     }
 }

@@ -6,22 +6,30 @@ using System.Threading.Tasks;
 
 namespace NoMansSky.Api
 {
-    class ThreadedNMSTemplateConverter1 : IMemoryConverter
+    /// <summary>
+    /// A multithreaded converter for all NMS Template objects.
+    /// </summary>
+    public class ThreadedNMSTemplateConverter : IMemoryConverter
     {
         public IGameLoop GameLoop => IGame.Instance?.GameLoop!;
 
         IMemoryManager memory;
 
-        public ThreadedNMSTemplateConverter1(IMemoryManager manager)
+        public ThreadedNMSTemplateConverter(IMemoryManager manager)
         {
             if (manager == null)
-                throw new NullReferenceException($"Can't create {nameof(ThreadedNMSTemplateConverter1)} because the provided" +
+                throw new NullReferenceException($"Can't create {nameof(ThreadedNMSTemplateConverter)} because the provided" +
                     $" {nameof(MemoryManager)} was null!");
 
             this.memory = manager;
         }
 
-
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
+        /// <param name="address"></param>
+        /// <param name="valueType"></param>
+        /// <returns></returns>
         public object GetValue(long address, Type valueType)
         {
             var instance = Activator.CreateInstance(valueType);
@@ -34,7 +42,7 @@ namespace NoMansSky.Api
 
                 if (value == null)
                 {
-                    ConsoleUtil.LogWarning($"{nameof(ThreadedNMSTemplateConverter1)}: The field \"{field.Name}\" is is null. Skipping...");
+                    ConsoleUtil.LogWarning($"{nameof(ThreadedNMSTemplateConverter)}: The field \"{field.Name}\" is is null. Skipping...");
                 }
                 else
                 {
@@ -45,12 +53,16 @@ namespace NoMansSky.Api
             return instance;
         }
 
-
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
+        /// <param name="address"></param>
+        /// <param name="valueToSet"></param>
         public void SetValue(long address, object valueToSet)
         {
             if (valueToSet == null)
             {
-                ConsoleUtil.LogError($"{nameof(ThreadedNMSTemplateConverter1)}: Failed to set value because valueToSet is null");
+                ConsoleUtil.LogError($"{nameof(ThreadedNMSTemplateConverter)}: Failed to set value because valueToSet is null");
                 return;
             }
 
@@ -64,6 +76,12 @@ namespace NoMansSky.Api
             });
         }
 
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="address"></param>
+        /// <returns></returns>
         public T GetValue<T>(long address) => (T)GetValue(address, typeof(T));
 
 
@@ -79,7 +97,7 @@ namespace NoMansSky.Api
             var converter = (ArrayConverter)memory.GetObjectConverter(field.FieldType);
             if (converter == null)
             {
-                ConsoleUtil.LogError($"{nameof(ThreadedNMSTemplateConverter1)}: Failed to get converter for this Array.");
+                ConsoleUtil.LogError($"{nameof(ThreadedNMSTemplateConverter)}: Failed to get converter for this Array.");
                 return null!;
             }
 
@@ -87,7 +105,7 @@ namespace NoMansSky.Api
             int? arrayLength = field.GetCustomAttribute<NMSAttribute>()?.Size;
             if (!arrayLength.HasValue)
             {
-                ConsoleUtil.LogError($"{nameof(ThreadedNMSTemplateConverter1)}: Failed to get size of array for {classType.Name}.{field.Name}");
+                ConsoleUtil.LogError($"{nameof(ThreadedNMSTemplateConverter)}: Failed to get size of array for {classType.Name}.{field.Name}");
                 return null!;
             }
 
@@ -97,13 +115,23 @@ namespace NoMansSky.Api
 
 
 
-
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
         public bool CanConvert<T>() => CanConvert(typeof(T));
+
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
+        /// <param name="typeToCheck"></param>
+        /// <returns></returns>
         public bool CanConvert(Type typeToCheck)
         {
             if (typeToCheck == null)
             {
-                ConsoleUtil.LogError($"{nameof(ThreadedNMSTemplateConverter1)} can't check if this type can be converted," +
+                ConsoleUtil.LogError($"{nameof(ThreadedNMSTemplateConverter)} can't check if this type can be converted," +
                    $" because the type to check is NULL");
                 return false;
             }

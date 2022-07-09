@@ -42,7 +42,7 @@ namespace NoMansSky.Api.Hooks.Game
             address = gcGalaxyMapAddress;
 
             var mbin = new MBin("GcGalaxyMap", gcGalaxyMapAddress);
-            IGame.Instance.MBinManager.OnMBinLoaded.Invoke(mbin);
+            IGame.Instance.MBinManager.RegisterMBin(mbin);
 
             return result;
         }

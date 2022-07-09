@@ -20,12 +20,7 @@ namespace NoMansSky.Api
 
         public MBinManager()
         {
-            OnMBinLoaded += (mbin) =>
-            {
-                // ignore duplicates 
-                if (!loadedMBIN.Any(m=>m.Address == mbin.Address))
-                    loadedMBIN.Add(mbin);
-            };
+            
         }
 
         /// <summary>
@@ -55,7 +50,7 @@ namespace NoMansSky.Api
         /// </summary>
         /// <param name="mbinName"></param>
         /// <returns></returns>
-        public IMBin GetMBin(string mbinName)
+        public IMBin GetMBin(string mbinName, bool useFullName = false)
         {
             if (loadedMBIN.Count == 0)
             {
@@ -75,19 +70,58 @@ namespace NoMansSky.Api
             // check if the exact name is correct.
             foreach (var mbin in loadedMBIN)
             {
-                if (mbinName == mbin.Name.ToLower())
+                string compareName = useFullName ? mbin.FullName : mbin.MBinName;
+                if (mbinName == compareName.ToLower())
                     return mbin;
             }
 
             // try messing with the characters to see if the name entered was almost right.
             foreach (var mbin in loadedMBIN)
             {
-                var currentMbinName = mbin.Name.ToLower();
+                string compareName = useFullName ? mbin.FullName : mbin.MBinName;
+                var currentMbinName = compareName.ToLower();
                 if (mbinName == currentMbinName.Insert(0, "gc") || mbinName.Insert(0, "gc") == currentMbinName || mbinName == currentMbinName.Insert(0, "cgc") || mbinName.Insert(0, "cgc") == currentMbinName)
                     return mbin;
             }
 
             return null!;
+        }
+
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
+        /// <param name="mbinName"></param>
+        /// <returns></returns>
+        public Type GetMBinType(string mbinName)
+        {
+            mbinName = mbinName.ToLower();
+            var types = typeof(NMSTemplate).Assembly.GetTypes();
+
+            // not checking twice like in GetMbin because it's too many types to loop over twice.
+
+            foreach (var type in types)
+            {
+                var currentMbinName = type.Name.ToLower();
+                if (mbinName == type.Name.ToLower() || mbinName == currentMbinName.Insert(0, "gc") || mbinName.Insert(0, "gc") == currentMbinName || mbinName == currentMbinName.Insert(0, "cgc") || mbinName.Insert(0, "cgc") == currentMbinName)
+                    return type;
+            }
+
+            return null!;
+        }
+
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
+        /// <param name="mbinToRegister"></param>
+        public bool RegisterMBin(IMBin mbinToRegister)
+        {
+            if (loadedMBIN.Any(mbin => mbin.Equals(mbinToRegister)))
+                return false;
+
+            loadedMBIN.Add(mbinToRegister);
+            mbinToRegister.Init(mbinToRegister.FullName, mbinToRegister.Address);
+            OnMBinLoaded.Invoke(mbinToRegister);
+            return true;
         }
     }
 }
