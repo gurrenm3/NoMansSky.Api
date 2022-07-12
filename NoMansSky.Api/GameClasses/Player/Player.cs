@@ -5,7 +5,7 @@ namespace NoMansSky.Api
     /// <summary>
     /// Represents the Local Player.
     /// </summary>
-    public unsafe class Player : IPlayer
+    internal unsafe class Player : IPlayer
     {
         /// <summary>
         /// <inheritdoc/>

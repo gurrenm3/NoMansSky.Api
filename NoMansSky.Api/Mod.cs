@@ -3,19 +3,17 @@ using libMBIN.NMS;
 using libMBIN.NMS.GameComponents;
 using libMBIN.NMS.Globals;
 using libMBIN.NMS.Toolkit;
-using NoMansSky.Api.Hooks.GalaxyMap;
-using NoMansSky.Api.Hooks.Mbin;
+using Newtonsoft.Json;
 using Reloaded.Hooks.ReloadedII.Interfaces;
 using Reloaded.Mod.Interfaces;
-using System;
 using Reloaded.ModHelper;
-using System.Diagnostics;
-using System.Drawing;
-using System.Threading.Tasks;
-using static libMBIN.NMS.GameComponents.GcAudioWwiseEvents;
-using Random = Reloaded.ModHelper.Random;
-using static libMBIN.NMS.Toolkit.TkNoiseGridData;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
+using System.Xml;
+using System.Xml.Serialization;
+using Random = Reloaded.ModHelper.Random;
 
 namespace NoMansSky.Api
 {
@@ -29,45 +27,69 @@ namespace NoMansSky.Api
         /// </summary>
         internal static Mod Instance { get; private set; }
 
-        // This is an example of a mod setting.
-        //ModSettingInt startingUnits = new ModSettingInt(9999999);
 
         public Mod(IModConfig _config, IReloadedHooks _hooks, IModLogger _logger) : base(_config, _hooks, _logger)
         {
             Game.ModsWarning.Disable();
 
-            GcSpaceSkyColourSettingList g;
-            GcWeatherEffectTable wt;
-            GcWeatherEffectLightningData ld;
 
 #if DEBUG
-            Game.OnMainMenu += OnMainMenu;
 
-            GcAISpaceshipGlobals ag;
-
-            /*Game.WeatherData.WeatherEffects.OnLoaded.AddListener(() =>
+            Game.Globals.PlayerGlobals.Modify<GcPlayerGlobals>(playerGlobals =>
             {
-                Logger.WriteLine(Game.WeatherData.WeatherEffects.MBin);
-            });*/
+                playerGlobals.GroundRunSpeed *= 2;
+            });
 
-           /* MBinManager.OnMBinLoaded.AddListener(mbin =>
+            /*MBinManager.OnMBinLoaded.AddListener(mbin =>
             {
-                if (mbin.FullName != "UI/HUD/HUDHEALTH.MBIN")
+                if (mbin.Name != "ProjectileTable")
                     return;
 
-                Logger.WriteLine(mbin);
-
-                var hudHealth = GetValue<GcNGuiLayerData>(mbin.Address);
-                hudHealth.ElementData.Layout.Width = Random.Range(300, 6000);
-
-                SetValue(mbin.Address, hudHealth);
-
-                Logger.WriteLine("DONE");
+                Logger.WriteLine("Found ProjectileTable");
+                mbin.Modify<GcProjectileDataTable>(dataTable =>
+                {
+                    foreach (var item in dataTable.Table)
+                    {
+                        item.BounceDamping = 0;
+                        item.DefaultDamage = 0;
+                        item.ExtraPlayerDamage = 0;
+                        item.PiercingDamagePercentage = 0;
+                    }
+                });
             });*/
+
+
+            CurrentSystem.OnPlanetLoaded.AddListener(loadedPlanet =>
+            {
+                loadedPlanet.ModifyPlanetData(planetData =>
+                {
+                    foreach (var creatureData in planetData.SpawnData.Creatures)
+                    {
+                        creatureData.MaxScale = 15;
+                        creatureData.MinScale = 10;
+                    }
+                });
+            });
+
+
+            Game.OnMainMenu.AddListener(() =>
+            {
+                
+            });
+
+
+            /*Game.Reality..OnLoaded.AddListener(() =>
+            {
+                Game.Reality.DefaultReality.Modify(obj =>
+                {
+                    obj.TradeSettings.Shop.
+                });
+
+                Logger.WriteLine("Done modding costs");
+            });*/
+
 #endif
         }
-
-        List<string> mbins = new List<string>();
 
         protected override void Awake()
         {
@@ -77,71 +99,24 @@ namespace NoMansSky.Api
 
 #if DEBUG
 
-        private void OnMainMenu()
+        public override void Update()
         {
-            /*foreach (var item in Game.MBinManager.GetAllMBIN())
+            /*if (!Game.IsInGame)
+                return;*/
+
+           
+            if (Keyboard.IsPressed(Key.Numpad5))
             {
-                Logger.WriteLine($"MbinName: {item.Name} |  Address: {item.Address}");
-            }*/
-        }
+                string xmlPath = $"{MyModFolder}\\CreatureDataTable.json";
+                //var test = NMSTemplate.TemplateFromName("GcSolarSystemSkyColourData");
+                //test.WriteToExml(xmlPath, true);
 
-        public override void OnGameJoined()
-        {
-            /*var files = Game.EnvironmentObjects;
-            foreach (var file in files)
-            {
-                Logger.WriteLine($"Name: {file.MBinName} | Address: {file.Address.ToHex()}");
-
-            }*/
-
-        }
-
-        public async override void Update()
-        {
-            if (!Game.IsInGame)
-                return;
-
-
-            if (!Keyboard.IsPressed(Key.UpArrow))
-                return;
-
-            GcSolarSystemData sd;
-            GcPlanetData d;
-            GcCreatureMovementData f;
-            GcDefaultSaveData s;
-            var mbin = MBinManager.GetMBin("CREATUREDATATABLE");
-            Logger.WriteLine(mbin);
-            await MBinManager.ModifyMBinAsync<GcCreatureDataTable>("CREATUREDATATABLE", creatureData =>
-            {
-                foreach (var item in creatureData.Table)
-                {
-                    item.MinScale = 3f;
-                    item.MaxScale = 8f;
-
-                    item.FurLengthModifierAtMinScale = 5;
-                    item.FurLengthModifierAtMaxScale = 8;
-
-
-                    foreach (var data in item.Data)
-                    {
-                        Logger.WriteLine(data.GetType().Name);
-                    }
-                }
-
-                Logger.WriteLine("Done modding voxel");
-            });
-            
-        }
-        
-
-        private void PrintInventory()
-        {
-            var inventory = Player.Exosuit.GetInventory();
-            Logger.WriteLine($"\n{inventory}");
+                var creatures = Game.Creatures.CreatureDataTable.GetValue();
+                var global = Game.Globals.AISpaceshipGlobals.GetValue<GcAISpaceshipGlobals>();
+                string json = JsonConvert.SerializeObject(creatures, Newtonsoft.Json.Formatting.Indented);
+                File.WriteAllText(xmlPath, json);
+            }
         }
 #endif
-
-        internal static void WriteLine(string message) => Instance?.Logger?.WriteLine(message);
-        internal static void WriteLine(object message) => Instance?.Logger?.WriteLine(message);
     }
 }

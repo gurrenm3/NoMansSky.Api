@@ -14,19 +14,32 @@ namespace NoMansSky.Api
         public static IGame Instance { get; set; }
 
         /// <summary>
+        /// Contains all of the Global Mbin files for the game.
+        /// </summary>
+        public IGlobalsManager Globals { get; }
+
+        public IRealityManager Reality { get; }
+
+        /// <summary>
+        /// Contains all of the colors in the game.
+        /// <br/>Note, to prevent confusion, biome colors are stored in their corresponding biome file.
+        /// </summary>
+        public IColorsManager Colors { get; }
+
+        /// <summary>
+        /// Contains everything for accessing/modifying creatures.
+        /// </summary>
+        public ICreatureManager Creatures { get; }
+
+        /// <summary>
         /// Represents the Galaxy Map.
         /// </summary>
         public IGalaxyMap GalaxyMap { get; }
 
         /// <summary>
-        /// Handles the colors for all of space in NMS.
+        /// Manages the weather in the game.
         /// </summary>
-        public ISpaceColors SpaceColors { get; }
-
-        /// <summary>
-        /// Handles the weather in the game.
-        /// </summary>
-        public IWeatherData WeatherData { get; }
+        public IWeatherManager Weather { get; }
 
         /// <summary>
         /// Represents the solar system that the player is currently in.

@@ -55,11 +55,11 @@ namespace NoMansSky.Api.Hooks.Mbin
             if (!string.IsNullOrEmpty(mbinFullName))
             {
                 string mbinName = mbinFullName?.Split('/')?.Last()?.Replace(".MBIN", "");
-                SpaceColorSetting loadedMbin = null;
+                /*SpaceColorSetting loadedMbin = null;
                 if (mbinName.ToLower().Contains("rare")) // it's the rare one
                     loadedMbin = (SpaceColorSetting)IGame.Instance?.SpaceColors?.RareColorSettings;
                 else
-                    loadedMbin = (SpaceColorSetting)IGame.Instance?.SpaceColors?.DefaulColorSettings;
+                    loadedMbin = (SpaceColorSetting)IGame.Instance?.SpaceColors?.DefaulColorSettings;*/
 
                 //loadedMbin.Init(mbinFullName, loadedMBinAddress);
                 //IGame.Instance.SpaceColors.OnColorLoaded.Invoke(loadedMbin);

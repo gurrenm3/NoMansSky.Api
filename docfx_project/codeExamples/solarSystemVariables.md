@@ -8,7 +8,7 @@ Can be used to get GcSolarSystemData. Currently only works after warping at leas
 
 
 Code examples:
-1. Using address with ModifyMbin
+1. Using address with memory manager to modify one variable
 ```cs
 long address = CurrentSystem.SystemAddress; // here is the address
 
@@ -19,7 +19,18 @@ MBinManager.ModifyMbin<GcSolarSystemData>(address, (systemData) =>
 });
 ```
 
-2. Using address with memory manager
+2. Using address with ModifyMbin to modify whole system
+```cs
+long address = CurrentSystem.SystemAddress; // here is the address
+
+// use address to mod system.
+MBinManager.ModifyMbin<GcSolarSystemData>(address, (systemData) =>
+{
+    systemData.AsteroidLevel = GcSolarSystemData.AsteroidLevelEnum.LotsOfRares;
+});
+```
+
+3. Using address with memory manager to modify whole system
 ```cs
 // get system address
 long address = CurrentSystem.SystemAddress;

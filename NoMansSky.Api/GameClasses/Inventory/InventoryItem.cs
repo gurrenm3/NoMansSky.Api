@@ -6,7 +6,7 @@ namespace NoMansSky.Api
     /// <summary>
     /// Represents one inventory item.
     /// </summary>
-    public unsafe class InventoryItem : IInventoryItem
+    internal unsafe class InventoryItem : IInventoryItem
     {
         /// <summary>
         /// <inheritdoc/>

@@ -58,8 +58,6 @@ namespace NoMansSky.Api.Hooks.Mbin
 
                     MBin mBin = new MBin(name, mbinAddress);
 
-                    //Logger.WriteLine($"Registered: {mBin}");
-
                     IGame.Instance.MBinManager.RegisterMBin(mBin);
 
                     return mbinAddress;

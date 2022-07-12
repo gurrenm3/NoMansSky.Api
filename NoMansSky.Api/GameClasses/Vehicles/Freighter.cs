@@ -3,7 +3,7 @@
     /// <summary>
     /// Represnets the players freighter.
     /// </summary>
-    public class Freighter : IFreighter
+    internal class Freighter : IFreighter
     {
 
     }

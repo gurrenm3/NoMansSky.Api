@@ -7,7 +7,7 @@ namespace NoMansSky.Api
     /// <summary>
     /// Represents an inventory container.
     /// </summary>
-    public unsafe class Inventory : IInventory
+    internal unsafe class Inventory : IInventory
     {
         OrderedList<IInventoryItem> itemsCache;
         private long address = 0;

@@ -9,8 +9,6 @@ namespace NoMansSky.Api
     /// </summary>
     public static class IInventoryStoreBalanceExtensions
     {
-        private static MemoryManager memory = new MemoryManager();
-
         /// <summary>
         /// Returns the actual GcInventoryStoreBalance that this object is representing.
         /// </summary>
@@ -18,7 +16,7 @@ namespace NoMansSky.Api
         /// <returns></returns>
         public static GcInventoryStoreBalance GetValue(this IInventoryStoreBalance instance)
         {
-            return memory.GetValue<GcInventoryStoreBalance>(instance.Address);
+            return instance.MBin.GetValue<GcInventoryStoreBalance>();
         }
 
         /// <summary>
@@ -28,7 +26,7 @@ namespace NoMansSky.Api
         /// <param name="valueToSet"></param>
         public static void SetValue(this IInventoryStoreBalance instance, GcInventoryStoreBalance valueToSet)
         {
-            memory.SetValue(instance.Address, valueToSet);
+            instance.MBin.SetValue(valueToSet);
         }
 
         /// <summary>

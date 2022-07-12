@@ -63,11 +63,11 @@ namespace NoMansSky.Api.Hooks.Mbin.Weather
             {
                 string mbinName = mbinFullName?.Split('/')?.Last()?.Replace(".MBIN", "");
 
-                WeatherEffectTable loadedMbin = null;
+                /*WeatherEffectTable loadedMbin = null;
                 if (mbinName.ToLower().Contains("effects")) // it's the WeatherEffects.mbin file
                     loadedMbin = (WeatherEffectTable)IGame.Instance?.WeatherData.WeatherEffects;
                 else
-                    loadedMbin = (WeatherEffectTable)IGame.Instance?.WeatherData.WeatherHazards;
+                    loadedMbin = (WeatherEffectTable)IGame.Instance?.WeatherData.WeatherHazards;*/
 
                 /*loadedMbin.Init(mbinFullName, loadedMBinAddress);
                 IGame.Instance.MBinManager.RegisterMBin(loadedMbin);*/

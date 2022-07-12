@@ -7,7 +7,7 @@ namespace NoMansSky.Api
     /// <summary>
     /// Represents a planet
     /// </summary>
-    public class Planet : IPlanet
+    internal class Planet : IPlanet
     {
         private static MemoryManager memory = new MemoryManager();
 

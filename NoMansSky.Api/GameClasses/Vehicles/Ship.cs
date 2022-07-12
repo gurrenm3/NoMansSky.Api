@@ -5,7 +5,7 @@ namespace NoMansSky.Api
     /// <summary>
     /// Represents the player's ship.
     /// </summary>
-    public class Ship : IShip
+    internal class Ship : IShip
     {
         /// <summary>
         /// <inheritdoc/>

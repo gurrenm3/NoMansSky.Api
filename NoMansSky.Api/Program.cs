@@ -1,4 +1,5 @@
-﻿using Reloaded.Hooks.ReloadedII.Interfaces;
+﻿using libMBIN;
+using Reloaded.Hooks.ReloadedII.Interfaces;
 using Reloaded.Mod.Interfaces;
 using Reloaded.Mod.Interfaces.Internal;
 using Reloaded.ModHelper;
@@ -52,6 +53,11 @@ namespace NoMansSky.Api
         private IMemoryManager memoryMgr = null!;
 
         /// <summary>
+        /// This is needed to sync the instances of libmbin between API and mods.
+        /// </summary>
+        private NMSTemplate libmbinInstance;
+
+        /// <summary>
         /// Entry point for your mod.
         /// </summary>
         public unsafe void StartEx(IModLoaderV1 loaderApi, IModConfigV1 modConfig)
@@ -80,14 +86,14 @@ namespace NoMansSky.Api
             memoryMgr.AddConverter(new ArrayConverter(memoryMgr), alwaysRegister: true);
             memoryMgr.AddConverter(new ListConverter(memoryMgr), alwaysRegister: true);
             memoryMgr.AddConverter(new ThreadedNMSTemplateConverter(memoryMgr), alwaysRegister: true);
-            //memoryMgr.AddConverter(new NMSTemplateConverter(memoryMgr), alwaysRegister: true);
 
 
-
-
+            // publish controllers to sync mods.
+            libmbinInstance = new NMSTemplate();
             gameInstance = new Game(Logger);
             gameLoop = gameInstance.GameLoop;
 
+            _modLoader.AddOrReplaceController(this, libmbinInstance);
             _modLoader.AddOrReplaceController(this, gameInstance);
             _modLoader.AddOrReplaceController(this, gameLoop);
 
@@ -101,7 +107,7 @@ namespace NoMansSky.Api
         /* Automatically called by the mod loader when the mod is about to be unloaded. */
         public Action Disposing { get; } = null!;
 
-        public Type[] GetTypes() => new Type[] { typeof(IGame), typeof(IGameLoop) };
+        public Type[] GetTypes() => new Type[] { typeof(IGame), typeof(IGameLoop), typeof(NMSTemplate) };
 
         public bool CanUnload() => false;
         public bool CanSuspend() => false;

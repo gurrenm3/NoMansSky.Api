@@ -5,7 +5,7 @@ namespace NoMansSky.Api
     /// <summary>
     /// Represents a refiner.
     /// </summary>
-    public unsafe class Refiner : IRefiner
+    internal unsafe class Refiner : IRefiner
     {
         /// <summary>
         /// <inheritdoc/>

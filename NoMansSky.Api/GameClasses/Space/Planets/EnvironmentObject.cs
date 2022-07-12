@@ -5,7 +5,7 @@ namespace NoMansSky.Api
     /// <summary>
     /// Links a Biome MBin File with it's address in memory.
     /// </summary>
-    public class EnvironmentObject : IEnvironmentObject, IEquatable<IEnvironmentObject>
+    internal class EnvironmentObject : IEnvironmentObject, IEquatable<IEnvironmentObject>
     {
         /// <summary>
         /// <inheritdoc/>

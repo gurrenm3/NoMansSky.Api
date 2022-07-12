@@ -5,26 +5,28 @@ namespace NoMansSky.Api
     /// <summary>
     /// Represents an object from the GcInventoryBalance class
     /// </summary>
-    public class InventoryStoreBalance : IInventoryStoreBalance
+    internal class InventoryStoreBalance : IInventoryStoreBalance
     {
-        /// <summary>
-        /// <inheritdoc/>
-        /// </summary>
-        public long Address { get; private set; }
-
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
         public IModEvent OnLoaded { get; set; } = new SharedModEvent();
 
         /// <summary>
-        /// Sets the address for this object.
+        /// <inheritdoc/>
         /// </summary>
-        /// <param name="address"></param>
-        public void SetAddress(long address)
+        public IMBin MBin { get; private set; }
+
+        public InventoryStoreBalance()
         {
-            Address = address;
-            OnLoaded.Invoke();
+            IGame.Instance.MBinManager.OnMBinLoaded.AddListener(mbin =>
+            {
+                if (mbin.Name.ToLower() == "defaultinventorybalance")
+                {
+                    MBin = mbin;
+                    OnLoaded.Invoke();
+                }
+            });
         }
     }
 }

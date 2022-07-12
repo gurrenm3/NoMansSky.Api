@@ -8,13 +8,13 @@ namespace NoMansSky.Api
     public interface IInventoryStoreBalance
     {
         /// <summary>
-        /// The address of this object in memory.
-        /// </summary>
-        public long Address { get; }
-
-        /// <summary>
         /// Runs when the address for this object has been acquired.
         /// </summary>
         public IModEvent OnLoaded { get; set; }
+
+        /// <summary>
+        /// The MBin file associated with this object.
+        /// </summary>
+        public IMBin MBin { get; }
     }
 }

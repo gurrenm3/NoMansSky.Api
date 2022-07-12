@@ -17,7 +17,7 @@ namespace NoMansSky.Api
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
-        public string MBinName { get; private set; } = null!;
+        public string Name { get; private set; } = null!;
 
         /// <summary>
         /// <inheritdoc/>
@@ -56,26 +56,25 @@ namespace NoMansSky.Api
                 return false;
 
             Address = address;
-            MBinType = IGame.Instance.MBinManager.GetMBinType(name);
 
-            string cleanedName = name.Replace(" ", "");
+            string cleanedName = name.Replace(" ", "").Replace("\\", "/"); ;
             if (cleanedName.Contains("/"))
             {
                 var split = cleanedName.Split('/');
                 cleanedName = split[split.Length - 1]; // set to last
             }
-            else if (cleanedName.Contains("\\"))
-            {
-                var split = cleanedName.Split('/');
-                cleanedName = split[split.Length - 1]; // set to last
-            }
 
-            cleanedName = cleanedName.TrimEnd('/').TrimEnd('\\');
+            cleanedName = cleanedName.TrimEnd('/');
 
-            if (cleanedName.ToLower().EndsWith(".mbin") || cleanedName.ToLower().EndsWith(".mxml"))
+            string lowerName = cleanedName.ToLower();
+            if (lowerName.EndsWith(".mbin") || lowerName.EndsWith(".mxml"))
                 cleanedName = cleanedName.Remove(cleanedName.Length - 5, 5);
 
-            MBinName = cleanedName;
+            if (lowerName.EndsWith(".xml"))
+                cleanedName = cleanedName.Remove(cleanedName.Length - 4, 4);
+
+            MBinType = IGame.Instance.MBinManager.GetMBinType(cleanedName);
+            Name = cleanedName;
             FullName = name;
             IsInitialized = true;
             return true;
@@ -116,7 +115,7 @@ namespace NoMansSky.Api
             if (other == null)
                 return false;
 
-            return this.Address == other.Address && this.FullName == other.FullName;
+            return this.Address == other.Address && this.FullName.ToLower() == other.FullName.ToLower();
         }
     }
 }

@@ -39,13 +39,13 @@ namespace NoMansSky.Api.Hooks.Player
                 $"{_hooks.Utilities.GetAbsoluteCallMnemonics(pattern2Func, out pattern2ReverseWrap)}",
             };
 
-            pattern2AsmHook = _hooks.CreateAsmHook(pattern2Asm, pattern2Address, AsmHookBehaviour.ExecuteFirst).Activate();
+            //pattern2AsmHook = _hooks.CreateAsmHook(pattern2Asm, pattern2Address, AsmHookBehaviour.ExecuteFirst).Activate();
         }
 
         
         private long CodeToExecutePattern2(long addressToObject)
         {
-            ((InventoryStoreBalance)IGame.Instance.Player.DefaultInventoryBalance).SetAddress(addressToObject);
+            //((InventoryStoreBalance)IGame.Instance.Player.DefaultInventoryBalance).SetAddress(addressToObject);
             return addressToObject;
         }
     }

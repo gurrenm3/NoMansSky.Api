@@ -54,6 +54,11 @@ namespace NoMansSky.Api
         public IGameLoop GameLoop => Game?.GameLoop!;
 
         /// <summary>
+        /// A shortcut for accsessing the Globals files.
+        /// </summary>
+        public IGlobalsManager Globals => Game?.Globals!;
+
+        /// <summary>
         /// Represents the Galaxy Map.
         /// </summary>
         public IGalaxyMap GalaxyMap => Game?.GalaxyMap!;

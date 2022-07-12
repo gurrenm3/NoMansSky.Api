@@ -58,6 +58,7 @@ The purpose of this library is to help mod makers create incredibly diverse and 
     <PackageReference Include="Reloaded.Memory.Sigscan" Version="3.1.0" />
     <PackageReference Include="Reloaded.Mod.Interfaces" Version="2.3.0" />
     <PackageReference Include="Reloaded.SharedLib.Hooks" Version="1.9.0" />
+    <PackageReference Include="System.Xml.ReaderWriter" Version="4.3.1" />
   </ItemGroup>
 
   <ItemGroup>
@@ -81,6 +82,7 @@ The purpose of this library is to help mod makers create incredibly diverse and 
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Extensions\MBin\Globals\" />
     <Folder Include="GameClasses\Biomes\" />
   </ItemGroup>
 

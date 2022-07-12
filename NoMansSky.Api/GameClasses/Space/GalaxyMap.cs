@@ -6,7 +6,7 @@ namespace NoMansSky.Api
     /// <summary>
     /// Represents the Galaxy Map.
     /// </summary>
-    public class GalaxyMap : IGalaxyMap
+    internal class GalaxyMap : IGalaxyMap
     {
         /// <summary>
         /// <inheritdoc/>

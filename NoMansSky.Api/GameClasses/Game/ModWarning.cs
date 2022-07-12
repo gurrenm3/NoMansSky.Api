@@ -8,7 +8,7 @@ namespace NoMansSky.Api
     /// Represents the "Warning, Mods are Enabled" popup that shows at the beginning of the game.
     /// <br/><br/>Thanks to RaYRoD TV#7679 for discovering and sharing this.
     /// </summary>
-    public unsafe class ModWarning : IModWarning
+    internal unsafe class ModWarning : IModWarning
     {
         /// <summary>
         /// <inheritdoc/>

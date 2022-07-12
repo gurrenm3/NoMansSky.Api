@@ -3,7 +3,7 @@
     /// <summary>
     /// Represents a MultiTool from the game.
     /// </summary>
-    public class MultiTool : IMultiTool
+    internal class MultiTool : IMultiTool
     {
 
     }

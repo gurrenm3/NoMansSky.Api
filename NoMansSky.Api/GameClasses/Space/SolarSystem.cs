@@ -8,7 +8,7 @@ namespace NoMansSky.Api
     /// <summary>
     /// Represents the solar system that the player is currently in.
     /// </summary>
-    public class SolarSystem : ISolarSystem
+    internal class SolarSystem : ISolarSystem
     {
         private static MemoryManager memory = new MemoryManager();
 

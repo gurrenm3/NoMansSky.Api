@@ -7,13 +7,22 @@ namespace NoMansSky.Api
     /// <summary>
     /// The parent class for interacting with and getting all information from No Mans Sky.
     /// </summary>
-    public sealed class Game : ReloadedGame, IGame
+    internal sealed class Game : ReloadedGame, IGame
     {
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
         public static Game? Instance { get; set; }
 
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
+        public IGlobalsManager Globals { get; private set; }
+
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
+        public IRealityManager Reality { get; private set; }
 
         /// <summary>
         /// <inheritdoc/>
@@ -24,12 +33,17 @@ namespace NoMansSky.Api
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
-        public ISpaceColors SpaceColors { get; private set; }
+        public ICreatureManager Creatures { get; private set; }
 
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
-        public IWeatherData WeatherData { get; private set; }
+        public IColorsManager Colors { get; private set; }
+
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
+        public IWeatherManager Weather { get; private set; }
 
         /// <summary>
         /// <inheritdoc/>
@@ -168,10 +182,15 @@ namespace NoMansSky.Api
 
             InitModEvents();
 
+            // initialize mbins
+            Globals = new GlobalsManager();
+            Reality = new RealityManager();
+            Colors = new ColorsManager();
+            Weather = new WeatherManager();
+            Creatures = new CreatureManager();
+
             _galaxyMap = new GalaxyMap();
             _currentSystem = new SolarSystem();
-            SpaceColors = new SpaceColors();
-            WeatherData = new WeatherData();
 
             Player = new Player(logger);
             (Player as Player)?.Init();

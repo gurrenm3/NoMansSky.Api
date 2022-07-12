@@ -10,7 +10,7 @@ namespace NoMansSky.Api
     /// <summary>
     /// A manager for dealing with MBIN files.
     /// </summary>
-    public class MBinManager : IMBinManager
+    internal class MBinManager : IMBinManager
     {
         /// <summary>
         /// <inheritdoc/>
@@ -70,7 +70,7 @@ namespace NoMansSky.Api
             // check if the exact name is correct.
             foreach (var mbin in loadedMBIN)
             {
-                string compareName = useFullName ? mbin.FullName : mbin.MBinName;
+                string compareName = useFullName ? mbin.FullName : mbin.Name;
                 if (mbinName == compareName.ToLower())
                     return mbin;
             }
@@ -78,7 +78,7 @@ namespace NoMansSky.Api
             // try messing with the characters to see if the name entered was almost right.
             foreach (var mbin in loadedMBIN)
             {
-                string compareName = useFullName ? mbin.FullName : mbin.MBinName;
+                string compareName = useFullName ? mbin.FullName : mbin.Name;
                 var currentMbinName = compareName.ToLower();
                 if (mbinName == currentMbinName.Insert(0, "gc") || mbinName.Insert(0, "gc") == currentMbinName || mbinName == currentMbinName.Insert(0, "cgc") || mbinName.Insert(0, "cgc") == currentMbinName)
                     return mbin;
@@ -94,19 +94,19 @@ namespace NoMansSky.Api
         /// <returns></returns>
         public Type GetMBinType(string mbinName)
         {
-            mbinName = mbinName.ToLower();
-            var types = typeof(NMSTemplate).Assembly.GetTypes();
-
-            // not checking twice like in GetMbin because it's too many types to loop over twice.
-
-            foreach (var type in types)
+            if (string.IsNullOrEmpty(mbinName))
             {
-                var currentMbinName = type.Name.ToLower();
-                if (mbinName == type.Name.ToLower() || mbinName == currentMbinName.Insert(0, "gc") || mbinName.Insert(0, "gc") == currentMbinName || mbinName == currentMbinName.Insert(0, "cgc") || mbinName.Insert(0, "cgc") == currentMbinName)
-                    return type;
+                ConsoleUtil.LogError("Can't get mbin type because provided mbin name was invalid");
+                return null;
             }
 
-            return null!;
+            if (mbinName.StartsWith("cGc"))
+                mbinName = mbinName.Remove(0, 1);
+
+            if (!mbinName.StartsWith("Gc"))
+                mbinName = mbinName.Insert(0, "Gc");
+
+            return NMSTemplate.GetTemplateType(mbinName);
         }
 
         /// <summary>

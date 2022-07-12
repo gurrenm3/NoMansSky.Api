@@ -11,7 +11,7 @@ namespace NoMansSky.Api
     /// </summary>
     public class NMSTemplateConverter : IMemoryConverter
     {
-        IMemoryManager manager;
+        IMemoryManager memory;
 
         /// <summary>
         /// Creates an instance of this class while providing a manager for recursion.
@@ -23,7 +23,7 @@ namespace NoMansSky.Api
                 throw new NullReferenceException($"Can't create {nameof(NMSTemplateConverter)} because the provided" +
                     $" {nameof(MemoryManager)} was null!");
 
-            this.manager = manager;
+            this.memory = manager;
         }
 
         /// <summary>
@@ -81,7 +81,58 @@ namespace NoMansSky.Api
             return instance!;
         }
 
-        private object GetFieldValue(Type classType, FieldInfo field, long address)
+        private unsafe object GetFieldValue(Type classType, FieldInfo field, long address)
+        {
+            if (!field.FieldType.IsArray)
+            {
+                if (field.FieldType != typeof(NMSTemplate))
+                    return memory.GetValue(address, field.FieldType);
+
+                // it's using NMSTemplate as a base class and using inheritance for this field. Actual field type could be anything.
+
+                // get actual field type:
+                long addressOfFieldType = (address + 0x8);
+                string nameOfFieldType = Strings.ToString(addressOfFieldType);
+
+                if (string.IsNullOrEmpty(nameOfFieldType) || string.IsNullOrWhiteSpace(nameOfFieldType)) // it's empty, treat it as a NMSTemplate
+                    return memory.GetValue(address, field.FieldType);
+
+                // try to get the corrisponding libmbin class
+                var actualFieldType = IGame.Instance.MBinManager.GetMBinType(nameOfFieldType);
+                if (actualFieldType == null) // not found. Probably an internal class.
+                {
+                    ConsoleUtil.LogError($"Failed to get libmbin type for {nameOfFieldType}");
+                    return memory.GetValue(address, field.FieldType);
+                }
+
+                // we have the actual type and actual address of this field. Return correct value.
+                long actualFieldAddress = *(long*)address; // dereference since it's stored as a pointer.
+                return memory.GetValue(actualFieldAddress, actualFieldType);
+            }
+
+
+            // Get converter for the array.
+            var converter = (ArrayConverter)memory.GetObjectConverter(field.FieldType);
+            if (converter == null)
+            {
+                ConsoleUtil.LogError($"{nameof(ThreadedNMSTemplateConverter)}: Failed to get converter for this Array.");
+                return null!;
+            }
+
+            // Get size of the array.
+            int? arrayLength = field.GetCustomAttribute<NMSAttribute>()?.Size;
+            if (!arrayLength.HasValue)
+            {
+                ConsoleUtil.LogError($"{nameof(ThreadedNMSTemplateConverter)}: Failed to get size of array for {classType.Name}.{field.Name}");
+                return null!;
+            }
+
+            return converter.GetValue(address, field.FieldType, arrayLength.Value);
+        }
+
+
+        // old
+        /*private object GetFieldValue(Type classType, FieldInfo field, long address)
         {
             if (!field.FieldType.IsArray)
                 return manager.GetValue(address, field.FieldType);
@@ -103,7 +154,7 @@ namespace NoMansSky.Api
             }
 
             return converter.GetValue(address, field.FieldType, arrayLength.Value);
-        }
+        }*/
 
         /// <summary>
         /// <inheritdoc/>
@@ -142,7 +193,7 @@ namespace NoMansSky.Api
                     continue;
                 }*/
 
-                manager.SetValue(address + fieldOffset, newFieldValue);
+                memory.SetValue(address + fieldOffset, newFieldValue);
             }
         }
     }
