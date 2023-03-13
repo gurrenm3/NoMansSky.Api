@@ -29,9 +29,9 @@ namespace NoMansSky.Api
         private void Init()
         {
             address = new Signature(pattern).Scan() + 0x6;
-
+            
             memoryAddress = new MemoryAddress<bool>(address);
-            Memory.Instance.ChangePermission((IntPtr)address, 1, Reloaded.Memory.Kernel32.Kernel32.MEM_PROTECTION.PAGE_EXECUTE_READWRITE);
+            Memory.Instance.ChangePermission((nuint)address, 1, Reloaded.Memory.Kernel32.Kernel32.MEM_PROTECTION.PAGE_EXECUTE_READWRITE);
         }
 
         /// <summary>

@@ -20,7 +20,7 @@ namespace NoMansSky.Api.Hooks.Mbin
 
 
         /// <summary>
-        /// ModEventHook that's called when the original function is called.
+        /// ModEvent that's called when the original function is called.
         /// </summary>
         public static IModEvent<IMBin> ModEvent => IGame.Instance.MBinManager.OnMBinLoaded;
         public static string currentMbin;
@@ -30,6 +30,9 @@ namespace NoMansSky.Api.Hooks.Mbin
         public void InitHook(IModLogger _logger, IReloadedHooks _hooks)
         {
             logger = _logger;
+            logger.WriteLine($"{HookName} is temporarily disabled...");
+            return;
+
             string pattern = "48 89 4C 24 ? 57 41 54 41 55 41 56 41 57 48 83 EC 30 48 C7 44 24 ? ? ? ? ? 48 89 5C 24 ? 48 89 6C 24 ? 48 89 74 24 ? 48 8B F2";
             Function = _hooks.CreateFunction<HookDelegate>(new Signature(pattern).Scan());
             Hook = Function.Hook(CodeToExecute).Activate();
@@ -38,7 +41,7 @@ namespace NoMansSky.Api.Hooks.Mbin
         private long CodeToExecute(char* mbinName, char* a2, long a3, long a4, long a5, long a6, long a7, long a8, long a9, long a10)
         {
             long result = 0;
-            var name = Strings.ToString(a2);
+            var name = StringUtils.ToString(a2);
             currentMbin = name;
 
             result = Hook.OriginalFunction(mbinName, a2, a3, a4, a5, a6, a7, a8, a9, a10);
@@ -46,7 +49,7 @@ namespace NoMansSky.Api.Hooks.Mbin
             var mbinAddress = *((long*)mbinName + 13);
             var mbin = new MBin(name, mbinAddress);
 
-            ModEvent?.Invoke(mbin);
+            IGame.Instance.MBinManager.RegisterMBin(mbin);
             return result;
         }
     }

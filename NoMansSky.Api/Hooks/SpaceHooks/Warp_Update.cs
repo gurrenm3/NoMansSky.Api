@@ -33,6 +33,9 @@ namespace NoMansSky.Api.Hooks.GalaxyMap
         public void InitHook(IModLogger _logger, IReloadedHooks _hooks)
         {
             logger = _logger;
+            logger.WriteLine($"{HookName} is temporarily disabled...");
+            return;
+
             string pattern = "48 8B C4 F3 0F 11 48 ? 55 56 57 41 54 41 55 41 56 41 57 48 8D A8 ? ? ? ? 48 81 EC ? ? ? ? 48 C7 85 ? ? ? ? ? ? ? ? 48 89 58 08 0F 29 70 B8 44";
             Function = _hooks.CreateFunction<HookDelegate>(new Signature(pattern).Scan());
             Hook = Function.Hook(CodeToExecute).Activate();

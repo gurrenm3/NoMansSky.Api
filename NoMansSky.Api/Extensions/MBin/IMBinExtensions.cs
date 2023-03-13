@@ -1,4 +1,5 @@
-﻿using Reloaded.ModHelper;
+﻿using libMBIN;
+using Reloaded.ModHelper;
 using System;
 using System.Threading.Tasks;
 
@@ -18,7 +19,7 @@ namespace NoMansSky.Api
         /// <returns></returns>
         public static bool IsGlobalMbin(this IMBin mbin)
         {
-            return mbin.Name.EndsWith("Globals") || mbin.Name.Contains("DebugOptions") || mbin.Name.Contains("SceneOptions") || mbin.Name.Contains("SmokeTestOptions");
+            return mbin.Name.EndsWith("GLOBALS") || mbin.Name.Contains("DEBUGOPTIONS") || mbin.Name.Contains("SCENEOPTIONS") || mbin.Name.Contains("SMOKETESTOPTIONS");
         }
 
         /// <summary>
@@ -27,7 +28,7 @@ namespace NoMansSky.Api
         /// <typeparam name="T"></typeparam>
         /// <param name="mbin"></param>
         /// <returns></returns>
-        public static T GetValue<T>(this IMBin mbin)
+        public static T GetValue<T>(this IMBin mbin) where T : NMSTemplate
         {
             return memory.GetValue<T>(mbin.Address);
         }
@@ -40,7 +41,7 @@ namespace NoMansSky.Api
         /// <typeparam name="T"></typeparam>
         /// <param name="mbin"></param>
         /// <returns></returns>
-        public static async Task<T> GetValueAsync<T>(this IMBin mbin)
+        public static async Task<T> GetValueAsync<T>(this IMBin mbin) where T : NMSTemplate
         {
             return await Task.Run(() => memory.GetValue<T>(mbin.Address));
         }
@@ -74,7 +75,7 @@ namespace NoMansSky.Api
         /// <typeparam name="T"></typeparam>
         /// <param name="mbin"></param>
         /// <param name="modifyAction"></param>
-        public static void Modify<T>(this IMBin mbin, Action<T> modifyAction)
+        public static void Modify<T>(this IMBin mbin, Action<T> modifyAction) where T : NMSTemplate
         {
             var value = mbin.GetValue<T>();
             modifyAction.Invoke(value);
@@ -90,7 +91,7 @@ namespace NoMansSky.Api
         /// <param name="mbin"></param>
         /// <param name="modifyAction"></param>
         /// <returns></returns>
-        public static async Task ModifyAsync<T>(this IMBin mbin, Action<T> modifyAction)
+        public static async Task ModifyAsync<T>(this IMBin mbin, Action<T> modifyAction) where T : NMSTemplate
         {
             await Task.Run(() =>
             {

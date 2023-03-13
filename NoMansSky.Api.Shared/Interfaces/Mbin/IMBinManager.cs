@@ -40,7 +40,7 @@ namespace NoMansSky.Api
         /// </summary>
         /// <param name="mbinName"></param>
         /// <returns></returns>
-        Type GetMBinType(string mbinName);
+        Type GetMBinTypeFromName(string mbinName);
 
         /// <summary>
         /// Registers an mbin file with this manager. If no duplicates are found it will be registered and <see cref="OnMBinLoaded"/> will be invoked.

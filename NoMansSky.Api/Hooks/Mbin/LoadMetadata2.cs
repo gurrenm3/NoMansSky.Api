@@ -34,30 +34,25 @@ namespace NoMansSky.Api.Hooks.Mbin
             Logger = _logger;
             string sigPattern = "40 53 55 41 56 48 81 EC ? ? ? ? 48 8D 84 24 ? ? ? ? C6 44 24 ? ? C6";
 
-
-
-            var patternResults = FindAllPatterns(new Signature(sigPattern).sigPattern);
+            var addresses = new Signature(sigPattern).ScanAll();
             var gameProc = Process.GetCurrentProcess();
 
             int i = 0;
-            foreach (var result in patternResults)
+            foreach (var address in addresses)
             {
-                long functionAddress = (long)gameProc.MainModule.BaseAddress + result;
-                var function = _hooks.CreateFunction<HookDelegate>(functionAddress);
-
+                var function = _hooks.CreateFunction<HookDelegate>(address);
 
                 IHook<HookDelegate> hook = null;
                 hook = function.Hook((mbinName, a2, a3) =>
                 {
                     var mbinAddress = hook.OriginalFunction(mbinName, a2, a3);
-                    string name = Strings.ToString(mbinName);
+                    string name = StringUtils.ToString(mbinName);
 
                     // failed to load mbin
                     if (mbinAddress == 0)
                         return mbinAddress;
 
                     MBin mBin = new MBin(name, mbinAddress);
-
                     IGame.Instance.MBinManager.RegisterMBin(mBin);
 
                     return mbinAddress;
@@ -66,30 +61,7 @@ namespace NoMansSky.Api.Hooks.Mbin
 
                 Functions.Add(function);
                 Hooks.Add(hook);
-                
             }
-        }
-
-
-
-        private static unsafe List<int> FindAllPatterns(string pattern)
-        {
-            var gameProc = Process.GetCurrentProcess();
-            var scanner = new Scanner(gameProc, gameProc.MainModule);
-
-            var results = new List<int>();
-
-            var lastOffset = -1;
-            while (true)
-            {
-                lastOffset = scanner.FindPattern(pattern, lastOffset + 1).Offset;
-                if (lastOffset == -1)
-                    break;
-
-                results.Add(lastOffset);
-            }
-
-            return results;
         }
     }
 }

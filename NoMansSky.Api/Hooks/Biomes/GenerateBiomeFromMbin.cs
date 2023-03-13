@@ -49,7 +49,7 @@ namespace NoMansSky.Api.Hooks.GalaxyMap
         
         private long CodeToExecutePattern2(long biomeAddress, char* mbinName)
         {
-            var actualName = Strings.ToString(mbinName);
+            var actualName = StringUtils.ToString(mbinName);
             if (!string.IsNullOrEmpty(actualName))
             {
                 var environmentObject = new EnvironmentObject(actualName, biomeAddress);

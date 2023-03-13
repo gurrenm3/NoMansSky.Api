@@ -21,6 +21,19 @@ namespace NoMansSky.Api
         }
 
         /// <summary>
+        /// Reads this object in memory.
+        /// <br/>This is the same as MBin.GetValue and is provided for convinience.
+        /// <br/>Runs on a different thread and returns when done to prevent locking the game. 
+        /// <br/>NOTE: Not synced with game loop.
+        /// </summary>
+        /// <param name="instance"></param>
+        /// <returns></returns>
+        public static async Task<GcPurchaseableSpecials> GetValueAsync(this IPurchaseableSpecialsFile instance)
+        {
+            return await instance.MBin.GetValueAsync<GcPurchaseableSpecials>();
+        }
+
+        /// <summary>
         /// Provides an easy way to get this mbin in memory, modify it, and apply the changes back to the game.
         /// <br/>This is the same as MBin.Modify and is provided for convinience.
         /// </summary>

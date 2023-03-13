@@ -43,7 +43,7 @@ namespace NoMansSky.Api.Hooks.Mbin
             var addressToObject = Hook.OriginalFunction(a1, mbinName, a3);
 
             Console.WriteLine("---------------------------");
-            var nameStr = Strings.ToString(mbinName);
+            var nameStr = StringUtils.ToString(mbinName);
             if (!string.IsNullOrEmpty(nameStr))
             {
                 Console.WriteLine(nameStr);

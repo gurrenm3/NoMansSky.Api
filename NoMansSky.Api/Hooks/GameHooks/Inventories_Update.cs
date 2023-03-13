@@ -20,7 +20,7 @@ namespace NoMansSky.Api.Hooks.Game
 
 
         /// <summary>
-        /// ModEventHook that's called when the original function is called.
+        /// ModEvent that's called when the original function is called.
         /// </summary>
         public static IModEventHook ModEventHook { get; } = new SharedModEventHook();
         public string HookName => "InventoriesGUI_Update";
@@ -33,7 +33,7 @@ namespace NoMansSky.Api.Hooks.Game
             string pattern = "48 89 5C 24 ? 48 89 6C 24 ? 4C 89 44 24 ? 56 57 41 54 41 55 41 57 48 81 EC ? ? ? ? 48 8B E9 48 C7 44 24";
 
             Function = _hooks.CreateFunction<HookDelegate>(new Signature(pattern).Scan());
-            Hook = Function.Hook(CodeToExecute).Activate();
+            //Hook = Function.Hook(CodeToExecute).Activate();
         }
 
         private long CodeToExecute(long a1, long a2, long a3, long* a4, long a5, int a6, long a7, int a8, char a9)

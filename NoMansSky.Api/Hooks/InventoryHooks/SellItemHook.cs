@@ -10,7 +10,7 @@ namespace NoMansSky.Api.Hooks.Inventory
     {
         [Function(CallingConventions.Microsoft)]
         [UnmanagedFunctionPointer(CallingConvention.StdCall, CharSet = CharSet.Ansi)]
-        public delegate long HookDelegate(long self, GcInventoryElement* someAddress, GcInventoryElement* someAddr2);
+        public delegate long HookDelegate(long self, GcInventoryElement_old* someAddress, GcInventoryElement_old* someAddr2);
 
         public static IHook<HookDelegate> Hook;
         public static IFunction<HookDelegate> Function { get; set; }
@@ -27,7 +27,7 @@ namespace NoMansSky.Api.Hooks.Inventory
         }
 
         // TODO
-        private long CodeToExecute(long self, GcInventoryElement* a2, GcInventoryElement* a3)
+        private long CodeToExecute(long self, GcInventoryElement_old* a2, GcInventoryElement_old* a3)
         {
             var item = a3;
 

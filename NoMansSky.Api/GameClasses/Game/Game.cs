@@ -1,6 +1,9 @@
 ﻿using NoMansSky.Api.Hooks.Game;
 using Reloaded.ModHelper;
+using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Reflection;
 
 namespace NoMansSky.Api
 {
@@ -13,6 +16,14 @@ namespace NoMansSky.Api
         /// <inheritdoc/>
         /// </summary>
         public static Game? Instance { get; set; }
+
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
+        [FindOffset("4C 8B FA 4C 8B F1 48 8D 0D ? ? ? ? E8 ? ? ? ? 48 8D 95 ? ? ? ? ", 9)]
+        public long GcApplicationAddress { get; private set; }
+
+        public Dictionary<string, Type> MbinNamesAndTypes { get; set; } = new Dictionary<string, Type>();
 
         /// <summary>
         /// <inheritdoc/>
@@ -69,6 +80,26 @@ namespace NoMansSky.Api
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
+        public string NMSDirectory { get; private set; }
+
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
+        public string BinariesDirectory { get; private set; }
+
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
+        public string GameDataDirectory { get; private set; }
+
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
+        public string ModsDirectory { get; private set; }
+
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
         public bool IsOnMainMenu { get; private set; }
 
         /// <summary>
@@ -101,6 +132,12 @@ namespace NoMansSky.Api
         /// </summary>
         public IModWarning ModsWarning => _modWarning;
         private IModWarning _modWarning;
+
+
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
+        public IModEvent<long> OnGcApplicationAcquired { get; set; } = new SharedModEvent<long>();
 
         /// <summary>
         /// <inheritdoc/>
@@ -176,9 +213,22 @@ namespace NoMansSky.Api
             Instance = this;
             IGame.Instance = this;
 
+            GcApplicationAddress = GetGameBaseAddress();
+            OnGcApplicationAcquired.Invoke(GcApplicationAddress);
+            logger.WriteLine($"Discovered GameBaseAddress at {GcApplicationAddress.ToHex()}");
+
+            BinariesDirectory = Environment.CurrentDirectory;
+            NMSDirectory = Directory.GetParent(BinariesDirectory).FullName;
+            GameDataDirectory = $"{NMSDirectory}\\GAMEDATA";
+            ModsDirectory = $"{GameDataDirectory}\\MODS";
+
             
-            GameLoop = new HookedGameLoop();
+            logger.WriteLine("Hooked game loop temporarily disabled...");
+
+            //GameLoop = new HookedGameLoop();
+            GameLoop = PseudoGameLoop.CreateNew(true);
             GameLoop.Initialize();
+            
 
             InitModEvents();
 
@@ -199,6 +249,14 @@ namespace NoMansSky.Api
 
             OnInitialized.Invoke();
             IsInitialized = true;
+        }
+
+        private long GetGameBaseAddress()
+        {
+            var propInfo = GetType().GetProperty(nameof(GcApplicationAddress));
+            var offsetAttribute = propInfo.GetCustomAttribute<FindOffsetAttribute>();
+            long nextInstructionAddr = offsetAttribute.PatternAddress + offsetAttribute.numBytesToOffset - 5; // subtracting 5 because it's a lea instruction and thats how that works.
+            return nextInstructionAddr + offsetAttribute.DiscoveredOffset;
         }
 
         private void InitModEvents()

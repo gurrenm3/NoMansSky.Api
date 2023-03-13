@@ -20,7 +20,7 @@ namespace NoMansSky.Api.Hooks.Player
 
 
         /// <summary>
-        /// ModEventHook that's called when the original function is called.
+        /// ModEvent that's called when the original function is called.
         /// <br/>The first parameter is the player base address.
         /// <br/>The second parameter is delta time, the time between this frame and the last one.
         /// </summary>
@@ -40,7 +40,7 @@ namespace NoMansSky.Api.Hooks.Player
             string pattern = "48 8B C4 48 89 58 08 48 89 68 10 48 89 70 18 57 41 56 41 57 48 81 EC ? ? ? ? 0F 29 70 D8 48 8D";
 
             Function = _hooks.CreateFunction<HookDelegate>(new Signature(pattern).Scan());
-            Hook = Function.Hook(CodeToExecute).Activate();
+            //Hook = Function.Hook(CodeToExecute).Activate();
         }
 
         private void CodeToExecute(long self, float deltaTime)

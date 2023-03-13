@@ -21,7 +21,7 @@ namespace NoMansSky.Api.Hooks.Game
 
 
         /// <summary>
-        /// ModEventHook that's called when the original function is called.
+        /// ModEvent that's called when the original function is called.
         /// </summary>
         public static IModEventHook ModEventHook => IGame.Instance.GameLoop.OnUpdate;
         public string HookName => "Game_Update";
@@ -33,7 +33,9 @@ namespace NoMansSky.Api.Hooks.Game
         public void InitHook(IModLogger _logger, IReloadedHooks _hooks)
         {
             logger = _logger;
-            
+            logger.WriteLine($"{HookName} is temporarily disabled...");
+            return;
+
             // Old pattern. Doesn't run on splash screen when game is starting. Replaced with new one below.
             //string oldPattern = "40 53 48 83 EC 20 48 8D 4C 24 ? FF 15 ? ? ? ? 48 8B 5C 24 ? 48 8D 4C 24 ? FF 15 ? ? ? ? F2";
 

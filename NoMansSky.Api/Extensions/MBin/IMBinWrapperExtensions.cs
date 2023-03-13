@@ -1,4 +1,5 @@
-﻿using Reloaded.ModHelper;
+﻿using libMBIN;
+using Reloaded.ModHelper;
 using System;
 using System.Threading.Tasks;
 
@@ -16,7 +17,7 @@ namespace NoMansSky.Api
         /// <typeparam name="T"></typeparam>
         /// <param name="wrapper"></param>
         /// <returns></returns>
-        public static T GetValue<T>(this IMBinWrapper wrapper)
+        public static T GetValue<T>(this IMBinWrapper wrapper) where T : NMSTemplate
         {
             return wrapper.MBin.GetValue<T>();
         }
@@ -30,7 +31,7 @@ namespace NoMansSky.Api
         /// <typeparam name="T"></typeparam>
         /// <param name="wrapper"></param>
         /// <returns></returns>
-        public static async Task<T> GetValueAsync<T>(this IMBinWrapper wrapper)
+        public static async Task<T> GetValueAsync<T>(this IMBinWrapper wrapper) where T : NMSTemplate
         {
             return await wrapper.MBin.GetValueAsync<T>();
         }
@@ -67,7 +68,7 @@ namespace NoMansSky.Api
         /// <typeparam name="T"></typeparam>
         /// <param name="wrapper"></param>
         /// <param name="modifyAction"></param>
-        public static void Modify<T>(this IMBinWrapper wrapper, Action<T> modifyAction)
+        public static void Modify<T>(this IMBinWrapper wrapper, Action<T> modifyAction) where T : NMSTemplate
         {
             wrapper.MBin.Modify(modifyAction);
         }
@@ -82,7 +83,7 @@ namespace NoMansSky.Api
         /// <param name="wrapper"></param>
         /// <param name="modifyAction"></param>
         /// <returns></returns>
-        public static async Task ModifyAsync<T>(this IMBinWrapper wrapper, Action<T> modifyAction)
+        public static async Task ModifyAsync<T>(this IMBinWrapper wrapper, Action<T> modifyAction) where T : NMSTemplate
         {
             await wrapper.MBin.ModifyAsync(modifyAction);
         }

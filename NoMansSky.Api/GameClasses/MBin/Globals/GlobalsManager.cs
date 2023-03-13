@@ -12,180 +12,170 @@ namespace NoMansSky.Api
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
-        public List<IGlobalsFile> AllGlobals { get; set; } = new List<IGlobalsFile>();
+        public IAISpaceshipGlobalFile AISpaceshipGlobals { get; private set; } = new AISpaceshipGlobalFile();
 
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
-        public IModEvent<IGlobalsFile> OnGlobalLoaded { get; set; } = new SharedModEvent<IGlobalsFile>();
+        public IAtlasGlobalFile AtlasGlobals { get; private set; } = new AtlasGlobalFile();
 
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
-        public IGlobalsFile AISpaceshipGlobals { get; private set; } = new GlobalsFile();
+        public IAudioGlobalFile AudioGlobals { get; private set; } = new AudioGlobalFile();
 
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
-        public IGlobalsFile AtlasGlobals { get; private set; } = new GlobalsFile();
+        public IBuildingGlobalFile BuildingGlobals { get; private set; } = new BuildingGlobalFile();
 
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
-        public IGlobalsFile AudioGlobals { get; private set; } = new GlobalsFile();
+        public ICameraGlobalFile CameraGlobals { get; private set; } = new CameraGlobalFile();
 
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
-        public IGlobalsFile BuildingGlobals { get; private set; } = new GlobalsFile();
+        public ICharacterGlobalFile CharacterGlobals { get; private set; } = new CharacterGlobalFile();
 
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
-        public IGlobalsFile CameraGlobals { get; private set; } = new GlobalsFile();
+        public ICreatureGlobalFile CreatureGlobals { get; private set; } = new CreatureGlobalFile();
 
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
-        public IGlobalsFile CharacterGlobals { get; private set; } = new GlobalsFile();
-
-        /// <summary>
-        /// <inheritdoc/>
-        /// </summary>
-        public IGlobalsFile CreatureGlobals { get; private set; } = new GlobalsFile();
-
-        /// <summary>
-        /// <inheritdoc/>
-        /// </summary>
-        public IGlobalsFile DebugOptions { get; private set; } = new GlobalsFile();
+        public IDebugOptionsFile DebugOptions { get; private set; } = new DebugOptionsFile();
 
         /// <summary>
         /// Represents the EffectsGlobals mbin file.
         /// </summary>
-        public IGlobalsFile EffectsGlobals { get; } = new GlobalsFile();
+        public IEffectsGlobalFile EffectsGlobals { get; } = new EffectsGlobalFile();
 
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
-        public IGlobalsFile EnvironmentGlobals { get; private set; } = new GlobalsFile();
+        public IEnvironmentGlobalFile EnvironmentGlobals { get; private set; } = new EnvironmentGlobalFile();
 
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
-        public IGlobalsFile FleetGlobals { get; private set; } = new GlobalsFile();
+        public IFleetGlobalFile FleetGlobals { get; private set; } = new FleetGlobalFile();
 
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
-        public IGlobalsFile GalaxyGlobals { get; private set; } = new GlobalsFile();
+        public IGalaxyGlobalFile GalaxyGlobals { get; private set; } = new GalaxyGlobalFile();
 
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
-        public IGlobalsFile GameplayGlobals { get; private set; } = new GlobalsFile();
+        public IGameplayGlobalFile GameplayGlobals { get; private set; } = new GameplayGlobalFile();
 
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
-        public IGlobalsFile GraphicsGlobals { get; private set; } = new GlobalsFile();
+        public IGraphicsGlobalFile GraphicsGlobals { get; private set; } = new GraphicsGlobalFile();
 
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
-        public IGlobalsFile MultiplayerGlobals { get; private set; } = new GlobalsFile();
+        public IMultiplayerGlobalFile MultiplayerGlobals { get; private set; } = new MultiplayerGlobalFile();
 
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
-        public IGlobalsFile PlacementGlobals { get; private set; } = new GlobalsFile();
+        public IPlacementGlobalFile PlacementGlobals { get; private set; } = new PlacementGlobalFile();
 
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
-        public IGlobalsFile PlayerGlobals { get; private set; } = new GlobalsFile();
+        public IPlayerGlobalFile PlayerGlobals { get; private set; } = new PlayerGlobalFile();
 
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
-        public IGlobalsFile RichPresenceGlobals { get; private set; } = new GlobalsFile();
+        public IRichPresenceGlobalFile RichPresenceGlobals { get; private set; } = new RichPresenceGlobalFile();
 
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
-        public IGlobalsFile RobotGlobals { get; private set; } = new GlobalsFile();
+        public IRobotGlobalFile RobotGlobals { get; private set; } = new RobotGlobalFile();
 
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
-        public IGlobalsFile SceneOptions { get; private set; } = new GlobalsFile();
+        public ISceneOptionsFile SceneOptions { get; private set; } = new SceneOptionsFile();
 
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
-        public IGlobalsFile ScratchpadGlobals { get; private set; } = new GlobalsFile();
+        public IScratchpadGlobalFile ScratchpadGlobals { get; private set; } = new ScratchpadGlobalFile();
 
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
-        public IGlobalsFile SimulationGlobals { get; private set; } = new GlobalsFile();
+        public ISimulationGlobalFile SimulationGlobals { get; private set; } = new SimulationGlobalFile();
 
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
-        public IGlobalsFile SkyGlobals { get; private set; } = new GlobalsFile();
+        public ISkyGlobalFile SkyGlobals { get; private set; } = new SkyGlobalFile();
 
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
-        public IGlobalsFile SmokeTestOptions { get; private set; } = new GlobalsFile();
+        public ISmokeTestOptionsFile SmokeTestOptions { get; private set; } = new SmokeTestOptionsFile();
 
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
-        public IGlobalsFile SolarGenerationGlobals { get; private set; } = new GlobalsFile();
+        public ISolarGenerationGlobalFile SolarGenerationGlobals { get; private set; } = new SolarGenerationGlobalFile();
 
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
-        public IGlobalsFile SpaceshipGlobals { get; private set; } = new GlobalsFile();
+        public ISpaceshipGlobalFile SpaceshipGlobals { get; private set; } = new SpaceshipGlobalFile();
 
         /// <summary>
         /// Represents the SettlementGlobals mbin file.
         /// </summary>
-        public IGlobalsFile SettlementGlobals { get; } = new GlobalsFile();
+        public ISettlementGlobalFile SettlementGlobals { get; } = new SettlementGlobalFile();
 
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
-        public IGlobalsFile TerrainGlobals { get; private set; } = new GlobalsFile();
+        public ITerrainGlobalFile TerrainGlobals { get; private set; } = new TerrainGlobalFile();
 
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
-        public IGlobalsFile UIGlobals { get; private set; } = new GlobalsFile();
+        public IUiGlobalFile UIGlobals { get; private set; } = new UiGlobalFile();
 
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
-        public IGlobalsFile VehicleGlobals { get; private set; } = new GlobalsFile();
+        public IVehicleGlobalFile VehicleGlobals { get; private set; } = new VehicleGlobalFile();
 
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
-        public IGlobalsFile WaterGlobals { get; private set; } = new GlobalsFile();
+        public IWaterGlobalFile WaterGlobals { get; private set; } = new WaterGlobalFile();
 
-        private Dictionary<string, IGlobalsFile> globals = new Dictionary<string, IGlobalsFile>();
+        private Dictionary<string, IMBinWrapper> globals = new Dictionary<string, IMBinWrapper>();
 
         public GlobalsManager()
         {
             var properties = GetType().GetProperties();
             foreach (var property in properties)
             {
-                if (!property.PropertyType.IsAssignableTo(typeof(IGlobalsFile)))
+                if (!property.PropertyType.IsAssignableTo(typeof(IMBinWrapper)))
                     continue;
 
-                var actualProperty = (IGlobalsFile)property.GetValue(this);
-                globals.Add(property.Name, actualProperty);
+                var actualProperty = (IMBinWrapper)property.GetValue(this);
+                globals.Add(property.Name.ToUpper(), actualProperty);
             }
 
 
@@ -195,19 +185,16 @@ namespace NoMansSky.Api
                     return;
 
                 var global = globals.FirstOrDefault(global => mbin.Name.Contains(global.Key));
-                if (global.Value != null)
+                if (global.Value == null)
                 {
-                    var globalFile = global.Value;
+                    Mod.WriteLine($"{mbin.Name} doesn't have it's own wrapper. You'll need to use MBinManager to access it until a wrapper is created.", LogLevel.Warning);
+                    return;
+                }
 
-                    AllGlobals.Add(globalFile);
-                    globalFile.MBin = mbin;
-                    globalFile.OnLoaded.Invoke();
-                    OnGlobalLoaded.Invoke(globalFile);
-                }
-                else
-                {
-                    ConsoleUtil.LogError($"Critical Error! Failed to load the {mbin.Name} Global MBin!!");
-                }
+                var globalFile = global.Value;
+
+                globalFile.MBin = mbin;
+                globalFile.OnLoaded.Invoke();
             });
         }
     }

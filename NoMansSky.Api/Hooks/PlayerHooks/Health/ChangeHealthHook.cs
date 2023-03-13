@@ -26,7 +26,7 @@ namespace NoMansSky.Api.Hooks.Player
         private static Stat<int> Stat => IGame.Instance?.Player?.Health;
 
         /// <summary>
-        /// ModEventHook that's called when the original function is called.
+        /// ModEvent that's called when the original function is called.
         /// </summary>
         public static IModEventHook<int> ModEventHook => Stat?.OnValueChanged;
 
@@ -59,7 +59,9 @@ namespace NoMansSky.Api.Hooks.Player
 
             // hookLength is 13 because the original line failed to be hooked. Instead it's hooking both this line and the line
             // above it, for a total lenght of 15 bytes
-            pattern2AsmHook = _hooks.CreateAsmHook(pattern2Asm, pattern2Address, AsmHookBehaviour.ExecuteAfter, hookLength: 15).Activate();
+
+            logger.WriteLine("ChangeHealthHook is temporarily disabled...");
+            //pattern2AsmHook = _hooks.CreateAsmHook(pattern2Asm, pattern2Address, AsmHookBehaviour.ExecuteAfter, hookLength: 15).Activate();
         }
 
         /// <summary>

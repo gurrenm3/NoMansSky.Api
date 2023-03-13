@@ -24,7 +24,7 @@ namespace NoMansSky.Api.Hooks.Player
         private static Stat<int> Stat => IGame.Instance?.Player?.Quicksilver;
 
         /// <summary>
-        /// ModEventHook that's called when the original function is called.
+        /// ModEvent that's called when the original function is called.
         /// </summary>
         public static IModEventHook<int> ModEventHook => Stat?.OnValueChanged;
 
@@ -39,7 +39,8 @@ namespace NoMansSky.Api.Hooks.Player
             string pattern = "8B 81 ? ? ? ? 3B D0 44 8B C0 44 0F 42 C2 48 FF 81 ? ? ? ? 41 2B C0 89 81 ? ? ? ?";
 
             Function = _hooks.CreateFunction<HookDelegate>(new Signature(pattern).Scan());
-            Hook = Function.Hook(CodeToExecute).Activate();
+            logger.WriteLine($"{HookName} is temporarily disabled...");
+            //Hook = Function.Hook(CodeToExecute).Activate();
         }
 
         private long CodeToExecute(long gcPlayerStateData, int amountToRemove)

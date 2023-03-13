@@ -29,7 +29,7 @@ namespace NoMansSky.Api
         {
             if (typeToCheck == null)
             {
-                ConsoleUtil.LogError($"{nameof(NMSStringConverter)} can't check if this type can be converted," +
+                ConsoleUtils.LogError($"{nameof(NMSStringConverter)} can't check if this type can be converted," +
                     $" because the type to check is NULL");
                 return false;
             }

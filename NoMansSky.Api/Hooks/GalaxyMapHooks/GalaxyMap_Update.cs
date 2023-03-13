@@ -36,6 +36,8 @@ namespace NoMansSky.Api.Hooks.GalaxyMap
             game = (Api.Game)IGame.Instance;
             galaxyMap = (Api.GalaxyMap)game.GalaxyMap;
             logger = _logger;
+            logger.WriteLine($"{HookName} is temporarily disabled...");
+            return;
 
             // string pattern = "48 8B 49 10 E9 ? ? ? ? " // has duplicates. Use it to find pattern below if issues.
             string pattern = "48 8B 49 10 E9 67 ? ? ? ";

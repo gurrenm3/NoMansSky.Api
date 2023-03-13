@@ -37,7 +37,7 @@ namespace NoMansSky.Api.Hooks.Player
         private static Stat<int> Stat => Api.Game.Instance?.Player?.Shield;
 
         /// <summary>
-        /// ModEventHook that's called when the original function is called.
+        /// ModEvent that's called when the original function is called.
         /// </summary>
         public static IModEventHook<int> ModEventHook => Stat?.OnValueChanged;
 
@@ -54,10 +54,14 @@ namespace NoMansSky.Api.Hooks.Player
             // in the middle of an existing method and therefore the actual assembly code for the method needed to be patched.
             // Patter1 represents the first line while pattern2 represents the second. These 2 asm hooks let the origianl line 
             // execute the way they were originally going to. Afterwards the asm hooks immediately run, undoing what those
-            // 2 lines did and instead regenerating whatever amount was passed along through the ModEventHook. Even though the original
+            // 2 lines did and instead regenerating whatever amount was passed along through the ModEvent. Even though the original
             // lines ran, they are invalidated afterwards because the shield health is manually changed to what we want it to be.
 
             logger = _logger;
+
+
+            logger.WriteLine($"{HookName} is temporarily disabled...");
+            return;
 
             pattern1Func = CodeToExecutePattern1;
             pattern2Func = CodeToExecutePattern2;
@@ -95,7 +99,7 @@ namespace NoMansSky.Api.Hooks.Player
 
         /// <summary>
         /// This code corrolates to the first ASM line that needed to be patched.
-        /// This changes how much should be regnenerated and fires the prefix ModEventHook.
+        /// This changes how much should be regnenerated and fires the prefix ModEvent.
         /// </summary>
         /// <param name="originalRegenAmount"></param>
         private void CodeToExecutePattern1(int originalRegenAmount)
@@ -123,7 +127,7 @@ namespace NoMansSky.Api.Hooks.Player
 
         /// <summary>
         /// This code corrolates to the second ASM line that needed to be patched.
-        /// This sets the shield to the new value, including the regenerated amount, and fires the postfix ModEventHook.
+        /// This sets the shield to the new value, including the regenerated amount, and fires the postfix ModEvent.
         /// </summary>
         private void CodeToExecutePattern2()
         {

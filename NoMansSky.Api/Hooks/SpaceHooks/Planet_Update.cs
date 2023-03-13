@@ -40,7 +40,8 @@ namespace NoMansSky.Api.Hooks.Space
             logger = _logger;
             string pattern = "48 8B C4 53 48 81 EC ? ? ? ? 48 89 78 18";
             Function = _hooks.CreateFunction<HookDelegate>(new Signature(pattern).Scan());
-            Hook = Function.Hook(CodeToExecute).Activate();
+            logger.WriteLine("Planet_Update is temporarily disabled...");
+            //Hook = Function.Hook(CodeToExecute).Activate();
 
             IGame.Instance.OnWarpStarted += () => planetAddresses.Clear();
         }

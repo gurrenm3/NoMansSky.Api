@@ -11,7 +11,7 @@ namespace NoMansSky.Api
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
-        public GcInventoryIndex Index
+        public GcInventoryIndex_old Index
         {
             get { return item->index; }
             set { item->index = value; }
@@ -53,11 +53,11 @@ namespace NoMansSky.Api
 
 
         /// <summary>
-        /// The address of the <see cref="GcInventoryElement"/> that corresponds to this item.
+        /// The address of the <see cref="GcInventoryElement_old"/> that corresponds to this item.
         /// </summary>
         public long Address => address;
 
-        private GcInventoryElement* item;
+        private GcInventoryElement_old* item;
         private long address;
 
         public InventoryItem()
@@ -85,16 +85,16 @@ namespace NoMansSky.Api
             }
 
             this.address = address;
-            /*var test = Marshal.PtrToStructure<GcInventoryElement>((IntPtr)address);
+            /*var test = Marshal.PtrToStructure<GcInventoryElement_old>((IntPtr)address);
             item = &test;*/
 
-            item = (GcInventoryElement*)address;
+            item = (GcInventoryElement_old*)address;
             //Console.WriteLine((long)item->id);
 
             /*var valueAddress = *(long*)item->id->value;
             Console.WriteLine(valueAddress);*/
             /*var originalId = (char*)(address + 0x8);
-            var orig = Strings.ToString(originalId);*/
+            var orig = StringUtils.ToString(originalId);*/
 
             return IsItemValid();
         }
@@ -130,7 +130,7 @@ namespace NoMansSky.Api
         public string GetItemId()
         {
             var idAddress = (decimal*)(address + 0x8);
-            return Strings.ToString(idAddress);
+            return StringUtils.ToString(idAddress);
         }
 
         public void SetItemId(string newId)

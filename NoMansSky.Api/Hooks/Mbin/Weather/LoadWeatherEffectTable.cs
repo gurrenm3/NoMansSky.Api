@@ -55,7 +55,7 @@ namespace NoMansSky.Api.Hooks.Mbin.Weather
         private long CodeToExecutePattern(long loadedMBinAddress, long mbinNameAddress)
         {
             logger.WriteLine("zzzzzzzzzzzzzzzzzzzzzzzzzzzzzz");
-            string mbinFullName = Strings.ToString(mbinNameAddress + 0x8); // it's 8 bytes away from this address.
+            string mbinFullName = StringUtils.ToString(mbinNameAddress + 0x8); // it's 8 bytes away from this address.
 
             //logger.WriteLine($"Name: {mbinName} | Address {loadedMBinAddress.ToHex()}");
 

@@ -25,7 +25,7 @@ namespace NoMansSky.Api.Hooks.Player
         private static Stat<int> Stat => Api.Game.Instance?.Player?.Shield;
 
         /// <summary>
-        /// ModEventHook that's called when the original function is called.
+        /// ModEvent that's called when the original function is called.
         /// </summary>
         public static IModEventHook<int> ModEventHook => Stat?.OnValueChanged;
 
@@ -41,7 +41,8 @@ namespace NoMansSky.Api.Hooks.Player
             string pattern = "48 8B C4 4C 89 48 20 44 89 40 18 55 56 57 41 54 41 55 41 56 41 57 48 8D";
 
             Function = _hooks.CreateFunction<HookDelegate>(new Signature(pattern).Scan());
-            Hook = Function.Hook(CodeToExecute).Activate();
+            logger.WriteLine($"{HookName} is temporarily disabled...");
+            //Hook = Function.Hook(CodeToExecute).Activate();
         }
 
         private long CodeToExecute(long self, float damage, int a3, long* a4, long* a5, long a6, float** a7)

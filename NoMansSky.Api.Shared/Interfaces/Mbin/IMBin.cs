@@ -38,6 +38,6 @@ namespace NoMansSky.Api
         /// <param name="address"></param>
         /// <param name="fullName"></param>
         /// <param name="initializeOnce">Should this mbin only be allowed to initialize once</param>
-        public bool Init(string fullName, long address, bool initializeOnce = true);
+        //private bool Init(string fullName, long address, bool initializeOnce = true);
     }
 }

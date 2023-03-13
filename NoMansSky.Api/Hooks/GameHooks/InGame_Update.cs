@@ -25,7 +25,7 @@ namespace NoMansSky.Api.Hooks.Game
         public static bool IsFiring { get; private set; }
 
         /// <summary>
-        /// ModEventHook that's called when the original function is called.
+        /// ModEvent that's called when the original function is called.
         /// </summary>
         public static IModEventHook ModEventHook { get; } = new SharedModEventHook();
 
@@ -39,6 +39,8 @@ namespace NoMansSky.Api.Hooks.Game
         public void InitHook(IModLogger _logger, IReloadedHooks _hooks)
         {
             logger = _logger;
+            logger.WriteLine($"{HookName} is temporarily disabled...");
+            return;
 
             string pattern = "48 83 EC 28 48 8D 0D ? ? ? ? E8 ? ? ? ? 83 B8 ? ? ? ? ? 74 2E";
 

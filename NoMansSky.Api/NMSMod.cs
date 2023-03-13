@@ -15,32 +15,28 @@ namespace NoMansSky.Api
         /// <summary>
         /// The location of the "Binaries" folder for No Mans Sky.
         /// </summary>
-        public string BinariesDirectory => _binariesDirectory;
-        private string _binariesDirectory;
+        public string BinariesDirectory => Game?.BinariesDirectory;
 
         /// <summary>
         /// The location of the "GAMEDATA" folder for No Mans Sky.
         /// </summary>
-        public string GameDataDirectory => _gameDataDirectory;
-        private string _gameDataDirectory;
+        public string GameDataDirectory => Game?.GameDataDirectory;
 
         /// <summary>
         /// The main directory for No Mans Sky.
         /// </summary>
-        public string NmsDirectory => _nmsDirectory;
-        private string _nmsDirectory;
+        public string NMSDirectory => Game?.NMSDirectory;
 
         /// <summary>
         /// The location of the "Mods" folder used by all mods made with this API.
-        /// <br/>Note: this is not the same mods folder that MBIN mods use.
+        /// <br/>Note: this is not the same mods folder that traditional MBIN mods use.
         /// </summary>
-        public string ModsFolder => _modsFolder;
-        private string _modsFolder;
+        public string ModsDirectory => Game?.ModsDirectory;
 
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
-        public override string MyModFolder => _myModFolder;
+        public override string MyModDirectory => _myModFolder;
         private string _myModFolder;
 
         /// <summary>
@@ -118,11 +114,7 @@ namespace NoMansSky.Api
         {
             base.Awake();
 
-            _binariesDirectory = Environment.CurrentDirectory;
-            _nmsDirectory = $"{_binariesDirectory.Replace("\\Binaries", "")}";
-            _gameDataDirectory = $"{_nmsDirectory}\\GAMEDATA";
-            _modsFolder = $"{_gameDataDirectory}\\MODS";
-            _myModFolder = $"{_modsFolder}\\{ModConfig.ModName}";
+            _myModFolder = $"{ModsDirectory}\\{ModConfig.ModName}";
 
             Directory.CreateDirectory(_myModFolder);
         }

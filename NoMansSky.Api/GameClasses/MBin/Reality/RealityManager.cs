@@ -410,7 +410,8 @@ namespace NoMansSky.Api
             }
             else
             {
-                ConsoleUtil.LogError($"Tried loading an unsupported Reality mbin: {name}");
+                //Mod.WriteLine($"Tried loading an unsupported Reality mbin: {name}", LogLevel.Error);
+                Mod.WriteLine($"{mbin.Name} doesn't have it's own wrapper. You'll need to use MBinManager to access it until a wrapper is created.", LogLevel.Warning);
                 return;
             }
 

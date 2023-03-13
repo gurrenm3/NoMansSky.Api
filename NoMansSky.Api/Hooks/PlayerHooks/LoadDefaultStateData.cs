@@ -28,7 +28,10 @@ namespace NoMansSky.Api.Hooks.Player
         {
             logger = _logger;
             string pattern = "40 55 56 57 41 54 41 55 41 56 41 57 48 8D 6C 24 ? 48 81 EC ? ? ? ? 48 C7 45 ? ? ? ? ? 48 89 9C 24 ? ? ? ? 45 8B F8 48 8B DA 4C 8B E1 41 8B C0 83 E0 04";
-            Function = _hooks.CreateFunction<HookDelegate>(new Signature(pattern).Scan());
+            var address = new Signature(pattern).Scan();
+            Function = _hooks.CreateFunction<HookDelegate>(address);
+
+            logger.WriteLine($"DefaultSaveData address: {address.ToHex()}");
             //Hook = Function.Hook(CodeToExecute).Activate();
         }
 

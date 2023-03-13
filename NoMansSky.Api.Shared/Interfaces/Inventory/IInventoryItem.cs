@@ -8,7 +8,7 @@
         /// <summary>
         /// The location of this item within it's inventory.
         /// </summary>
-        public GcInventoryIndex Index { get; set; }
+        public GcInventoryIndex_old Index { get; set; }
 
         /// <summary>
         /// The type of this item.

@@ -19,14 +19,14 @@ namespace NoMansSky.Api
 
         public MemoryManagerCache()
         {
-
+             
         }
 
         public MemoryInfo GetAddressInfo(string path)
         {
             if (string.IsNullOrEmpty(path))
             {
-                ConsoleUtil.LogError("Tried getting the address of an empty path.");
+                ConsoleUtils.LogError("Tried getting the address of an empty path.");
                 return default;
             }    
 
@@ -35,7 +35,7 @@ namespace NoMansSky.Api
 
             if (MBinManager == null)
             {
-                ConsoleUtil.LogError("Error! MBinManager is null! This is not suppose to happen!");
+                ConsoleUtils.LogError("Error! MBinManager is null! This is not suppose to happen!");
                 return default;
             }    
 
@@ -45,14 +45,14 @@ namespace NoMansSky.Api
             var mbin = MBinManager.GetMBin(mbinName);
             if (mbin == null)
             {
-                ConsoleUtil.LogError($"Failed to get mbin with the name of \"{mbinName}\"");
+                ConsoleUtils.LogError($"Failed to get mbin with the name of \"{mbinName}\"");
                 return default;
             }
 
             var currentType = mbin.MBinType;
             if (currentType == null)
             {
-                ConsoleUtil.LogError($"Failed to get the type for the mbin with the name of \"{mbinName}\"");
+                ConsoleUtils.LogError($"Failed to get the type for the mbin with the name of \"{mbinName}\"");
                 return default;
             }
 

@@ -26,10 +26,10 @@
       }
     },
     "GitHubRelease": {
-      "UserName": "",
-      "RepositoryName": "",
+      "UserName": "Gurrenm3",
+      "RepositoryName": "NoMansSky.Api",
       "UseReleaseTag": true,
-      "AssetFileName": "Mod.zip"
+      "AssetFileName": "NoMansSky.Api.zip"
     },
     "NuGet": {
       "AllowUpdateFromAnyRepository": true,

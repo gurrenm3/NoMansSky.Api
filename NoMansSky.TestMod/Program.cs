@@ -6,6 +6,7 @@ using Reloaded.Mod.Interfaces;
 using Reloaded.Mod.Interfaces.Internal;
 using Reloaded.ModHelper;
 using System;
+using System.Windows;
 
 #if DEBUG
 using System.Diagnostics;
@@ -78,7 +79,6 @@ namespace NoMansSky.TestMod
                 Your mod code starts below.
                 Visit https://github.com/Reloaded-Project for additional optional libraries.
             */
-
 
             // The API publishes the instance of the Game class so mods can access it.
             // The line below is where this mod aquires the Game instance that was published.

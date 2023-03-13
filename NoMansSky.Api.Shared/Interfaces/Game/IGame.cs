@@ -1,4 +1,5 @@
 ﻿using Reloaded.ModHelper;
+using System;
 using System.Collections.Generic;
 
 namespace NoMansSky.Api
@@ -12,6 +13,43 @@ namespace NoMansSky.Api
         /// Instance of the Game class that has been initialized and is currently managing the actual NMS Game.
         /// </summary>
         public static IGame Instance { get; set; }
+
+        /// <summary>
+        /// The base address for GcApplication.
+        /// </summary>
+        public long GcApplicationAddress { get; }
+
+        /// <summary>
+        /// Called when the address for GcApplication is acquired.
+        /// </summary>
+        public IModEvent<long> OnGcApplicationAcquired { get; set; }
+
+        /// <summary>
+        /// This is for testing. Remove laster
+        /// </summary>
+        public Dictionary<string, Type> MbinNamesAndTypes { get; set; }
+
+        /// <summary>
+        /// The main directory for No Mans Sky.
+        /// <br/>Ex: steamapps\common\No Man's Sky
+        /// </summary>
+        public string NMSDirectory { get; }
+
+        /// <summary>
+        /// The location of the "Binaries" folder for No Mans Sky.
+        /// </summary>
+        public string BinariesDirectory { get; }
+
+        /// <summary>
+        /// The location of the "GAMEDATA" folder for No Mans Sky.
+        /// </summary>
+        public string GameDataDirectory { get; }
+
+        /// <summary>
+        /// The location of the "Mods" folder used by all mods made with this API.
+        /// <br/>Note: this is not the same mods folder that traditional MBIN mods use.
+        /// </summary>
+        public string ModsDirectory { get; }
 
         /// <summary>
         /// Contains all of the Global Mbin files for the game.

@@ -50,32 +50,30 @@ namespace NoMansSky.Api
         /// <param name="name"></param>
         /// <param name="address"></param>
         /// <param name="initializeOnce"></param>
-        public virtual bool Init(string name, long address, bool initializeOnce = true)
+        private bool Init(string name, long address, bool initializeOnce = true)
         {
             if (initializeOnce && IsInitialized)
                 return false;
-
+            
             Address = address;
+            FullName = name.ToUpper()
+                .Replace("/", "\\")
+                .Replace(".MXML", "")
+                .Replace(".XML", "")
+                .Replace(".MBIN", "")
+                .Replace(".BIN", "")
+                .Replace(" ", "").Trim('\\');
 
-            string cleanedName = name.Replace(" ", "").Replace("\\", "/"); ;
-            if (cleanedName.Contains("/"))
+            MBinType = IGame.Instance.MBinManager.GetMBinTypeFromName(FullName);
+
+            string cleanedName = FullName;
+            if (cleanedName.Contains("\\"))
             {
-                var split = cleanedName.Split('/');
+                var split = FullName.Split('\\');
                 cleanedName = split[split.Length - 1]; // set to last
             }
 
-            cleanedName = cleanedName.TrimEnd('/');
-
-            string lowerName = cleanedName.ToLower();
-            if (lowerName.EndsWith(".mbin") || lowerName.EndsWith(".mxml"))
-                cleanedName = cleanedName.Remove(cleanedName.Length - 5, 5);
-
-            if (lowerName.EndsWith(".xml"))
-                cleanedName = cleanedName.Remove(cleanedName.Length - 4, 4);
-
-            MBinType = IGame.Instance.MBinManager.GetMBinType(cleanedName);
             Name = cleanedName;
-            FullName = name;
             IsInitialized = true;
             return true;
         }
@@ -115,7 +113,7 @@ namespace NoMansSky.Api
             if (other == null)
                 return false;
 
-            return this.Address == other.Address && this.FullName.ToLower() == other.FullName.ToLower();
+            return this.Address == other.Address && this.FullName.ToLower().Replace("/", "\\") == other.FullName.ToLower().Replace("/", "\\");
         }
     }
 }

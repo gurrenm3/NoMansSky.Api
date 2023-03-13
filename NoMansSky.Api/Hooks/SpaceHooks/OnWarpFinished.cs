@@ -34,7 +34,8 @@ namespace NoMansSky.Api.Hooks.Space
             logger = _logger;
             string pattern = "48 89 4C 24 ? 57 48 83 EC 30 48 C7 44 24 ? ? ? ? ? 48 89 5C 24 ? 48 89 74 24 ? 48 8B F2 48 8B F9 0F 10 02 0F 11 01 48";
             Function = _hooks.CreateFunction<HookDelegate>(new Signature(pattern).Scan());
-            Hook = Function.Hook(CodeToExecute).Activate();
+            logger.WriteLine("OnWarpFinished is temporarily disabled...");
+            //Hook = Function.Hook(CodeToExecute).Activate();
         }
 
         

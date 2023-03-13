@@ -25,7 +25,7 @@ namespace NoMansSky.Api.Hooks.Player
         private static Stat<int> Stat => IGame.Instance?.Player?.Nanites;
 
         /// <summary>
-        /// ModEventHook that's called when the original function is called.
+        /// ModEvent that's called when the original function is called.
         /// </summary>
         public static IModEventHook<int> ModEventHook => Stat?.OnValueChanged;
 
@@ -42,7 +42,8 @@ namespace NoMansSky.Api.Hooks.Player
             string pattern = "48 89 5C 24 ? 48 89 6C 24 ? 48 89 74 24 ? 48 89 7C 24 ? 41 56 48 83 EC 40 8B 81 C0";
 
             Function = _hooks.CreateFunction<HookDelegate>(new Signature(pattern).Scan());
-            Hook = Function.Hook(CodeToExecute).Activate();
+            logger.WriteLine("AddNanites is temporarily disabled...");
+            //Hook = Function.Hook(CodeToExecute).Activate();
         }
 
         private long CodeToExecute(long gcPlayerStateData, int amountToAdd)

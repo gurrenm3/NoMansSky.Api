@@ -34,7 +34,7 @@ namespace NoMansSky.Api.Hooks.Mbin
         {
             var result = Hook.OriginalFunction(a1, a2, mbinName, a4, addressToLoadedMbin);
 
-            var actualName = Strings.ToString(mbinName);
+            var actualName = StringUtils.ToString(mbinName);
             if (!string.IsNullOrEmpty(actualName) && addressToLoadedMbin > 0)
             {
                 var mbin = new MBin(actualName, addressToLoadedMbin);

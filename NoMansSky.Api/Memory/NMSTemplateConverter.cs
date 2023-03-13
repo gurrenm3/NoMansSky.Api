@@ -35,7 +35,7 @@ namespace NoMansSky.Api
         {
             if (typeToCheck == null)
             {
-                ConsoleUtil.LogError($"{nameof(NMSTemplateConverter)} can't check if this type can be converted," +
+                ConsoleUtils.LogError($"{nameof(NMSTemplateConverter)} can't check if this type can be converted," +
                    $" because the type to check is NULL");
                 return false;
             }
@@ -71,7 +71,7 @@ namespace NoMansSky.Api
 
                 if (value == null)
                 {
-                    ConsoleUtil.LogWarning($"{nameof(NMSTemplateConverter)}: The field \"{field.Name}\" is is null. Skipping...");
+                    ConsoleUtils.LogWarning($"{nameof(NMSTemplateConverter)}: The field \"{field.Name}\" is is null. Skipping...");
                     continue;
                 }
 
@@ -92,16 +92,16 @@ namespace NoMansSky.Api
 
                 // get actual field type:
                 long addressOfFieldType = (address + 0x8);
-                string nameOfFieldType = Strings.ToString(addressOfFieldType);
+                string nameOfFieldType = StringUtils.ToString(addressOfFieldType);
 
                 if (string.IsNullOrEmpty(nameOfFieldType) || string.IsNullOrWhiteSpace(nameOfFieldType)) // it's empty, treat it as a NMSTemplate
                     return memory.GetValue(address, field.FieldType);
 
                 // try to get the corrisponding libmbin class
-                var actualFieldType = IGame.Instance.MBinManager.GetMBinType(nameOfFieldType);
+                var actualFieldType = IGame.Instance.MBinManager.GetMBinTypeFromName(nameOfFieldType);
                 if (actualFieldType == null) // not found. Probably an internal class.
                 {
-                    ConsoleUtil.LogError($"Failed to get libmbin type for {nameOfFieldType}");
+                    ConsoleUtils.LogError($"Failed to get libmbin type for {nameOfFieldType}");
                     return memory.GetValue(address, field.FieldType);
                 }
 
@@ -115,7 +115,7 @@ namespace NoMansSky.Api
             var converter = (ArrayConverter)memory.GetObjectConverter(field.FieldType);
             if (converter == null)
             {
-                ConsoleUtil.LogError($"{nameof(ThreadedNMSTemplateConverter)}: Failed to get converter for this Array.");
+                ConsoleUtils.LogError($"{nameof(ThreadedNMSTemplateConverter)}: Failed to get converter for this Array.");
                 return null!;
             }
 
@@ -123,7 +123,7 @@ namespace NoMansSky.Api
             int? arrayLength = field.GetCustomAttribute<NMSAttribute>()?.Size;
             if (!arrayLength.HasValue)
             {
-                ConsoleUtil.LogError($"{nameof(ThreadedNMSTemplateConverter)}: Failed to get size of array for {classType.Name}.{field.Name}");
+                ConsoleUtils.LogError($"{nameof(ThreadedNMSTemplateConverter)}: Failed to get size of array for {classType.Name}.{field.Name}");
                 return null!;
             }
 
@@ -141,7 +141,7 @@ namespace NoMansSky.Api
             var converter = (ArrayConverter)manager.GetObjectConverter(field.FieldType);
             if (converter == null)
             {
-                ConsoleUtil.LogError($"{nameof(NMSTemplateConverter)}: Failed to get converter for this Array.");
+                ConsoleUtils.LogError($"{nameof(NMSTemplateConverter)}: Failed to get converter for this Array.");
                 return null!;
             }
 
@@ -149,7 +149,7 @@ namespace NoMansSky.Api
             int? arrayLength = field.GetCustomAttribute<NMSAttribute>()?.Size;
             if (!arrayLength.HasValue)
             {
-                ConsoleUtil.LogError($"{nameof(NMSTemplateConverter)}: Failed to get size of array for {classType.Name}.{field.Name}");
+                ConsoleUtils.LogError($"{nameof(NMSTemplateConverter)}: Failed to get size of array for {classType.Name}.{field.Name}");
                 return null!;
             }
 
@@ -177,7 +177,7 @@ namespace NoMansSky.Api
         {
             if (valueToSet == null)
             {
-                ConsoleUtil.LogError($"{nameof(NMSTemplateConverter)}: Failed to set value because valueToSet is null");
+                ConsoleUtils.LogError($"{nameof(NMSTemplateConverter)}: Failed to set value because valueToSet is null");
                 return;
             }
 
@@ -189,7 +189,7 @@ namespace NoMansSky.Api
 
                 /*if (fieldValue == null)
                 {
-                    ConsoleUtil.LogWarning($"{nameof(NMSTemplateConverter)}: Can't set field value because it's is null. Skipping...");
+                    ConsoleUtils.LogWarning($"{nameof(NMSTemplateConverter)}: Can't set field value because it's is null. Skipping...");
                     continue;
                 }*/
 

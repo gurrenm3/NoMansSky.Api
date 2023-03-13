@@ -176,7 +176,7 @@ namespace NoMansSky.Api
                 }
                 else
                 {
-                    ConsoleUtil.LogError($"Critical Error! Failed to load the {mbin.Name} weather MBin!!");
+                    Mod.WriteLine($"{mbin.Name} doesn't have it's own wrapper. You'll need to use MBinManager to access it until a wrapper is created.", LogLevel.Warning);
                 }
             });
         }

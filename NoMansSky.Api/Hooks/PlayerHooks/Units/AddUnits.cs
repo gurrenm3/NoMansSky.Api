@@ -25,7 +25,7 @@ namespace NoMansSky.Api.Hooks.Player
         private static Stat<int> Stat => Api.Game.Instance?.Player?.Units;
 
         /// <summary>
-        /// ModEventHook that's called when the original function is called.
+        /// ModEvent that's called when the original function is called.
         /// </summary>
         public static IModEventHook<int> ModEventHook => Stat?.OnValueChanged;
 
@@ -37,6 +37,9 @@ namespace NoMansSky.Api.Hooks.Player
         public void InitHook(IModLogger _logger, IReloadedHooks _hooks)
         {
             logger = _logger;
+            logger.WriteLine($"{HookName} is temporarily disabled...");
+            return;
+
             
             string pattern = "48 89 5C 24 ? 48 89 6C 24 ? 48 89 74 24 ? 48 89 7C 24 ? 41 56 48 83 EC 40 8B 81 BC";
 

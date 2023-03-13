@@ -33,7 +33,7 @@ namespace NoMansSky.Api
             }
             catch (Exception ex) 
             {
-                ConsoleUtil.LogException(ex);
+                ConsoleUtils.LogException(ex);
             }
         }
 
@@ -49,14 +49,14 @@ namespace NoMansSky.Api
         {
             if (string.IsNullOrEmpty(pathToValue))
             {
-                ConsoleUtil.LogError("Cannot set value because the path to it was not set.");
+                ConsoleUtils.LogError("Cannot set value because the path to it was not set.");
                 return;
             }
 
             var addressInfo = cache.GetAddressInfo(pathToValue);
             if (addressInfo.address == 0 || addressInfo.objectType == null)
             {
-                ConsoleUtil.LogError($"Failed to get the address for {pathToValue}");
+                ConsoleUtils.LogError($"Failed to get the address for {pathToValue}");
                 return;
             }
 
@@ -65,7 +65,7 @@ namespace NoMansSky.Api
                 try { valueToSet = Convert.ChangeType(valueToSet, addressInfo.objectType); }
                 catch (Exception) 
                 {
-                    ConsoleUtil.LogError($"Tried assigning a value with a type of" +
+                    ConsoleUtils.LogError($"Tried assigning a value with a type of" +
                     $" {valueToSet.GetType()} to {pathToValue}, however it's type is" +
                     $" a {addressInfo.objectType.Name}!");
                     return;
@@ -97,7 +97,7 @@ namespace NoMansSky.Api
             }
             catch (Exception ex)
             {
-                ConsoleUtil.LogException(ex);
+                ConsoleUtils.LogException(ex);
                 return null!;
             }
         }
@@ -124,7 +124,7 @@ namespace NoMansSky.Api
             }
             catch (Exception ex)
             {
-                ConsoleUtil.LogException(ex);
+                ConsoleUtils.LogException(ex);
                 return default(T)!;
             }
         }
@@ -142,14 +142,14 @@ namespace NoMansSky.Api
         {
             if (string.IsNullOrEmpty(pathToValue))
             {
-                ConsoleUtil.LogError("Cannot get value because the path to it was not set.");
+                ConsoleUtils.LogError("Cannot get value because the path to it was not set.");
                 return null!;
             }
 
             var addressInfo = cache.GetAddressInfo(pathToValue);
             if (addressInfo.address == 0 || addressInfo.objectType == null)
             {
-                ConsoleUtil.LogError($"Failed to get the address for {pathToValue}");
+                ConsoleUtils.LogError($"Failed to get the address for {pathToValue}");
                 return null!;
             }
 

@@ -1,4 +1,5 @@
-﻿using Reloaded.ModHelper;
+﻿using libMBIN;
+using Reloaded.ModHelper;
 using System;
 using System.Threading.Tasks;
 
@@ -17,13 +18,13 @@ namespace NoMansSky.Api
         /// <typeparam name="T"></typeparam>
         /// <param name="mbinManager"></param>
         /// <param name="modify"></param>
-        public static void ModifyMBin<T>(this IMBinManager mbinManager, Action<T> modify)
+        public static void ModifyMBin<T>(this IMBinManager mbinManager, Action<T> modify) where T : NMSTemplate
         {
             string mbinName = nameof(T);
             var mbin = mbinManager.GetMBin(mbinName);
             if (mbin == null)
             {
-                ConsoleUtil.LogError($"Can't modify mbin. Tried getting Mbin by it's type but failed." +
+                ConsoleUtils.LogError($"Can't modify mbin. Tried getting Mbin by it's type but failed." +
                     $" This usually means that this type of Mbin is not yet managed by the API.");
                 return;
             }
@@ -40,7 +41,7 @@ namespace NoMansSky.Api
         /// <param name="mbinManager"></param>
         /// <param name="modify"></param>
         /// <returns></returns>
-        public static async Task ModifyMBinAsync<T>(this IMBinManager mbinManager, Action<T> modify)
+        public static async Task ModifyMBinAsync<T>(this IMBinManager mbinManager, Action<T> modify) where T : NMSTemplate
         {
             await Task.Run(() =>
             {
@@ -48,7 +49,7 @@ namespace NoMansSky.Api
                 var mbin = mbinManager.GetMBin(mbinName);
                 if (mbin == null)
                 {
-                    ConsoleUtil.LogError($"Can't modify mbin. Tried getting Mbin by it's type but failed." +
+                    ConsoleUtils.LogError($"Can't modify mbin. Tried getting Mbin by it's type but failed." +
                         $" This usually means that this type of Mbin is not yet managed by the API.");
                     return;
                 }
@@ -64,11 +65,11 @@ namespace NoMansSky.Api
         /// <param name="mbinManager"></param>
         /// <param name="mbinAddress"></param>
         /// <param name="modify"></param>
-        public static void ModifyMBin<T>(this IMBinManager mbinManager, long mbinAddress, Action<T> modify)
+        public static void ModifyMBin<T>(this IMBinManager mbinManager, long mbinAddress, Action<T> modify) where T : NMSTemplate
         {
             if (mbinAddress <= 0)
             {
-                ConsoleUtil.LogError($"Can't modify mbin. MbinAddress is invald!");
+                ConsoleUtils.LogError($"Can't modify mbin. MbinAddress is invald!");
                 return;
             }
 
@@ -87,13 +88,13 @@ namespace NoMansSky.Api
         /// <param name="mbinAddress"></param>
         /// <param name="modify"></param>
         /// <returns></returns>
-        public static async Task ModifyMBinAsync<T>(this IMBinManager mbinManager, long mbinAddress, Action<T> modify)
+        public static async Task ModifyMBinAsync<T>(this IMBinManager mbinManager, long mbinAddress, Action<T> modify) where T : NMSTemplate
         {
             await Task.Run(() =>
             {
                 if (mbinAddress <= 0)
                 {
-                    ConsoleUtil.LogError($"Can't modify mbin. MbinAddress is invald!");
+                    ConsoleUtils.LogError($"Can't modify mbin. MbinAddress is invald!");
                     return;
                 }
 
@@ -110,18 +111,18 @@ namespace NoMansSky.Api
         /// <param name="mbinName"></param>
         /// <param name="modify"></param>
         /// <param name="useFullName">Whether or not to search using the full mbin name.</param>
-        public static void ModifyMBin<T>(this IMBinManager mbinManager, string mbinName, Action<T> modify, bool useFullName = false)
+        public static void ModifyMBin<T>(this IMBinManager mbinManager, string mbinName, Action<T> modify, bool useFullName = false) where T : NMSTemplate
         {
             if (String.IsNullOrEmpty(mbinName))
             {
-                ConsoleUtil.LogError($"Can't modify mbin. mbinName is invald!");
+                ConsoleUtils.LogError($"Can't modify mbin. mbinName is invald!");
                 return;
             }
 
             var mbin = mbinManager.GetMBin(mbinName, useFullName);
             if (mbin == null)
             {
-                ConsoleUtil.LogError($"Can't modify mbin. Failed to get mbin by name!");
+                ConsoleUtils.LogError($"Can't modify mbin. Failed to get mbin by name!");
                 return;
             }
 
@@ -137,20 +138,20 @@ namespace NoMansSky.Api
         /// <param name="mbinName"></param>
         /// <param name="modify"></param>
         /// <param name="useFullName">Whether or not to search using the full mbin name.</param>
-        public static async Task ModifyMBinAsync<T>(this IMBinManager mbinManager, string mbinName, Action<T> modify, bool useFullName = false)
+        public static async Task ModifyMBinAsync<T>(this IMBinManager mbinManager, string mbinName, Action<T> modify, bool useFullName = false) where T : NMSTemplate
         {
             await Task.Run(() =>
             {
                 if (String.IsNullOrEmpty(mbinName))
                 {
-                    ConsoleUtil.LogError($"Can't modify mbin. mbinName is invald!");
+                    ConsoleUtils.LogError($"Can't modify mbin. mbinName is invald!");
                     return;
                 }
 
                 var mbin = mbinManager.GetMBin(mbinName, useFullName);
                 if (mbin == null)
                 {
-                    ConsoleUtil.LogError($"Can't modify mbin. Failed to get mbin by name!");
+                    ConsoleUtils.LogError($"Can't modify mbin. Failed to get mbin by name!");
                     return;
                 }
 

@@ -19,7 +19,7 @@ namespace NoMansSky.Api.Hooks.Game
 
 
         /// <summary>
-        /// ModEventHook that's called when the original function is called.
+        /// ModEvent that's called when the original function is called.
         /// </summary>
         public static IModEventHook ModEventHook { get; } = new SharedModEventHook();
         public string HookName => "MainMenu.Update";
@@ -31,7 +31,8 @@ namespace NoMansSky.Api.Hooks.Game
             logger = _logger;
             string pattern = "48 8B C4 55 53 56 57 41 54 41 56 41 57 48 8D A8 ? ? ? ? 48 81 EC ? ? ? ? 48 C7 45 ? ? ? ? ? 0F 29 70 B8 0F 29 78 A8 0F";
             Function = _hooks.CreateFunction<HookDelegate>(new Signature(pattern).Scan());
-            Hook = Function.Hook(CodeToExecute).Activate();
+            //Hook = Function.Hook(CodeToExecute).Activate();
+            logger.WriteLine($"MainMenu.Update hook has been disabled. Please fix", logLevel: LogLevel.Warning);
 
             IGame.Instance.OnGameJoined += () => firstRun = true; // reset firstRun so OnMainMenu works again.
         }

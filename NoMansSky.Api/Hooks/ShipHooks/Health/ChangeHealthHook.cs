@@ -27,7 +27,7 @@ namespace NoMansSky.Api.Hooks.Ship
         private static Stat<int> Stat => IGame.Instance?.Player?.Ship?.Health;
 
         /// <summary>
-        /// ModEventHook that's called when the original function is called.
+        /// ModEvent that's called when the original function is called.
         /// </summary>
         public static IModEventHook<int> ModEventHook => Stat?.OnValueChanged;
 

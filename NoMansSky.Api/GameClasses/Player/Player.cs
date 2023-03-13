@@ -1,4 +1,7 @@
-﻿using Reloaded.ModHelper;
+﻿using NoMansSky.Api.Hooks;
+using Reloaded.ModHelper;
+using System;
+using System.Reflection;
 
 namespace NoMansSky.Api
 {
@@ -10,8 +13,10 @@ namespace NoMansSky.Api
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
-        public long GcPlayerStateAddress => _gcPlayerStateAddress;
-        private long _gcPlayerStateAddress;
+        [FindOffset("4C 8B FA 4C 8B F1 48 8D 0D ? ? ? ? E8 ? ? ? ? 48 8D 95 ? ? ? ? ", 9)]
+        public long GcPlayerStateAddress { get; private set; }
+        /*public long GcPlayerStateAddress => _gcPlayerStateAddress;
+        private long _gcPlayerStateAddress;*/
 
         /// <summary>
         /// <inheritdoc/>
@@ -102,7 +107,15 @@ namespace NoMansSky.Api
             if (isInitialized)
                 return;
 
-            OnPlayerStateAquired += SetGcPlayerStateData;
+
+            LoadPlayerProfile.ModEvent.AddListener(address =>
+            {
+                GcPlayerStateAddress = address + 32;
+                logger.WriteLine($"Address of GcPlayerStateData: {GcPlayerStateAddress.ToString("X")}", LogLevel.CheatEngine);
+                OnPlayerStateAquired.Invoke(GcPlayerStateAddress);
+            });
+
+            //GcPlayerStateAddress = GetPlayerStateAddress();
             OnBaseAddressAquired += (address) => _baseAddress = address;
 
             Health = new RealStat<int>();
@@ -127,18 +140,19 @@ namespace NoMansSky.Api
         }
 
         /// <summary>
-        /// Set's the address of the PlayerStateData and populates it.
+        /// Set's the a1 of the PlayerStateData and populates it.
         /// <br/>This method is used by the API to prepare the game data.
         /// <br/>Calling this method will negatively affect the game and might break your mods.
         /// </summary>
         /// <param name="address"></param>
         private unsafe void SetGcPlayerStateData(long address)
         {
-            _gcPlayerStateAddress = address;
+            logger.WriteLine($"SetGcPlayerStateData address was found at {address}");
+            /*_gcPlayerStateAddress = address;
             if (_gcPlayerStateAddress == 0)
                 return;
 
-            state = (GcPlayerStateData*) _gcPlayerStateAddress;
+            state = (GcPlayerStateData*)_gcPlayerStateAddress;*/
 
             (Shield as RealStat<int>)?.Init("Shield", address + 0x1B0);
             (Health as RealStat<int>)?.Init("Health", address + 0x1B4);
@@ -172,6 +186,68 @@ namespace NoMansSky.Api
                 if (badHealthError)
                     Health.Value = healthBeforeError;
             };
+        }
+
+        public unsafe long GetPlayerStateAddress()
+        {
+            logger.WriteLine("\n");
+            long a1 = IGame.Instance.GcApplicationAddress;
+
+            var playerStateFunction = new Signature("4C 8B FA 4C 8B F1 48 8D 0D ? ? ? ? E8 ? ? ? ? 48 8D 95 ? ? ? ? ").Scan() + 14; // it's 14 bytes to the function
+
+            var bitReader = new ByteReader(EndianType.Little);
+            var functionBytes = bitReader.ReadBytes(playerStateFunction, 4);
+            var functionOffset = BitConverter.ToInt32(functionBytes);
+            var playerStateFuncAddr = playerStateFunction + functionOffset + 4;
+            //logger.WriteLine($"playerStateFunctionAddress: {playerStateFuncAddr.ToHex()}");
+
+            var firstOffset = bitReader.ReadByte(playerStateFuncAddr + 3);
+            var secondOffset = BitConverter.ToInt32(bitReader.ReadBytes(playerStateFuncAddr + 6, 4));
+
+
+
+
+            logger.WriteLine($"a1: {a1.ToHex()}");
+
+            logger.WriteLine($"a1 + 32: {(a1 + 0x38).ToHex()}");
+            logger.WriteLine($"(long*)(a1 + 32): {((long)(long*)(a1 + 0x38)).ToHex()}");
+
+            logger.WriteLine($"a1 + 32: {(a1 + 0x38).ToHex()}");
+
+
+
+            
+            logger.WriteLine($"(long)(long*)(a1 + 0x38) + 0xFD0: {(*((long*)(a1 + 0x38) + 0xFD0)).ToHex()}");
+
+
+            logger.WriteLine($"firstOffset: {firstOffset.ToHex()}");
+            logger.WriteLine($"secondOffset: {secondOffset.ToHex()}");
+
+
+            var test = (long*)(a1 + firstOffset);
+            test += secondOffset;
+
+            logger.WriteLine(((long)test).ToHex());
+
+            return 0;
+            /*var pointer = *(long*)(a1 + firstOffset);// + secondOffset;
+            logger.WriteLine($"pointer: {((long)pointer).ToHex()}");
+            //logger.WriteLine($"pointer: {(*pointer).ToHex()}");
+
+            var firstPointer = *(long*)(a1 + firstOffset);
+            logger.WriteLine($"firstPointer: {(firstPointer).ToHex()}");
+            //logger.WriteLine($"firstPointer: {(*firstPointer).ToHex()}");
+            logger.WriteLine($"firstPointer: {((long)firstPointer).ToHex()}");
+
+            var fullAddress = ((long)firstPointer) + secondOffset;
+            logger.WriteLine($"Full address: {fullAddress.ToHex()}");
+
+            return fullAddress;*/
+
+            /*foreach (var attribute in attributes)
+            {
+
+            }*/
         }
     }
 }

@@ -162,7 +162,7 @@ namespace NoMansSky.Api
                 }
                 else
                 {
-                    ConsoleUtil.LogError($"Failed to load creature mbin file. Filename: {mbin.FullName}");
+                    Mod.WriteLine($"{mbin.Name} doesn't have it's own wrapper. You'll need to use MBinManager to access it until a wrapper is created.", LogLevel.Warning);
                 }
             });
         }

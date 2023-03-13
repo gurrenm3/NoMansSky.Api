@@ -1,0 +1,25 @@
+using Reloaded.ModHelper;
+using System;
+using libMBIN.NMS;
+
+namespace NoMansSky.Api.LibMbin;
+
+public unsafe class GcRegionHotspotBiomeGases : NMSTemplate
+{
+	public NMSString0x10 Gas1Id
+	{
+		get => GetValue<NMSString0x10>();
+		set => TrySetValue<NMSString0x10>(value);
+	}
+
+	public NMSString0x10 Gas2Id
+	{
+		get => GetValue<NMSString0x10>();
+		set => TrySetValue<NMSString0x10>(value);
+	}
+
+	public GcRegionHotspotBiomeGases(long address) : base(address)
+	{
+
+	}
+}

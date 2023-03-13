@@ -30,7 +30,7 @@ namespace NoMansSky.Api.Hooks.Player
         private static Stat<int> Stat => IGame.Instance?.Player?.Nanites;
 
         /// <summary>
-        /// ModEventHook that's called when the original function is called.
+        /// ModEvent that's called when the original function is called.
         /// </summary>
         public static IModEventHook<int> ModEventHook => Stat?.OnValueChanged;
 
@@ -52,7 +52,8 @@ namespace NoMansSky.Api.Hooks.Player
                 $"{_use32}",
                 $"{_hooks.Utilities.GetAbsoluteCallMnemonics(pattern1Func, out pattern1ReverseWrap)}"
             };
-            pattern1AsmHook = _hooks.CreateAsmHook(pattern1Asm, pattern1Address, AsmHookBehaviour.DoNotExecuteOriginal).Activate();
+            logger.WriteLine("RemoveNanites is temporarily disabled...");
+            //pattern1AsmHook = _hooks.CreateAsmHook(pattern1Asm, pattern1Address, AsmHookBehaviour.DoNotExecuteOriginal).Activate();
         }
 
         private void CodeToExecutePattern1(int amountToRemove)
