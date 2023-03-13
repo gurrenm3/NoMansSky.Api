@@ -84,7 +84,9 @@ C. Download the mods that use the Api.
 4) Make sure the API and the mods are selected in the Reloaded2 Mod Manager window, else the game wont use the mods nor the API.
 5) If your mod isn't loading at all when you run the game, try the following steps: In the Reloaded2 Mod Manager window, click the button with 3 gears on it, select the mod name from the list and make sure it is selected for No Man's Sky. Image for reference: https://imgur.com/a/TuZuPmU
 
-You're ready to play No Mans Sky with mods!
+You're ready to play No Mans Sky with mods! 
+
+After your mods are enabled press the "Launch Application" button to run the game with your mods. You need to do this because if you don't start it from Reloaded your mods won't be used. If you're stuck you can check this image for reference: [https://imgur.com/a/8uUpa7G](https://imgur.com/a/8uUpa7G)
 
 -----
 
