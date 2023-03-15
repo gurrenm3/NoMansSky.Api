@@ -1,5 +1,4 @@
-﻿using NoMansSky.Api.Hooks.Game;
-using Reloaded.ModHelper;
+﻿using Reloaded.ModHelper;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -25,42 +24,6 @@ namespace NoMansSky.Api
 
         public Dictionary<string, Type> MbinNamesAndTypes { get; set; } = new Dictionary<string, Type>();
 
-        /// <summary>
-        /// <inheritdoc/>
-        /// </summary>
-        public IGlobalsManager Globals { get; private set; }
-
-        /// <summary>
-        /// <inheritdoc/>
-        /// </summary>
-        public IRealityManager Reality { get; private set; }
-
-        /// <summary>
-        /// <inheritdoc/>
-        /// </summary>
-        public IGalaxyMap GalaxyMap => _galaxyMap;
-        private IGalaxyMap _galaxyMap;
-
-        /// <summary>
-        /// <inheritdoc/>
-        /// </summary>
-        public ICreatureManager Creatures { get; private set; }
-
-        /// <summary>
-        /// <inheritdoc/>
-        /// </summary>
-        public IColorsManager Colors { get; private set; }
-
-        /// <summary>
-        /// <inheritdoc/>
-        /// </summary>
-        public IWeatherManager Weather { get; private set; }
-
-        /// <summary>
-        /// <inheritdoc/>
-        /// </summary>
-        public ISolarSystem CurrentSystem => _currentSystem;
-        private ISolarSystem _currentSystem;
 
         /// <summary>
         /// <inheritdoc/>
@@ -71,11 +34,6 @@ namespace NoMansSky.Api
         /// <inheritdoc/>
         /// </summary>
         public IMBinManager MBinManager { get; set; } = new MBinManager();
-
-        /// <summary>
-        /// <inheritdoc/>
-        /// </summary>
-        public List<IEnvironmentObject> EnvironmentObjects { get; internal set; } = new List<IEnvironmentObject>();
 
         /// <summary>
         /// <inheritdoc/>
@@ -167,11 +125,6 @@ namespace NoMansSky.Api
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
-        public IModEvent<IEnvironmentObject> OnEnvironmentObjectLoaded { get; set; } = new SharedModEvent<IEnvironmentObject>();
-
-        /// <summary>
-        /// <inheritdoc/>
-        /// </summary>
         public bool IsWarping { get; internal set; }
 
 
@@ -180,15 +133,6 @@ namespace NoMansSky.Api
         /// </summary>
         public IModEvent OnGameJoined { get; set; } = new SharedModEvent();
 
-        /// <summary>
-        /// <inheritdoc/>
-        /// </summary>
-        public IModEvent OnInventoriesOpened { get; set; } = new SharedModEvent();
-
-        /// <summary>
-        /// <inheritdoc/>
-        /// </summary>
-        public IModEvent OnInventoriesClosed { get; set; } = new SharedModEvent();
 
         private IModLogger logger;
 
@@ -214,7 +158,7 @@ namespace NoMansSky.Api
             IGame.Instance = this;
 
             GcApplicationAddress = GetGameBaseAddress();
-            OnGcApplicationAcquired.Invoke(GcApplicationAddress);
+            OnGcApplicationAcquired.Run(GcApplicationAddress);
             logger.WriteLine($"Discovered GameBaseAddress at {GcApplicationAddress.ToHex()}");
 
             BinariesDirectory = Environment.CurrentDirectory;
@@ -232,22 +176,12 @@ namespace NoMansSky.Api
 
             InitModEvents();
 
-            // initialize mbins
-            Globals = new GlobalsManager();
-            Reality = new RealityManager();
-            Colors = new ColorsManager();
-            Weather = new WeatherManager();
-            Creatures = new CreatureManager();
-
-            _galaxyMap = new GalaxyMap();
-            _currentSystem = new SolarSystem();
-
             Player = new Player(logger);
             (Player as Player)?.Init();
 
             _modWarning = new ModWarning(logger);
 
-            OnInitialized.Invoke();
+            OnInitialized.Run();
             IsInitialized = true;
         }
 
@@ -269,20 +203,6 @@ namespace NoMansSky.Api
                 IsLoadingIntoGame = true;
             };
 
-            // game joined events
-            OnGameJoined += () =>
-            {
-                IsInGame = true;
-                IsLoadingIntoGame = false;
-                CurrentSystem.OnSystemLoaded.Invoke();
-            };
-
-            // Warp events
-            OnWarpStarted += () =>
-            {
-                IsWarping = true;
-                EnvironmentObjects.Clear();
-            };
             OnWarpFinished += () => IsWarping = false;
 
             // main menu events
@@ -292,13 +212,6 @@ namespace NoMansSky.Api
                 IsInGame = false;
                 IsOnMainMenu = true;
             };
-
-            // planet events
-            OnEnvironmentObjectLoaded += EnvironmentObjects.Add;
-
-            // other events
-            OnInventoriesOpened += () => IsInventoryOpen = true;
-            OnInventoriesClosed += () => IsInventoryOpen = false;
         }
     }
 }

@@ -157,7 +157,7 @@ namespace NoMansSky.Api
             
             loadedMbinFiles.Add(mbinToRegister);
             //mbinToRegister.Init(mbinToRegister.FullName, mbinToRegister.Address);
-            OnMBinLoaded.Invoke(mbinToRegister);
+            OnMBinLoaded.Run(mbinToRegister);
             return true;
         }
     }

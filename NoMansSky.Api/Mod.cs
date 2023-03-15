@@ -1,6 +1,5 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using NoMansSky.Api.GameClasses.Inventory.NewInventory;
 using NoMansSky.Api.Hooks;
 using NoMansSky.Api.libMBIN.Globals;
 using Reloaded.Hooks.ReloadedII.Interfaces;
@@ -30,41 +29,21 @@ namespace NoMansSky.Api
         /// </summary>
         internal static Mod Instance { get; private set; }
 
-        //GcPlayerStateData_Internal playerState;
 
         public Mod(IModConfig _config, IReloadedHooks _hooks, IModLogger _logger) : base(_config, _hooks, _logger)
         {
             Game.ModsWarning.Disable();
             (MBinManager as MBinManager)?.LoadPakFiles($"{GameDataDirectory}\\PCBANKS");
 
-
-
-            MBinManager.OnMBinLoaded.AddListener(mbin =>
-            {
-                Logger.WriteLine($"{mbin.FullName}   was loaded");
-            });
 #if DEBUG
 
-
-
-            /*playerState = new GcPlayerStateData_Internal(0);
-
-            int count = 0;
-            foreach (var item in playerState.GetType().GetProperties())
-            {
-                var attributes = item.GetCustomAttributes<FindOffsetAttribute>();
-                if (attributes == null || !attributes.Any())
-                    continue;
-
-                count++;
-                //Logger.WriteLine($"Found attribute {}");
-            }
-
-            Logger.WriteLine($"There are {count} FindOffset properties in GcPlayerStateData_Internal");*/
-
-
-            //Game.Player.OnPlayerStateAquired.AddListener(address => playerState = new(address));
 #endif
+        }
+
+        [NMSHook<GcPlayerState>("AwardUnits", HookType = Before)]
+        public static void MyBeforeHook(int unitsToAdd)
+        {
+
         }
 
         protected override void Awake()
@@ -83,74 +62,18 @@ namespace NoMansSky.Api
 
             if (Keyboard.IsPressed(Key.UpArrow))
             {
-                var mbin = MBinManager.GetMBin<GcAISpaceshipGlobals>();
-                if (mbin == null)
-                {
-                    Logger.WriteLine($"Failed to get global :(");
-                    return;
-                }
+                //long addUnitsAddress = 0x1403CF8E0;
 
+                IModEvent<int> test = new ModEvent<int>();
 
-                var playerGlobals = (GcAISpaceshipGlobals*)mbin.Address;
-                Logger.WriteLine(playerGlobals->WarpArriveEffectIDs.Count);
-                for (int i = 0; i < 7; i++)
-                {
-                    var item = playerGlobals->WarpArriveEffectIDs[i];
-                    Logger.WriteLine(item->Value);
-                }
+                int var = 0;
 
-
-                /*var inventory = new GameClasses.Inventory.NewInventory.Inventory(playerState.Inventory.address);
-                var unlockedSlots = inventory.GetSlots();
-
-                Stopwatch s = new Stopwatch();
-                int numTests = 1000;
-
-                s.Start();
-                for (int i = 0; i < numTests; i++)
-                {
-                    unlockedSlots = inventory.GetSlots();
-                }
-                s.Stop();
-
-                Logger.WriteLine($"NonParallel - Total time: {s.Elapsed.TotalSeconds}. Average: {s.Elapsed.TotalSeconds / numTests}");
+                test.AddRunner(Test);
+                test.Run(ref var);
 
 
 
-
-
-                s.Restart();
-                for (int i = 0; i < numTests; i++)
-                {
-                    unlockedSlots = inventory.GetSlotsParallel();
-                }
-                s.Stop();
-
-                Logger.WriteLine($"Parallel - Total time: {s.Elapsed.TotalSeconds}. Average: {s.Elapsed.TotalSeconds / numTests}");
-
-                return;
-                
-                var inUseSlots = unlockedSlots.FindAll(s => s.IsInUse());
-                var unusedSlots = unlockedSlots.FindAll(s => !s.IsInUse());
-                
-                foreach (var slot in unlockedSlots)
-                {
-                    Logger.WriteLine($"({slot.X}, {slot.Y}) - IsUnlocked {slot.IsUnlocked().ToString().ToUpper()} - IsInUse {slot.IsInUse().ToString().ToUpper()}");
-                }
-
-                var slotToMove = inUseSlots.FirstOrDefault();
-                var amount = slotToMove.HeldItem.Amount;
-                Logger.WriteLine($"Slot at ({slotToMove.X}, {slotToMove.Y}). Address = {slotToMove.HeldItem.address.ToHex()} - Amount = {amount}");*/
-
-
-                // figure out why this is broken!
-                //Logger.WriteLine($"Slot at ({slotToMove.X}, {slotToMove.Y}). Address = {slotToMove.HeldItem.address} - ID = {slotToMove.HeldItem.Id} - Amount = {slotToMove.HeldItem.Amount}");
-
-                /*var dest = Random.GetElement(unlockedSlots);
-                Logger.WriteLine($"Moving from ({slotToMove.X}, {slotToMove.Y}) to slot at ({dest.X}, {dest.Y})");
-                dest.SetItem(slotToMove.HeldItem);*/
-
-
+                Logger.WriteLine(var);
             }
             if (Keyboard.IsPressed(Key.LeftArrow))
             {
@@ -160,6 +83,11 @@ namespace NoMansSky.Api
             {
                 
             }
+        }
+
+        private void Test(ref int a1)
+        {
+            a1 = 100;
         }
 
 #endif

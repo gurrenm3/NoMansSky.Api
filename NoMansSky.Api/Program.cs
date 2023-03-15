@@ -50,7 +50,6 @@ namespace NoMansSky.Api
 
         private IGame gameInstance = null!;
         private IGameLoop gameLoop = null!;
-        private IMemoryManager memoryMgr = null!;
 
         /// <summary>
         /// This is needed to sync the instances of libmbin between API and mods.
@@ -81,11 +80,6 @@ namespace NoMansSky.Api
             Logger = new ModLogger(_modConfig, _logger);
 
             // memory manager stuff
-            memoryMgr = new MemoryManager();
-            memoryMgr.AddConverter(new NMSStringConverter(memoryMgr), alwaysRegister: true);
-            memoryMgr.AddConverter(new ArrayConverter(memoryMgr), alwaysRegister: true);
-            memoryMgr.AddConverter(new ListConverter(memoryMgr), alwaysRegister: true);
-            memoryMgr.AddConverter(new ThreadedNMSTemplateConverter(memoryMgr), alwaysRegister: true);
 
 
             // publish controllers to sync mods.

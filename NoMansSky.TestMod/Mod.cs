@@ -13,12 +13,12 @@ namespace NoMansSky.TestMod
     {
         public Mod(IModConfig _config, IReloadedHooks _hooks, IModLogger _logger) : base(_config, _hooks, _logger)
         {
-            /*Game.OnMainMenu.AddListener(() =>
+            /*Game.OnMainMenu.AddRunner(() =>
             {
                 
             });
 
-            Player.Shield.OnValueChanged.Prefix += (newValue) =>
+            Player.Shield.OnValueChanged.Before += (newValue) =>
             {
                 Logger.WriteLine($"Current shield is {Player.Shield.Value}." +
                     $" Shield changed by {Player.Shield.Value - newValue}.");

@@ -51,38 +51,6 @@ namespace NoMansSky.Api
         /// </summary>
         public string ModsDirectory { get; }
 
-        /// <summary>
-        /// Contains all of the Global Mbin files for the game.
-        /// </summary>
-        public IGlobalsManager Globals { get; }
-
-        public IRealityManager Reality { get; }
-
-        /// <summary>
-        /// Contains all of the colors in the game.
-        /// <br/>Note, to prevent confusion, biome colors are stored in their corresponding biome file.
-        /// </summary>
-        public IColorsManager Colors { get; }
-
-        /// <summary>
-        /// Contains everything for accessing/modifying creatures.
-        /// </summary>
-        public ICreatureManager Creatures { get; }
-
-        /// <summary>
-        /// Represents the Galaxy Map.
-        /// </summary>
-        public IGalaxyMap GalaxyMap { get; }
-
-        /// <summary>
-        /// Manages the weather in the game.
-        /// </summary>
-        public IWeatherManager Weather { get; }
-
-        /// <summary>
-        /// Represents the solar system that the player is currently in.
-        /// </summary>
-        public ISolarSystem CurrentSystem { get; }
 
         /// <summary>
         /// The instance of the Player class that has been initialized and is currently managing the actual NMS Player.
@@ -101,7 +69,7 @@ namespace NoMansSky.Api
         /// <br/><br/>Example:
         /// <example>
         /// <code>
-        /// Game.OnMainMenu.AddListener(() =>
+        /// Game.OnMainMenu.AddRunner(() =>
         /// {
         ///     // your code here
         /// });
@@ -116,7 +84,7 @@ namespace NoMansSky.Api
         /// <br/><br/>Example:
         /// <example>
         /// <code>
-        /// Game.OnProfileSelected.AddListener(() =>
+        /// Game.OnProfileSelected.AddRunner(() =>
         /// {
         ///     // your code here
         /// });
@@ -130,7 +98,7 @@ namespace NoMansSky.Api
         /// <br/><br/>Example:
         /// <example>
         /// <code>
-        /// Game.OnGameJoined.AddListener(() =>
+        /// Game.OnGameJoined.AddRunner(() =>
         /// {
         ///     // your code here
         /// });
@@ -144,7 +112,7 @@ namespace NoMansSky.Api
         /// <br/><br/>Example:
         /// <example>
         /// <code>
-        /// Game.OnWarpStarted.AddListener(() =>
+        /// Game.OnWarpStarted.AddRunner(() =>
         /// {
         ///     // your code here
         /// });
@@ -158,7 +126,7 @@ namespace NoMansSky.Api
         /// <br/><br/>Example:
         /// <example>
         /// <code>
-        /// Game.OnWarpFinished.AddListener(() =>
+        /// Game.OnWarpFinished.AddRunner(() =>
         /// {
         ///     // your code here
         /// });
@@ -167,48 +135,6 @@ namespace NoMansSky.Api
         /// </summary>
         public IModEvent OnWarpFinished { get; set; }
 
-        /// <summary>
-        /// Will execute for each EnvironmentObject when it's loaded by the game.
-        /// Since the game reloads the Biome Files each time the player warps to a new system,
-        /// this will be called for each object each time you load into a system.
-        /// </summary>
-        public IModEvent<IEnvironmentObject> OnEnvironmentObjectLoaded { get; set; }
-
-
-        /// <summary>
-        /// Called when the player opens the Inventories screen.
-        /// <br/>This is the screen that lets them view the inventories for their ship, freigher, multi-tool, etc.
-        /// <br/><br/>Example:
-        /// <example>
-        /// <code>
-        /// Game.OnInventoriesOpened.AddListener(() =>
-        /// {
-        ///     // your code here
-        /// });
-        /// </code>
-        /// </example>
-        /// </summary>
-        public IModEvent OnInventoriesOpened { get; set; }
-
-        /// <summary>
-        /// Called when the player closes the Inventories screen.
-        /// <br/>This is the screen that lets them view the inventories for their ship, freigher, multi-tool, etc.
-        /// <br/><br/>Example:
-        /// <example>
-        /// <code>
-        /// Game.OnInventoriesClosed.AddListener(() =>
-        /// {
-        ///     // your code here
-        /// });
-        /// </code>
-        /// </example>
-        /// </summary>
-        public IModEvent OnInventoriesClosed { get; set; }
-
-        /// <summary>
-        /// Contains all of the environment object files used by the game to generate biomes.
-        /// </summary>
-        public List<IEnvironmentObject> EnvironmentObjects { get; }
 
         /// <summary>
         /// A manager for all of the currently loaded MBIN files.
@@ -325,7 +251,5 @@ namespace NoMansSky.Api
         /// <br/><br/>This feature was discovered by RaYRoD TV#7679 and wouldn't exist without his efforts.
         /// </summary>
         public IModWarning ModsWarning { get; }
-
-
     }
 }

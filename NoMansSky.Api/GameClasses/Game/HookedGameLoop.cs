@@ -27,7 +27,7 @@ namespace NoMansSky.Api
             
             _time = new HookedTime();
             OnUpdate = new SharedModEventHook();
-            OnUpdate.Postfix += () => _loopCount++;
+            OnUpdate.After += () => _loopCount++;
             isInitialized = true;
 
             return this;

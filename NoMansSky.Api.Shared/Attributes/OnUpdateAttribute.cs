@@ -32,7 +32,7 @@ namespace NoMansSky.Api
         /// </summary>
         public override void OnAttributeLoaded()
         {
-            IGame.Instance.GameLoop.OnUpdate.Postfix += () => Info.TargetMethod.Invoke();
+            IGame.Instance.GameLoop.OnUpdate.After += () => Info.TargetMethod.Invoke();
         }
     }
 }

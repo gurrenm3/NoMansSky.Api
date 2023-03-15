@@ -76,7 +76,6 @@ The purpose of this library is to help mod makers create incredibly diverse and 
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="GameClasses\Biomes\" />
     <Folder Include="Resources\" />
   </ItemGroup>
 
