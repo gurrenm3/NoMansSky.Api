@@ -40,7 +40,7 @@ namespace NoMansSky.Api
 #endif
         }
 
-        [NMSHook<GcPlayerState>("AwardUnits", HookType = Before)]
+        [NMSHook<Mod>("AwardUnits", RunHook.Before)]
         public static void MyBeforeHook(int unitsToAdd)
         {
 
