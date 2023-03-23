@@ -2,6 +2,7 @@
 using Reloaded.Mod.Interfaces;
 using Reloaded.ModHelper;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace NoMansSky.Api
@@ -59,21 +60,12 @@ namespace NoMansSky.Api
         public IPlayer Player => Game?.Player!;
 
         /// <summary>
-        /// Instance of the memory manager. 
-        /// </summary>
-        protected readonly MemoryManager memory;
-
-        /// <summary>
         /// Creates an instance of this class.
         /// </summary>
         public NMSMod(IModConfig _config, IReloadedHooks _hooks, IModLogger _logger, bool autoInitialize = true) : base(_config, _hooks, _logger, autoInitialize)
         {
             GameLoop.OnUpdate.After += Update;
             GameLoop.OnUpdate.After += () => Update(GameLoop.Time.DeltaTime);
-            Game.MBinManager.OnMBinLoaded += OnMBinLoaded;
-            Game.OnGameJoined += OnGameJoined;
-
-            memory = new MemoryManager();
         }
 
         /// <summary>
@@ -103,22 +95,5 @@ namespace NoMansSky.Api
         /// </summary>
         public virtual void Update() { }
 
-
-        /// <summary>
-        /// Called everytime an mbin gets loaded/registered by the API. Will only work with
-        /// currently supported MBINs.
-        /// </summary>
-        /// <param name="loadedMbin"></param>
-        public virtual void OnMBinLoaded(IMBin loadedMbin) { }
-
-        /// <summary>
-        /// Called when the main menu is reached.
-        /// </summary>
-        public virtual void OnMainMenu() { }
-
-        /// <summary>
-        /// Called when the player loads into the game after selecting a save file.
-        /// </summary>
-        public virtual void OnGameJoined() { }
     }
 }

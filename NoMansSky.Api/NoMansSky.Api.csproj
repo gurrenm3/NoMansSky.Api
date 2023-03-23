@@ -83,6 +83,9 @@ The purpose of this library is to help mod makers create incredibly diverse and 
     <Reference Include="libMBIN">
       <HintPath>..\Dependencies\libMBIN.dll</HintPath>
     </Reference>
+    <Reference Include="NativeGenericDelegates">
+      <HintPath>..\Dependencies\NativeGenericDelegates.dll</HintPath>
+    </Reference>
     <Reference Include="NoMansSky.Api.libMBIN">
       <HintPath>..\Dependencies\NoMansSky.Api.libMBIN.dll</HintPath>
     </Reference>

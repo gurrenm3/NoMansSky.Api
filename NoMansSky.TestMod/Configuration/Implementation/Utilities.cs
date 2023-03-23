@@ -6,7 +6,7 @@ namespace NoMansSky.TestMod.Configuration.Implementation
 {
     public class Utilities
     {
-        /// <param name="getValue">Function that retrieves the value.</param>
+        /// <param name="getValue">FunctionDefinition that retrieves the value.</param>
         /// <param name="timeout">The timeout in milliseconds.</param>
         /// <param name="sleepTime">Amount of sleep per iteration/attempt.</param>
         /// <param name="token">Token that allows for cancellation of the task.</param>

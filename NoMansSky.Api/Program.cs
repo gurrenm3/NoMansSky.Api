@@ -86,6 +86,7 @@ namespace NoMansSky.Api
             libmbinInstance = new NMSTemplate();
             gameInstance = new Game(Logger);
             gameLoop = gameInstance.GameLoop;
+            HookDefinitionsUtils.hooksInstance = _hooks;
 
             _modLoader.AddOrReplaceController(this, libmbinInstance);
             _modLoader.AddOrReplaceController(this, gameInstance);

@@ -17,7 +17,7 @@ namespace NoMansSky.TestMod.Configuration
 
         [DisplayName("String")]
         [Description("This is a string.")]
-        public string String { get; set; } = "Default Name";
+        public string String { get; set; } = "Default ParamName";
 
         [DisplayName("Int")]
         [Description("This is an int.")]
