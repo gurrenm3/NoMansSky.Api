@@ -7,7 +7,6 @@ namespace NoMansSky.Api
     public class FunctionAddressAttribute : ModSettingAttribute
     {
         public string pattern;
-        public long scannedAddress;
 
         public FunctionAddressAttribute(string pattern)
         {

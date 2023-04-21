@@ -30,12 +30,13 @@ namespace NoMansSky.Api
         /// </summary>
         public override void OnAttributeLoaded()
         {
-            if (IGame.Instance.IsInitialized)
+            throw new NotImplementedException();
+            /*if (IGame.Instance.IsInitialized)
             {
                 Info.TargetMethod.Invoke();
             }
 
-            IGame.Instance.OnInitialized += () => Info.TargetMethod.Invoke();
+            IGame.Instance.OnInitialized += () => Info.TargetMethod.Invoke();*/
         }
     }
 }

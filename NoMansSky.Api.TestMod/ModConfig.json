@@ -1,0 +1,21 @@
+{
+  "ModId": "NoMansSky.Api.TestMod",
+  "ModName": "NoMansSky.Api.TestMod",
+  "ModAuthor": "Gurrenm3",
+  "ModVersion": "1.0.0",
+  "ModDescription": "A testing mod for NoMansSky.Api",
+  "ModDll": "NoMansSky.Api.TestMod.dll",
+  "ModIcon": "Preview.png",
+  "ModR2RManagedDll32": "x86/NoMansSky.Api.TestMod.dll",
+  "ModR2RManagedDll64": "x64/NoMansSky.Api.TestMod.dll",
+  "ModNativeDll32": "",
+  "ModNativeDll64": "",
+  "IsLibrary": false,
+  "ReleaseMetadataFileName": "NoMansSky.Api.TestMod.ReleaseMetadata.json",
+  "PluginData": {},
+  "IsUniversalMod": false,
+  "ModDependencies": [ "reloaded.sharedlib.hooks", "NoMansSky.Api" ],
+  "OptionalDependencies": [],
+  "SupportedAppId": [ "nms.exe", "nms.exe.unpacked.exe" ],
+  "ProjectUrl": ""
+}

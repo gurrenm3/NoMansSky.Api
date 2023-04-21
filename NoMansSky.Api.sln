@@ -3,15 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.32014.148
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NoMansSky.Api", "NoMansSky.Api\NoMansSky.Api.csproj", "{D7197EEA-6ACF-4E2C-A43C-AD477A697B29}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NoMansSky.TestMod", "NoMansSky.TestMod\NoMansSky.TestMod.csproj", "{67D45569-BE29-406A-B2A5-0F1D2C989A7E}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Reloaded.ModHelper", "..\Reloaded.ModHelper\Reloaded.ModHelper\Reloaded.ModHelper.csproj", "{E5A7F261-A670-4DC7-8C24-D9242FCCDB6D}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Reloaded.ModHelper.Shared", "..\Reloaded.ModHelper\Reloaded.ModHelper.Shared\Reloaded.ModHelper.Shared.csproj", "{3564904A-3D11-4F9B-AD61-550D30603BD3}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NoMansSky.Api.Shared", "NoMansSky.Api.Shared\NoMansSky.Api.Shared.csproj", "{605BAE4F-CDC3-41C1-8C3E-79F691F32DA2}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "NoMansSky.Api.Definitions.Shared", "..\NoMansSky.Api.Definitions\NoMansSky.Api.Definitions.Shared\NoMansSky.Api.Definitions.Shared.shproj", "{B52431BC-9C5B-4EED-A58D-4884CF2F65A7}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NoMansSky.Api.TestMod", "NoMansSky.Api.TestMod\NoMansSky.Api.TestMod.csproj", "{EF16EA50-4773-47D9-9A68-F798546345CF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NoMansSky.Api", "NoMansSky.Api\NoMansSky.Api.csproj", "{B45AD6E1-B2B4-46E5-B3CF-5592755337D8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,14 +21,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{D7197EEA-6ACF-4E2C-A43C-AD477A697B29}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D7197EEA-6ACF-4E2C-A43C-AD477A697B29}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D7197EEA-6ACF-4E2C-A43C-AD477A697B29}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D7197EEA-6ACF-4E2C-A43C-AD477A697B29}.Release|Any CPU.Build.0 = Release|Any CPU
-		{67D45569-BE29-406A-B2A5-0F1D2C989A7E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{67D45569-BE29-406A-B2A5-0F1D2C989A7E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{67D45569-BE29-406A-B2A5-0F1D2C989A7E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{67D45569-BE29-406A-B2A5-0F1D2C989A7E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E5A7F261-A670-4DC7-8C24-D9242FCCDB6D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{E5A7F261-A670-4DC7-8C24-D9242FCCDB6D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E5A7F261-A670-4DC7-8C24-D9242FCCDB6D}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -39,11 +33,23 @@ Global
 		{605BAE4F-CDC3-41C1-8C3E-79F691F32DA2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{605BAE4F-CDC3-41C1-8C3E-79F691F32DA2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{605BAE4F-CDC3-41C1-8C3E-79F691F32DA2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EF16EA50-4773-47D9-9A68-F798546345CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EF16EA50-4773-47D9-9A68-F798546345CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EF16EA50-4773-47D9-9A68-F798546345CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EF16EA50-4773-47D9-9A68-F798546345CF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B45AD6E1-B2B4-46E5-B3CF-5592755337D8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B45AD6E1-B2B4-46E5-B3CF-5592755337D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B45AD6E1-B2B4-46E5-B3CF-5592755337D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B45AD6E1-B2B4-46E5-B3CF-5592755337D8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {83977EC7-9A47-455A-AEEF-7D3F629CCE55}
+	EndGlobalSection
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		..\NoMansSky.Api.Definitions\NoMansSky.Api.Definitions.Shared\NoMansSky.Api.Definitions.Shared.projitems*{b45ad6e1-b2b4-46e5-b3cf-5592755337d8}*SharedItemsImports = 5
+		..\NoMansSky.Api.Definitions\NoMansSky.Api.Definitions.Shared\NoMansSky.Api.Definitions.Shared.projitems*{b52431bc-9c5b-4eed-a58d-4884cf2f65a7}*SharedItemsImports = 13
 	EndGlobalSection
 EndGlobal

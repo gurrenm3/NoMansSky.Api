@@ -1,0 +1,97 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v7.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v7.0": {
+      "NoMansSky.Api.Definitions/1.0.0": {
+        "dependencies": {
+          "Reloaded.Hooks.Definitions": "1.15.0",
+          "NoMansSky.Api": "1.0.3.0",
+          "NoMansSky.Api.Shared": "1.0.0.0",
+          "Reloaded.ModHelper": "1.0.0.0",
+          "Reloaded.ModHelper.Shared": "1.0.0.0"
+        },
+        "runtime": {
+          "NoMansSky.Api.Definitions.dll": {}
+        }
+      },
+      "Reloaded.Hooks.Definitions/1.15.0": {
+        "runtime": {
+          "lib/net6.0/Reloaded.Hooks.Definitions.dll": {
+            "assemblyVersion": "1.15.0.0",
+            "fileVersion": "1.15.0.0"
+          }
+        }
+      },
+      "NoMansSky.Api/1.0.3.0": {
+        "runtime": {
+          "NoMansSky.Api.dll": {
+            "assemblyVersion": "1.0.3.0",
+            "fileVersion": "1.0.3.0"
+          }
+        }
+      },
+      "NoMansSky.Api.Shared/1.0.0.0": {
+        "runtime": {
+          "NoMansSky.Api.Shared.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      },
+      "Reloaded.ModHelper/1.0.0.0": {
+        "runtime": {
+          "Reloaded.ModHelper.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      },
+      "Reloaded.ModHelper.Shared/1.0.0.0": {
+        "runtime": {
+          "Reloaded.ModHelper.Shared.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      }
+    }
+  },
+  "libraries": {
+    "NoMansSky.Api.Definitions/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Reloaded.Hooks.Definitions/1.15.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-bLY20vYB0fS2xwu6RDQVwlJxt2//KXLigYrCsCuzt5QFQqkvft4abq9FWPeCJYcvEeg/GQpJ3LC+108/4I2l+g==",
+      "path": "reloaded.hooks.definitions/1.15.0",
+      "hashPath": "reloaded.hooks.definitions.1.15.0.nupkg.sha512"
+    },
+    "NoMansSky.Api/1.0.3.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "NoMansSky.Api.Shared/1.0.0.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Reloaded.ModHelper/1.0.0.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Reloaded.ModHelper.Shared/1.0.0.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

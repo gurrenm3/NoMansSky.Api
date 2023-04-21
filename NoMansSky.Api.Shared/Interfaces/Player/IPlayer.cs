@@ -8,13 +8,23 @@ namespace NoMansSky.Api
     public interface IPlayer
     {
         /// <summary>
-        /// The base address of the actual player instance within the game.
+        /// Pointer to GcPlayer.
         /// </summary>
-        public long Pointer { get; }
+        public long GcPlayerPtr { get; set; }
 
         /// <summary>
-        /// Called when the pointer to the actual Player Instance has been aquired.
+        /// Pointer to GcPlayerState.
         /// </summary>
-        public IModEvent<long> OnPointerAquired { get; set; }
+        public long GcPlayerStatePtr { get; set; }
+
+        /// <summary>
+        /// Called when GcPlayerPtr is acquired.
+        /// </summary>
+        public IModEvent OnGcPlayerAquired { get; set; }
+
+        /// <summary>
+        /// Called when GcPlayerStatePtr is acquired.
+        /// </summary>
+        public IModEvent OnGcPlayerStateAquired { get; set; }
     }
 }
