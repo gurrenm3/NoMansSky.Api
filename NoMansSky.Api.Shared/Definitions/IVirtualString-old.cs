@@ -1,4 +1,4 @@
-﻿namespace NoMansSky.Api.Definitions;
+﻿/*namespace NoMansSky.Api.Definitions;
 
 /// <summary>
 /// Represents a string in memory.
@@ -34,4 +34,4 @@ public interface IVirtualString : IMemoryObject
 public interface IVirtualString<TSize> : IVirtualString where TSize : IStringSize
 {
 
-}
+}*/

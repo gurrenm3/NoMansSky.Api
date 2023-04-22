@@ -48,21 +48,13 @@
 		<PackageReference Include="Reloaded.Mod.Interfaces" Version="2.4.0" />
 		<PackageReference Include="Reloaded.SharedLib.Hooks" Version="1.9.0" />
 	</ItemGroup>
-
-	<!-- NoMansSky.Api Dependencies -->
 	<ItemGroup>
-		<Reference Include="NoMansSky.Api">
-			<HintPath>$(RELOADEDIIMODS)\NoMansSky.Api\NoMansSky.Api.dll</HintPath>
-		</Reference>
-		<Reference Include="NoMansSky.Api.Shared">
-			<HintPath>$(RELOADEDIIMODS)\NoMansSky.Api\NoMansSky.Api.Shared.dll</HintPath>
-		</Reference>
-		<Reference Include="Reloaded.ModHelper">
-			<HintPath>$(RELOADEDIIMODS)\NoMansSky.Api\Reloaded.ModHelper.dll</HintPath>
-		</Reference>
-		<Reference Include="Reloaded.ModHelper.Shared">
-			<HintPath>$(RELOADEDIIMODS)\NoMansSky.Api\Reloaded.ModHelper.Shared.dll</HintPath>
-		</Reference>
+	  <ProjectReference Include="..\..\Reloaded.ModHelper\Reloaded.ModHelper.Shared\Reloaded.ModHelper.Shared.csproj" />
+	  <ProjectReference Include="..\..\Reloaded.ModHelper\Reloaded.ModHelper\Reloaded.ModHelper.csproj" />
+	  <ProjectReference Include="..\NoMansSky.Api.Shared\NoMansSky.Api.Shared.csproj" />
+	  <ProjectReference Include="..\NoMansSky.Api\NoMansSky.Api.csproj" />
 	</ItemGroup>
+
+	
 
 </Project>

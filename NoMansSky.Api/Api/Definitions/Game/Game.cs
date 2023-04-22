@@ -70,7 +70,10 @@ namespace NoMansSky.Api
         /// </summary>
         public IModWarning ModsWarning { get; private set; }
 
-        public cGcApplication* gcApplication;
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
+        public ITextChat TextChat { get; private set; }
 
         private IModLogger logger;
 
@@ -103,6 +106,8 @@ namespace NoMansSky.Api
             //GameLoop = PseudoGameLoop.CreateNew(true);
             GameLoop = new HookedGameLoop();
             GameLoop.Initialize();
+
+            TextChat = new TextChat(GameLoop);
 
             Player = new Player(logger);
             (Player as Player)?.Init();

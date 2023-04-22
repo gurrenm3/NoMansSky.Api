@@ -44,19 +44,24 @@ namespace NoMansSky.Api.TestMod.Template
         private IModConfig _modConfig = null!;
 
         /// <summary>
-        /// Instance of the mod logger.
+        /// instance of the mod logger.
         /// </summary>
         private IModLogger _modLogger = null!;
 
         /// <summary>
-        /// Instance of game class.
+        /// instance of game class.
         /// </summary>
         private IGame _game = null!;
 
         /// <summary>
-        /// Instance of the game loop.
+        /// instance of the game loop.
         /// </summary>
         private IGameLoop _gameLoop = null!;
+
+        /// <summary>
+        /// Instance of the HookRegister from the API. Stores every hook used in every mod to prevent conflicts.
+        /// </summary>
+        private IHookRegister _hookRegister = null!;
 
         /// <summary>
         /// Encapsulates your mod logic.
@@ -81,7 +86,7 @@ namespace NoMansSky.Api.TestMod.Template
             _configuration.ConfigurationUpdated += OnConfigurationUpdated;
 
             _modLogger = new ModLogger(_modConfig, _logger);
-            HookDefinitionsUtils.hooksInstance = _hooks;
+            HookRegister.hooksInstance = _hooks;
 
             // The API publishes the instance of the Game class so mods can access it.
             // The lines below is where this mod aquires the Game instance that was published.
@@ -98,6 +103,10 @@ namespace NoMansSky.Api.TestMod.Template
                 _modLogger.WriteLine("Critical Error! Failed to get the game loop from the API. Nothing will work until this is fixed.", LogLevel.Error);
                 return;
             }
+
+            _modLoader.GetController<IHookRegister>().TryGetTarget(out _hookRegister);
+            if (_hookRegister == null)
+                _modLogger.WriteLine("Error! Failed to get the _hookRegister from the API. Some hooks may not work.", LogLevel.Error);
 
             // Please put your mod code in the class below,
             // use this class for only interfacing with mod loader.

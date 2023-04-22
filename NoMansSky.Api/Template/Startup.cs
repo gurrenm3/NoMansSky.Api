@@ -46,17 +46,17 @@ namespace NoMansSky.Api.Template
         private IModConfig _modConfig = null!;
 
         /// <summary>
-        /// Instance of the mod logger.
+        /// instance of the mod logger.
         /// </summary>
         private IModLogger _modLogger = null!;
 
         /// <summary>
-        /// Instance of game class.
+        /// instance of game class.
         /// </summary>
         private IGame _game = null!;
 
         /// <summary>
-        /// Instance of the game loop.
+        /// instance of the game loop.
         /// </summary>
         private IGameLoop _gameLoop = null!;
 
@@ -64,6 +64,8 @@ namespace NoMansSky.Api.Template
         /// Encapsulates your mod logic.
         /// </summary>
         private Mod _mod = null!;
+
+        private IHookRegister _hookRegister = null!;
 
         private List<ModAttrAttribute> loadedApiModAttributes = null!;
 
@@ -86,7 +88,8 @@ namespace NoMansSky.Api.Template
 
             _modLogger = new ModLogger(_modConfig, _logger);
             IModLogger.Instance = _modLogger;
-            HookDefinitionsUtils.hooksInstance = _hooks;
+            HookRegister.hooksInstance = _hooks;
+            _hookRegister = new HookRegister();
 
             _game = new Game(_modLogger);
             _gameLoop = _game.GameLoop;
@@ -94,6 +97,7 @@ namespace NoMansSky.Api.Template
             // Publish types here
             _modLoader.AddOrReplaceController(this, _game);
             _modLoader.AddOrReplaceController(this, _gameLoop);
+            _modLoader.AddOrReplaceController(this, _hookRegister);
 
             // Please put your mod code in the class below,
             // use this class for only interfacing with mod loader.
@@ -140,6 +144,6 @@ namespace NoMansSky.Api.Template
         public Action Disposing => () => _mod?.Disposing();
 
         // Export all types that are shared with other mods.
-        public Type[] GetTypes() => new Type[] { typeof(IGame), typeof(IGameLoop) }; //  typeof(NMSTemplate),
+        public Type[] GetTypes() => new Type[] { typeof(IGame), typeof(IGameLoop), typeof(IHookRegister) }; //  typeof(NMSTemplate),
     }
 }

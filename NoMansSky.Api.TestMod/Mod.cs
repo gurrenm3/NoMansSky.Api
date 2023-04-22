@@ -2,6 +2,7 @@
 using NoMansSky.Api.Definitions;
 using NoMansSky.Api.TestMod.Configuration;
 using Reloaded.ModHelper;
+using Random = Reloaded.ModHelper.Random;
 
 namespace NoMansSky.Api.TestMod
 {
@@ -20,20 +21,60 @@ namespace NoMansSky.Api.TestMod
         public Mod(ModContext context) : base(context)
         {
             Instance = this; // don't touch this
+
+            /*Game.TextChat.Input.OnTextChanged.AddRunner(text =>
+            {
+                WriteLine(text);
+            });*/
         }
 
         public override void Update()
         {
             if (Keyboard.IsPressed(Key.UpArrow))
             {
-
+                int randNum = Random.Range(0, 101);
+                Game.TextChat.Say(randNum);
             }
             if (Keyboard.IsPressed(Key.DownArrow))
             {
-
+                var g = Game;
+                WriteLine("g");
+                var text = g.TextChat;
+                WriteLine("text");
+                var input = text.Input;
+                WriteLine("input");
+                input.SetText("fff");
+                WriteLine("set text");
             }
+
+            //Game.GetGcApplication()->data->networkManager.voiceChat->
         }
 
+        [NMSHook<cGcTextChatManager.AddPendingMessageFunc>]
+        public static void AddPendingMessageFunc(long self, long pendingMessage)
+        {
+            var chatMgr = (cGcTextChatManager*)self;
+            var msg = (PendingMessage*)pendingMessage;
+            WriteLine($"Pending Message: {msg->UncensoredMessageBody.GetValue()}");
+        }
+
+        /*
+
+        [NMSHook<cGcTextChatManager.SayFunc>(RunHook.Before)]
+        public static void SayFunc(long self, long messageBody)
+        {
+            return;
+            WriteLine("SayFunc");
+        
+            var text = (VirtualString<Size0x7F>*)messageBody;
+            WriteLine($"Message was: {text->GetValue()}. Clearing it out!");
+            text->SetValue("");
+            *//*var chatMgr = (cGcTextChatManager*)self;
+            var msg = (PendingMessage*)pendingMessage;
+
+            var body = msg->getUncensoredMessageBody();
+            WriteLine(body);*//*
+        }*/
 
         #region Standard Overrides
 

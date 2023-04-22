@@ -130,7 +130,7 @@ internal class MBinManager : IMBinManager
 
 
         /*if (mbinType == null)
-            Mod.Instance.Logger.WriteLine($"{mbinName} - Couldn't get mbin Type, might be an internal class.", LogLevel.Warning);*/
+            Mod.instance.Logger.WriteLine($"{mbinName} - Couldn't get mbin Type, might be an internal class.", LogLevel.Warning);*/
 
         return mbinType;
     }

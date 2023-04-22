@@ -104,7 +104,7 @@ public class NMSHookAttribute<T> : ModMethodAttribute, INMSHook where T : Delega
     /// <returns></returns>
     private IModEventHook<object[]?> GetOrAddHook()
     {
-        var indexOfName = typeof(T).FullName.IndexOf('+');
+        var indexOfName = typeof(T).FullName.LastIndexOf('+');
         var parentClassName = typeof(T).FullName.Remove(indexOfName);
         var parentClassType = typeof(T).Assembly.GetType(parentClassName);
 

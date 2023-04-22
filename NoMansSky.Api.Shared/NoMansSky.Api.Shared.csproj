@@ -50,8 +50,4 @@ This project contains all of the code that can be published for use in other mod
 	  <ProjectReference Include="..\..\Reloaded.ModHelper\Reloaded.ModHelper.Shared\Reloaded.ModHelper.Shared.csproj" />
 	</ItemGroup>
 
-	<ItemGroup>
-	  <Folder Include="Utility\" />
-	</ItemGroup>
-
 </Project>

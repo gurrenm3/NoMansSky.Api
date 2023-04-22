@@ -67,9 +67,6 @@
 		<ProjectReference Include="..\..\Reloaded.ModHelper\Reloaded.ModHelper\Reloaded.ModHelper.csproj" />
 		<ProjectReference Include="..\NoMansSky.Api.Shared\NoMansSky.Api.Shared.csproj" />
 	</ItemGroup>
-	<ItemGroup>
-	  <Folder Include="Api\" />
-	</ItemGroup>
 
 	<!-- Assembly References -->
 	<ItemGroup>

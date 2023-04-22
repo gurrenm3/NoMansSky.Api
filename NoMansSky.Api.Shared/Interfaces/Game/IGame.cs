@@ -74,5 +74,10 @@ namespace NoMansSky.Api
         /// <br/><br/>This feature was discovered by RaYRoD TV#7679 and wouldn't exist without his efforts.
         /// </summary>
         public IModWarning ModsWarning { get; }
+
+        /// <summary>
+        /// Represents the TextChat box in game.
+        /// </summary>
+        public ITextChat TextChat { get; }
     }
 }

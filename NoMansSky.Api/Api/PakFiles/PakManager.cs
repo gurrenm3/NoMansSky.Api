@@ -38,7 +38,7 @@ namespace NoMansSky.Api
                 if (!pak.Init())
                     continue;
 
-                //Mod.WriteLine($"Registering mbins from {file.Replace(IGame.Instance.NMSDirectory, "").Trim('\\')}");
+                //Mod.WriteLine($"Registering mbins from {file.Replace(IGame.instance.NMSDirectory, "").Trim('\\')}");
                 var mbinFiles = pak.Entries.FindAll(entry => !string.IsNullOrEmpty(entry.MbinType));
                 foreach (var mbin in mbinFiles)
                 {
