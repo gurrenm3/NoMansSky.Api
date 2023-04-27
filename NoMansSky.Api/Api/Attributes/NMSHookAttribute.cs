@@ -77,7 +77,7 @@ public class NMSHookAttribute<T> : ModMethodAttribute, INMSHook where T : Delega
         var modEvent = HookTime == RunHook.Before ? EventHook.Before : EventHook.After;
         if (hookParams.Count == 0)
         {
-            modEvent.AddRunner(args => Info.TargetMethod.Invoke());
+            modEvent.AddRunner(args => Info.TargetMethod.Invoke(ClassInstance));
             return;
         }
 
@@ -88,7 +88,7 @@ public class NMSHookAttribute<T> : ModMethodAttribute, INMSHook where T : Delega
                 passedArgsValues[i] = args[hookParams[i].RealArgument.Position];
             }
 
-            Info.TargetMethod.Invoke(null, passedArgsValues);
+            Info.TargetMethod.Invoke(ClassInstance, passedArgsValues);
 
             for (int i = 0; i < hookParams.Count; i++)
             {
@@ -182,7 +182,7 @@ public class NMSHookAttribute<T> : ModMethodAttribute, INMSHook where T : Delega
 
         else if (arg.ParamType.IsPointer)
         {
-            ConsoleUtils.WriteError($"Due to the nature of C#, you can't use a Pointer as one of your arguments." +
+            ConsoleUtils.WriteError($"Due to the nature of C#, you can't use a Instance as one of your arguments." +
                 $" Instead set the type to \"long\" and then cast it to a pointer within your hook. This hook will be skipped.");
             return true;
         }

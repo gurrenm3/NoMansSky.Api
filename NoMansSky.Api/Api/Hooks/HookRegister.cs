@@ -3,7 +3,7 @@ using System.Reflection;
 
 namespace NoMansSky.Api
 {
-    public class HookRegister : IHookRegister
+    public unsafe class HookRegister : IHookRegister
     {
         public static HookRegister instance;
         public static IReloadedHooks hooksInstance;
@@ -70,10 +70,14 @@ namespace NoMansSky.Api
             return new Signature(pattern).Scan();
         }
 
-        public static long GetAddressFromDelegate<T>() where T : Delegate
+        public static long GetAddressFromDelegate<T>(bool isXrefSig) where T : Delegate
         {
             var pattern = TryGetPatternFromDelegate<T>();
-            return GetAddressFromPattern(pattern);
+            var address = GetAddressFromPattern(pattern);
+            if (isXrefSig)
+                address = *(long*)address;
+
+            return address;
         }
     }
 }

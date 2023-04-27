@@ -75,6 +75,11 @@ namespace NoMansSky.Api
         /// </summary>
         public ITextChat TextChat { get; private set; }
 
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
+        public ITkMemoryManager TkMemoryManager { get; set; }
+
         private IModLogger logger;
 
         /// <summary>
@@ -108,6 +113,7 @@ namespace NoMansSky.Api
             GameLoop.Initialize();
 
             TextChat = new TextChat(GameLoop);
+            TkMemoryManager = new TkMemoryManager();
 
             Player = new Player(logger);
             (Player as Player)?.Init();

@@ -55,9 +55,13 @@ public unsafe class TextChat : ITextChat
         if (string.IsNullOrEmpty(text))
             return;
 
-        var stringPtr = Marshal.StringToHGlobalAnsi(text);
+        using var stringPtr = new UnmanagedStringPtr(text);
+        var virtualString = (VirtualString<Size0x7F>*)stringPtr.UnmanagedPointer;
+        chatManager->Say(virtualString, systemMessage);
+
+        /*var stringPtr = Marshal.StringToHGlobalAnsi(text);
         var virtualStr = (VirtualString<Size0x7F>*)stringPtr;
         chatManager->Say(virtualStr, systemMessage);
-        Marshal.FreeHGlobal(stringPtr);
+        Marshal.FreeHGlobal(stringPtr);*/
     }
 }

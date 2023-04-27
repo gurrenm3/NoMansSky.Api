@@ -55,18 +55,20 @@ public unsafe class TextChatInput : ITextChatInput
 
     public string GetText()
     {
-        if (Pointer == 0)
+        throw new NotImplementedException();
+        /*if (Instance == 0)
             return null;
 
-        return input->Text.GetValue();
+        return input->Text.GetValue();*/
     }
 
     public void SetText(string text)
     {
-        if (Pointer == 0)
+        throw new NotImplementedException();
+        /*if (Instance == 0)
             return;
 
         input->InputTextDisplayString.SetValue(text);
-        input->Text.SetValue(text);
+        input->Text.SetValue(text);*/
     }
 }

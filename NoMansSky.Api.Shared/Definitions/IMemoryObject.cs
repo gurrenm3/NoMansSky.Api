@@ -1,4 +1,6 @@
-﻿namespace NoMansSky.Api.Definitions;
+﻿using Reloaded.ModHelper;
+
+namespace NoMansSky.Api.Definitions;
 
 /// <summary>
 /// Represents an object in memory.
@@ -9,4 +11,9 @@ public interface IMemoryObject
     /// The original memory location/address of this object.
     /// </summary>
     public long Pointer { get; }
+
+    /// <summary>
+    /// Called when the pointer for this object has been acquired.
+    /// </summary>
+    public IModEvent<long> OnPointerAcquired { get; set; }
 }

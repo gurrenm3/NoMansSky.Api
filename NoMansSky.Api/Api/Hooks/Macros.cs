@@ -59,7 +59,7 @@ namespace NoMansSky.Api.Hooks
         public static string _esp = Is64Bit ? "rsp" : "esp";
 
         /// <summary>
-        /// Represents the full word operand size for current architecture.
+        /// Represents the full word operand count for current architecture.
         /// </summary>
         public static string _word = Is64Bit ? "qword" : "dword";
     }

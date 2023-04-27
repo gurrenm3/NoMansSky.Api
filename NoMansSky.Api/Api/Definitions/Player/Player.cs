@@ -8,12 +8,12 @@ namespace NoMansSky.Api
     internal unsafe class Player : IPlayer
     {
         /// <summary>
-        /// Pointer to GcPlayer.
+        /// Instance to GcPlayer.
         /// </summary>
         public long GcPlayerPtr { get; set; }
 
         /// <summary>
-        /// Pointer to GcPlayerState.
+        /// Instance to GcPlayerState.
         /// </summary>
         public long GcPlayerStatePtr { get; set; }
 

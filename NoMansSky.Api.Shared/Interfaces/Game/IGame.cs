@@ -79,5 +79,10 @@ namespace NoMansSky.Api
         /// Represents the TextChat box in game.
         /// </summary>
         public ITextChat TextChat { get; }
+
+        /// <summary>
+        /// Represents the TkMemoryManager in game.
+        /// </summary>
+        public ITkMemoryManager TkMemoryManager { get; set; }
     }
 }

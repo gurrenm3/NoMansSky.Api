@@ -2,6 +2,7 @@
 using NoMansSky.Api.Definitions;
 using NoMansSky.Api.TestMod.Configuration;
 using Reloaded.ModHelper;
+using System.Runtime.CompilerServices;
 using Random = Reloaded.ModHelper.Random;
 
 namespace NoMansSky.Api.TestMod
@@ -26,55 +27,109 @@ namespace NoMansSky.Api.TestMod
             {
                 WriteLine(text);
             });*/
+
         }
+
+        
+
+        /*[NMSHook<cGcPlanet.GenerateFunc>(RunHook.Before)]
+        public static void Generate(long self, long generationInputParams)
+        {
+            var planet = (cGcPlanet*)self;
+            var colorPallets = planet->planetData.colours.getPalettes();
+            var palette1 = colorPallets.GetElement(0);
+            var colors = palette1->getColours();
+            var color1 = colors.GetElement(0);
+            color1->baseclass_0.Set(0.3f, 0.3f, 0.3f, 1);
+        }*/
 
         public override void Update()
         {
             if (Keyboard.IsPressed(Key.UpArrow))
             {
-                int randNum = Random.Range(0, 101);
-                Game.TextChat.Say(randNum);
+                /*var planet = GetNthPlanet(3);
+                WriteLine($"Details about planet: {planet->planetIndex}");*/
             }
             if (Keyboard.IsPressed(Key.DownArrow))
             {
-                var g = Game;
-                WriteLine("g");
-                var text = g.TextChat;
-                WriteLine("text");
-                var input = text.Input;
-                WriteLine("input");
-                input.SetText("fff");
-                WriteLine("set text");
+                Game.GetGcApplication()->data->frontendManager.DisplayMessage("Title", "body");
+
+                //Game.GetGcApplication()->data->frontendManager.ShowMessageBox(title, message);
             }
+
 
             //Game.GetGcApplication()->data->networkManager.voiceChat->
         }
 
-        [NMSHook<cGcTextChatManager.AddPendingMessageFunc>]
-        public static void AddPendingMessageFunc(long self, long pendingMessage)
+
+
+        /*[NMSHook<cGcSolarSystem.ConstructFunc>]
+        public static void SolarConstruct(long self)
         {
-            var chatMgr = (cGcTextChatManager*)self;
-            var msg = (PendingMessage*)pendingMessage;
-            WriteLine($"Pending Message: {msg->UncensoredMessageBody.GetValue()}");
+            *//*var ss = (cGcSolarSystem*)self;
+            var planets = ss->getPlanets();
+            var p = planets.GetElement(3);*//*
+
+
+            var ss = (cGcSolarSystem*)self;
+            var planets = ss->getPlanets();
+            var planetsPtr = planets.GetPointer();
+            var planets2 = (STDArray<cGcPlanet, Size0x6>*)planetsPtr;
+
+            var p = planets2->GetElement(3);
+            WriteLine($"Details about planet from cGcSolarSystem.ConstructFunc hook: {p->planetIndex}");
         }
 
-        /*
-
-        [NMSHook<cGcTextChatManager.SayFunc>(RunHook.Before)]
-        public static void SayFunc(long self, long messageBody)
+        [NMSHook<cTkStoragePersistent.FetchSlotStatesFunc>]
+        public static void FetchSlotStatesFunc(long self, long slotStates)
         {
-            return;
-            WriteLine("SayFunc");
-        
-            var text = (VirtualString<Size0x7F>*)messageBody;
-            WriteLine($"Message was: {text->GetValue()}. Clearing it out!");
-            text->SetValue("");
-            *//*var chatMgr = (cGcTextChatManager*)self;
-            var msg = (PendingMessage*)pendingMessage;
+            *//*var array = (STDArrayNew<cTkStoragePersistent.SlotState, Size0x20>*)slotStates;
+            var timeStamp = array->GetElement(0x3)->valid;
+            WriteLine($"Timestamp: {timeStamp}");*//*
 
-            var body = msg->getUncensoredMessageBody();
-            WriteLine(body);*//*
-        }*/
+            var array = STDArray<cTkStoragePersistent.SlotState, Size0x20>.FromPointer(slotStates);
+            var timeStamp = array.GetElement(1)->timestamp;
+            WriteLine($"Timestamp: {timeStamp}");
+        }
+
+        [NMSHook<cGcSolarSystem.UpdateFunc>]
+        public static void SolarUpdate(long self)
+        {
+            if (Keyboard.IsPressed(Key.LeftArrow))
+            {
+                var ss = (cGcSolarSystem*)self;
+                var planets = ss->getPlanets();
+                var planetsPtr = planets.GetPointer();
+                var planets2 = (STDArray<cGcPlanet, Size0x6>*)planetsPtr;
+
+                var p = planets2->GetElement(3);
+                WriteLine($"Details about planet from cGcSolarSystem.UpdateFunc hook: {p->planetIndex}");
+            }            
+        }
+
+
+        public static cGcPlanet* GetNthPlanet(int idx)
+        {
+            WriteLine("1");
+            var gcSimulation = IGame.Instance.GetGcApplication()->GetSimulation();
+            WriteLine("2");
+            var p_solarsystem = gcSimulation->solarSystem;
+            WriteLine("3");
+            var planets = p_solarsystem->getPlanets();
+            WriteLine("4");
+            int planet_count = planets.GetCount();
+            WriteLine("5");
+            // Cap the index to be less than the number of planets
+            if (idx >= planet_count)
+            {
+                idx = planet_count - 1;
+            }
+            WriteLine("6");
+            return planets.GetElement(idx);
+        }
+*/
+
+
 
         #region Standard Overrides
 
