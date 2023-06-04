@@ -9,11 +9,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Reloaded.ModHelper.Shared",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NoMansSky.Api.Shared", "NoMansSky.Api.Shared\NoMansSky.Api.Shared.csproj", "{605BAE4F-CDC3-41C1-8C3E-79F691F32DA2}"
 EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "NoMansSky.Api.Definitions.Shared", "..\NoMansSky.Api.Definitions\NoMansSky.Api.Definitions.Shared\NoMansSky.Api.Definitions.Shared.shproj", "{B52431BC-9C5B-4EED-A58D-4884CF2F65A7}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NoMansSky.Api.TestMod", "NoMansSky.Api.TestMod\NoMansSky.Api.TestMod.csproj", "{EF16EA50-4773-47D9-9A68-F798546345CF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NoMansSky.Api", "NoMansSky.Api\NoMansSky.Api.csproj", "{B45AD6E1-B2B4-46E5-B3CF-5592755337D8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NoMansSky.Api", "NoMansSky.Api\NoMansSky.Api.csproj", "{B45AD6E1-B2B4-46E5-B3CF-5592755337D8}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "NoMansSky.Api.Definitions.Shared", "..\NoMansSky.Api.Definitions-Before new Generator\NoMansSky.Api.Definitions.Shared\NoMansSky.Api.Definitions.Shared.shproj", "{B52431BC-9C5B-4EED-A58D-4884CF2F65A7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -49,7 +49,7 @@ Global
 		SolutionGuid = {83977EC7-9A47-455A-AEEF-7D3F629CCE55}
 	EndGlobalSection
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		..\NoMansSky.Api.Definitions\NoMansSky.Api.Definitions.Shared\NoMansSky.Api.Definitions.Shared.projitems*{b45ad6e1-b2b4-46e5-b3cf-5592755337d8}*SharedItemsImports = 5
-		..\NoMansSky.Api.Definitions\NoMansSky.Api.Definitions.Shared\NoMansSky.Api.Definitions.Shared.projitems*{b52431bc-9c5b-4eed-a58d-4884cf2f65a7}*SharedItemsImports = 13
+		..\NoMansSky.Api.Definitions-Before new Generator\NoMansSky.Api.Definitions.Shared\NoMansSky.Api.Definitions.Shared.projitems*{b45ad6e1-b2b4-46e5-b3cf-5592755337d8}*SharedItemsImports = 5
+		..\NoMansSky.Api.Definitions-Before new Generator\NoMansSky.Api.Definitions.Shared\NoMansSky.Api.Definitions.Shared.projitems*{b52431bc-9c5b-4eed-a58d-4884cf2f65a7}*SharedItemsImports = 13
 	EndGlobalSection
 EndGlobal

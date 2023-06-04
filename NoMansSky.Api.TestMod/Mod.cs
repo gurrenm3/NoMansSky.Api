@@ -2,7 +2,8 @@
 using NoMansSky.Api.Definitions;
 using NoMansSky.Api.TestMod.Configuration;
 using Reloaded.ModHelper;
-using System.Runtime.CompilerServices;
+using System.Reflection;
+using static NoMansSky.Api.Definitions.cGcFrontendManager;
 using Random = Reloaded.ModHelper.Random;
 
 namespace NoMansSky.Api.TestMod
@@ -23,112 +24,121 @@ namespace NoMansSky.Api.TestMod
         {
             Instance = this; // don't touch this
 
+            //RuntimeCodeGenerator.GenerateCode();
+
+            //RuntimeCodeGenerator2.GenerateCode();
+
+            AppDomain.CurrentDomain.AssemblyLoad += CurrentDomain_AssemblyLoad;
+            AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
+            AppDomain.CurrentDomain.ReflectionOnlyAssemblyResolve += CurrentDomain_ReflectionOnlyAssemblyResolve;
+
+            
+
+            Console.WriteLine();
             /*Game.TextChat.Input.OnTextChanged.AddRunner(text =>
             {
                 WriteLine(text);
             });*/
 
+            /*Game.TextChat.OnSay.AddRunner((msg) =>
+            {
+                string msgText = msg.ToString();
+                WriteLine("OnSay");
+                WriteLine(msgText);
+                if (!msgText.StartsWith("-time"))
+                    return;
+
+                if (msgText == "-time" || msgText == "-time get")
+                {
+                    var currentTime1 = Game.GetApplication()->data->simulation.environment.GetSky()->GetTimeOfDay();
+                    Game.TextChat.Say($"Current time: {currentTime1}", true);
+                    return;
+                }
+
+                string timeText = msgText.Replace("-time set ", "");
+                if (!timeText.Contains("."))
+                    timeText += ".0";
+
+                float.TryParse(timeText, out float time);
+                var currentTime = Game.GetApplication()->data->simulation.environment.GetSky()->GetTimeOfDay();
+                timeDistance = currentTime - time;
+            });*/
+
+            cGcPlayerState state;
         }
 
-        
-
-        /*[NMSHook<cGcPlanet.GenerateFunc>(RunHook.Before)]
-        public static void Generate(long self, long generationInputParams)
+        private Assembly? CurrentDomain_ReflectionOnlyAssemblyResolve(object? sender, ResolveEventArgs args)
         {
-            var planet = (cGcPlanet*)self;
-            var colorPallets = planet->planetData.colours.getPalettes();
-            var palette1 = colorPallets.GetElement(0);
-            var colors = palette1->getColours();
-            var color1 = colors.GetElement(0);
-            color1->baseclass_0.Set(0.3f, 0.3f, 0.3f, 1);
-        }*/
+            Logger.WriteLine("aaa");
+            return default;
+        }
 
+        private Assembly? CurrentDomain_AssemblyResolve(object? sender, ResolveEventArgs args)
+        {
+            
+            Logger.WriteLine("bbb");
+            return default;
+        }
+
+        private void CurrentDomain_AssemblyLoad(object? sender, AssemblyLoadEventArgs args)
+        {
+            Logger.WriteLine("ccc");
+            
+            
+        }
+
+        float timeDistance = 0;
         public override void Update()
         {
             if (Keyboard.IsPressed(Key.UpArrow))
             {
-                /*var planet = GetNthPlanet(3);
-                WriteLine($"Details about planet: {planet->planetIndex}");*/
+                
             }
             if (Keyboard.IsPressed(Key.DownArrow))
             {
-                Game.GetGcApplication()->data->frontendManager.DisplayMessage("Title", "body");
+                Popups.DisplayMessage("Testing 123", "This is a popup");
 
-                //Game.GetGcApplication()->data->frontendManager.ShowMessageBox(title, message);
             }
-
-
-            //Game.GetGcApplication()->data->networkManager.voiceChat->
         }
 
-
-
-        /*[NMSHook<cGcSolarSystem.ConstructFunc>]
-        public static void SolarConstruct(long self)
+        [NMSHook<cGcFrontendManager.ShowQuitDialogFunc>(RunHook.Before)]
+        public static void ShowQuitDialogFunc()
         {
-            *//*var ss = (cGcSolarSystem*)self;
-            var planets = ss->getPlanets();
-            var p = planets.GetElement(3);*//*
-
-
-            var ss = (cGcSolarSystem*)self;
-            var planets = ss->getPlanets();
-            var planetsPtr = planets.GetPointer();
-            var planets2 = (STDArray<cGcPlanet, Size0x6>*)planetsPtr;
-
-            var p = planets2->GetElement(3);
-            WriteLine($"Details about planet from cGcSolarSystem.ConstructFunc hook: {p->planetIndex}");
-        }
-
-        [NMSHook<cTkStoragePersistent.FetchSlotStatesFunc>]
-        public static void FetchSlotStatesFunc(long self, long slotStates)
-        {
-            *//*var array = (STDArrayNew<cTkStoragePersistent.SlotState, Size0x20>*)slotStates;
-            var timeStamp = array->GetElement(0x3)->valid;
-            WriteLine($"Timestamp: {timeStamp}");*//*
-
-            var array = STDArray<cTkStoragePersistent.SlotState, Size0x20>.FromPointer(slotStates);
-            var timeStamp = array.GetElement(1)->timestamp;
-            WriteLine($"Timestamp: {timeStamp}");
-        }
-
-        [NMSHook<cGcSolarSystem.UpdateFunc>]
-        public static void SolarUpdate(long self)
-        {
-            if (Keyboard.IsPressed(Key.LeftArrow))
+            
+            WriteLine("OnQuitDialog");
+            /*onCloseFunc += (a, b, c) =>
             {
-                var ss = (cGcSolarSystem*)self;
-                var planets = ss->getPlanets();
-                var planetsPtr = planets.GetPointer();
-                var planets2 = (STDArray<cGcPlanet, Size0x6>*)planetsPtr;
+                OnCloseFunc(a, b, c);
+            };*/
+            return;
 
-                var p = planets2->GetElement(3);
-                WriteLine($"Details about planet from cGcSolarSystem.UpdateFunc hook: {p->planetIndex}");
-            }            
-        }
+            // void (__fastcall *lpOnCloseFunc)(void *, bool, bool)
 
+            /*long myCloseFuncPtr = Marshal.GetFunctionPointerForDelegate(OnCloseFunc);
+            onCloseFunc = myCloseFuncPtr;*//*
 
-        public static cGcPlanet* GetNthPlanet(int idx)
-        {
-            WriteLine("1");
-            var gcSimulation = IGame.Instance.GetGcApplication()->GetSimulation();
-            WriteLine("2");
-            var p_solarsystem = gcSimulation->solarSystem;
-            WriteLine("3");
-            var planets = p_solarsystem->getPlanets();
-            WriteLine("4");
-            int planet_count = planets.GetCount();
-            WriteLine("5");
-            // Cap the index to be less than the number of planets
-            if (idx >= planet_count)
+            WriteLine("Making delegate");
+            close = Marshal.GetDelegateForFunctionPointer<OnCloseCallback>((nint)onCloseFunc);
+            WriteLine("SUccess!!!");
+
+            WriteLine("Subscribing to delegate");
+            close += (a, b, c) =>
             {
-                idx = planet_count - 1;
-            }
-            WriteLine("6");
-            return planets.GetElement(idx);
-        }
-*/
+                OnCloseFunc(a, b, c);
+            };
+            WriteLine("Success!");
 
+            WriteLine("OnQuitDialog DONE");*/
+
+        }
+
+        
+        //public OnCloseCallback close;
+
+        static void OnCloseFunc(void* a1, bool a2, bool a3)
+        {
+            WriteLine("My custom OnCloseFunc is working!!!!!");
+        }
 
 
         #region Standard Overrides

@@ -7,13 +7,15 @@ namespace NoMansSky.Api;
 /// </summary>
 public static unsafe class IPlayerExtensions
 {
-    public static cGcPlayer* GetGcPlayer(this IPlayer player)
+    public static cGcPlayer* GetPlayer(this IPlayer player)
     {
-        return (cGcPlayer*)player.GcPlayerPtr;
+        return &IGame.Instance.GetSimulation()->player;
+        //return (cGcPlayer*)player.GcPlayerPtr;
     }
 
-    public static cGcPlayerState* GetGcPlayerState(this IPlayer player)
+    public static cGcPlayerState* GetPlayerState(this IPlayer player)
     {
-        return (cGcPlayerState*)player.GcPlayerStatePtr;
+        return &IGame.Instance.GetGameState()->playerState;
+        //return (cGcPlayerState*)player.GcPlayerStatePtr;
     }
 }

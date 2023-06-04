@@ -116,7 +116,7 @@ public class NMSHookAttribute<T> : ModMethodAttribute, INMSHook where T : Delega
         if (delegateName.EndsWith("Func"))
             delegateName = delegateName.Remove(delegateName.Length - 4);
 
-        //var modEventHook = typeof(T).Assembly.GetType($"{parentClassName}+HookDefinitions")?.GetField($"{delegateName}EventHook")?.GetValue(null);
+        //var modEventHook = typeof(TElement).Assembly.GetType($"{parentClassName}+HookDefinitions")?.GetField($"{delegateName}EventHook")?.GetValue(null);
         var modEventHook = typeof(T).Assembly.GetType($"{parentClassName}+HookDefinitions")?.GetFields().FirstOrDefault(f => f.Name.ToLower() == $"{delegateName}EventHook".ToLower())?.GetValue(null);
         return modEventHook as IModEventHook<object[]?> ?? null;
     }

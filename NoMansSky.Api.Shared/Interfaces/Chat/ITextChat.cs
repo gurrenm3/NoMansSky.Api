@@ -19,6 +19,11 @@ public interface ITextChat : IMemoryObject
     public IModEvent<long> OnPointerAcquired { get; set; }
 
     /// <summary>
+    /// Called whenever the Say function is used by the API or the game.
+    /// </summary>
+    public IModEvent<string> OnSay { get; set; }
+
+    /// <summary>
     /// 
     /// </summary>
     /// <param name="text"></param>

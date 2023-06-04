@@ -14,6 +14,11 @@ public unsafe class TextChat : ITextChat
     /// <summary>
     /// <inheritdoc/>
     /// </summary>
+    public IModEvent<string> OnSay { get; set; } = new SharedModEvent<string>();
+
+    /// <summary>
+    /// <inheritdoc/>
+    /// </summary>
     public long Pointer { get; private set; }
 
     /// <summary>

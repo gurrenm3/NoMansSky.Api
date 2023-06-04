@@ -1,4 +1,4 @@
-﻿namespace NoMansSky.Api.Definitions;
+﻿/*namespace NoMansSky.Api.Definitions;
 
 /// <summary>
 /// Represents a BitArray in memory.
@@ -35,7 +35,7 @@ public interface IVirtualBitArray<T> : IMemoryObject where T : struct
     /// <param name="index">The position of this element in <see cref="Count"/>.</param>
     /// <param name="value">New value for the element.</param>
     public void SetElement(int index, bool value);
-    
+
     /// <summary>
     /// Returns the total number of elements with a value of "true".
     /// </summary>
@@ -54,3 +54,4 @@ public interface IVirtualBitArray<T> : IMemoryObject where T : struct
     /// <param name="value">PointerValue to set.</param>
     void SetAllElements(bool value);
 }
+*/

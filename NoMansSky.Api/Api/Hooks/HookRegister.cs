@@ -1,4 +1,5 @@
 ﻿using Reloaded.Hooks.Definitions;
+using System.Collections.Concurrent;
 using System.Reflection;
 
 namespace NoMansSky.Api
@@ -7,7 +8,7 @@ namespace NoMansSky.Api
     {
         public static HookRegister instance;
         public static IReloadedHooks hooksInstance;
-        public Dictionary<string, IModEventHook<object[]?>> CurrentHooks { get; set; } = new();
+        public ConcurrentDictionary<string, IModEventHook<object[]?>> CurrentHooks { get; set; } = new();
 
         public HookRegister()
         {
@@ -26,7 +27,7 @@ namespace NoMansSky.Api
             if (CurrentHooks.ContainsKey(name))
                 CurrentHooks[name] = hook;
             else
-                CurrentHooks.Add(name, hook);
+                CurrentHooks.TryAdd(name, hook);
         }
 
         public bool IsHookRegistered<T>(out IModEventHook<object[]?> registerdHook)
@@ -75,7 +76,8 @@ namespace NoMansSky.Api
             var pattern = TryGetPatternFromDelegate<T>();
             var address = GetAddressFromPattern(pattern);
             if (isXrefSig)
-                address = *(long*)address;
+                address = address += 0x5;
+                //address = *(long*)address;
 
             return address;
         }

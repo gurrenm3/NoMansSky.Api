@@ -22,6 +22,8 @@
     <!-- <ReloadedLinkAssemblies Include="Reloaded.Memory" /> -->
   </ItemGroup>
 
+  <Import Project="..\..\NoMansSky.Api.Definitions-Before new Generator\NoMansSky.Api.Definitions.Shared\NoMansSky.Api.Definitions.Shared.projitems" Label="Shared" />
+
   <Import Project="Reloaded.Trimming.targets" />
   <Import Project="Reloaded.Checks.targets" />
 
@@ -40,6 +42,9 @@
   </ItemGroup>
 
 	<ItemGroup>
+		<None Update="Api\ModConfig.json">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
 		<None Update="Icon.png">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 			<Pack>True</Pack>
@@ -73,6 +78,9 @@
 		<Reference Include="libMBIN">
 			<HintPath>..\Dependencies\libMBIN.dll</HintPath>
 		</Reference>
+		<Reference Include="NativeGenericDelegates">
+		  <HintPath>..\Dependencies\NativeGenericDelegates.dll</HintPath>
+		</Reference>
 	</ItemGroup>
 	
 	
@@ -100,7 +108,5 @@
 	<ItemGroup>
 		<None Include="LICENSE" Pack="true" PackagePath="" />
 	</ItemGroup>
-
-	<Import Project="..\..\NoMansSky.Api.Definitions\NoMansSky.Api.Definitions.Shared\NoMansSky.Api.Definitions.Shared.projitems" Label="Shared" />
 
 </Project>

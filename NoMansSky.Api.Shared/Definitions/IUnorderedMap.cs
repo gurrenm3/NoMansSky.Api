@@ -1,4 +1,4 @@
-﻿namespace NoMansSky.Api.Definitions;
+﻿/*namespace NoMansSky.Api.Definitions;
 
 public unsafe interface IUnorderedMap<TKey, TValue> : IMemoryObject
 {
@@ -51,3 +51,4 @@ public unsafe interface IUnorderedMap<TKey, TValue> : IMemoryObject
 
 
 }
+*/
